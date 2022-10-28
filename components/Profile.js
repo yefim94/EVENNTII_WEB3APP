@@ -3,6 +3,11 @@ import {useState, useEffect} from "react"
 import { Text, View,ImageBackground, ScrollView, Button, Image, StyleSheet , TextInput} from 'react-native'
 import { func } from 'prop-types';
 import { AntDesign } from '@expo/vector-icons'; 
+{/**import Carousel from 'react-native-snap-carousel';
+ */}
+ import * as Linking from 'expo-linking';
+ import { A } from '@expo/html-elements';
+ 
 
 export const Profile = ({setLoggedIn}) => {
   const [profileData, setProfileData] = useState([]);
@@ -25,11 +30,12 @@ setProfileData(ddata.result)
     getData();
     
   }, [apiQ]);
+  const [pressed,setPressed] = useState(false)
   return (
     <View style={{padding: 20}}>
-    <Text style={{fontSize: 40, fontWeight: "700"}}>Profile</Text>
+    <Text style={{fontSize: 40, fontWeight: "700"}}>NFTS</Text>
     <View style={{marginBottom: 20}}>
-    <Text style={{fontSize: 25, fontWeight: "650", marginBottom: 10}}>What NFT collection?</Text>
+    <Text style={{fontSize: 25, fontWeight: "650", marginBottom: 10}}>What kind of NFT?</Text>
    <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
    <TextInput
    placeholder='type nft keyword'
@@ -57,7 +63,7 @@ setProfileData(ddata.result)
         }} key={key}>
           <View style={{position: "relative"}}>
             <View style={{position: "absolute", zIndex: 10, right: 0, backgroundColor: "#fff", padding: 8,borderRadius: 30, marginRight: 20, marginTop: 10}}>
-            <AntDesign name="heart" size={24} color="#FF717B" />
+            <AntDesign onPress={() => setPressed(true)} name="heart" size={24} color={pressed ? "#FF717B": "grey"} />
             </View>
           {JSON.parse(el.metadata).image.includes("https") ? <>
               <Image source={{
@@ -67,15 +73,17 @@ setProfileData(ddata.result)
           </View>
           <View style={{marginTop: 20}}>
             <View style={{flexDirection: "row", alignItems:"center"}}>
-              <Text style={{marginRight:10, color: "grey"}}>By</Text>
+              <Text style={{marginRight:10, color: "grey"}}>ID</Text>
               <View style={{width: 10,height:10,backgroundColor:"#000", borderRadius:50}}></View>
               <Text style={{marginLeft: 10}}>{el.token_id}</Text>
             </View>
             <Text style={{fontSize: 20, fontWeight: "700", marginBottom: 10}} key={key}>{JSON.parse(el.metadata).name}</Text>
           <Text>{JSON.parse(el.metadata).description}</Text>
-          <View style={{backgroundColor: "#000", borderRadius: 10,padding:7}}>
-            <Button title="Place Bid" color="#fff"/>
-          </View>
+          <View style={{backgroundColor: "#000", borderRadius: 10,padding:7,justifyContent: "center", alignItems: "center"}}>
+            {el.token_uri.includes("https") ? <>
+            <A style={{color:"white", fontSize: 19}} href={el.token_uri}><Text>learn More</Text></A> 
+            </> : <Text>Learn More</Text>} 
+             </View>
           </View>
         </View>
       )} 

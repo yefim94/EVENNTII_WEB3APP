@@ -46,7 +46,6 @@ export const Feed = () => {
     const data2 = await response2.json();
     const results2 = data2.results;
     setFeedData2(results2);
-    console.log(feedData2)
   }
   
   return (
@@ -84,7 +83,7 @@ export const Feed = () => {
      </View>
       <ScrollView >
       {apiqu ? <>
-        <Text style={{fontSize:27, marginLeft:15,marginBottom:15,color:"#3A84EC"}}>News for <Text>{apiqu}</Text></Text>
+        <Text style={{fontSize:27, marginLeft:15,marginBottom:15}}>News for <Text style={{color:"#3A84EC",fontWeight:"700"}}>{apiqu}</Text></Text>
 
         {feedData.map((element, key) => (
         <View  key={key} style={{
@@ -112,11 +111,10 @@ export const Feed = () => {
             fontSize: 20,
             fontWeight: "700"
           }}>{element.title}</Text>
-           <View style={{width: "auto"}}>
+           <View style={{}}>
            <View style={{
             backgroundColor: "#3A84EC",
             padding: 5,
-            width: 60,
             borderRadius: 10,
             marginTop:20
           }}>
