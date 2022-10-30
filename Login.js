@@ -14,20 +14,24 @@ const Tab = createMaterialBottomTabNavigator();
 
 export const Login = ({setLoggedIn}) => {
   const emails = ["gmail, yahoo, aol, nycdoestudents"]
-  const username = auth.currentUser.email.replace(/@gmail.com/, '').replace(/@yahoo.com/, '')
+  const username = auth.currentUser.email.replace(/@gmail.com/, '').replace(/@yahoo.com/, '').toUpperCase()
   return (
     <View style={{marginTop: 35, flex: 1, borderRadius: 20}}>
             <StatusBar hidden />
 
            <View style={styles3.logoCont}>
-          <View style={styles3.logostco}>
+        <View style={{flexDirection: "row"}}>
+        <View style={styles3.logostco}>
            <Image style={{height: 60,width:60}} source={{
             uri: "https://cdn.discordapp.com/attachments/783336191529320498/1034953013695103017/Screen_Shot_2022-10-26_at_6.13.27_PM.png"
            }}/>
           </View>
          <View style={styles3.eve2co}>
          <Text style={styles3.logo}>EVENNTII</Text>
-         <Text style={styles3.username}>🌤📈  {username}</Text>
+         </View>
+        </View>
+         <View>
+         <Text style={styles3.username}>{username}</Text>
          </View>
         </View>
     <NavigationContainer style={{
@@ -93,7 +97,7 @@ const styles3 = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     flexDirection: "row",
-    justifyContent: "flex-start"
+    justifyContent: "space-between"
   },
   logostco: {
    
@@ -127,11 +131,11 @@ const styles3 = StyleSheet.create({
   eve2co: {
     justifyContent: "center",
     alignItems: "flex-start", 
-    marginLeft: 20, 
-
+    marginLeft:10
   },
   username: {
     color: "#3A84EC",
-    fontSize: 17
+    fontSize: 17,
+    fontWeight: "700"
   }
 });

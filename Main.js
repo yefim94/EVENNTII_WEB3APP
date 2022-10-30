@@ -253,7 +253,6 @@ const styles2 = StyleSheet.create({
     width: "100%",
     marginTop: 10,
     color: "#000",
-    fontWeight: "700",
     marginBottom: 20,
     fontSize: 17,
     borderRadius: 10
