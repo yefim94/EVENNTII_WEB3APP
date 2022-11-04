@@ -5,6 +5,7 @@ import { LinearGradient } from 'react-native-svg';
 import { auth } from '../firebase';
 import * as Linking from 'expo-linking';
 import { A } from '@expo/html-elements';
+import { Appearance, useColorScheme } from 'react-native';
 
 export const Feed = () => {
   const [feedData, setFeedData] = useState([]);
@@ -81,7 +82,7 @@ export const Feed = () => {
 <AntDesign name="rightcircle" size={30} color="#3A84EC"  onPress={handleFeedIn}/>
      </View>
      </View>
-      <ScrollView >
+      <ScrollView  showsHorizontalScrollIndicator={false}>
       {apiqu ? <>
         <Text style={{fontSize:27, marginLeft:15,marginBottom:15}}>News for <Text style={{color:"#3A84EC",fontWeight:"700"}}>{apiqu}</Text></Text>
 
@@ -90,8 +91,8 @@ export const Feed = () => {
           backgroundColor: "#fff",
             borderRadius: 20,
             padding: 20,
-            height: "auto",
-            marginBottom: 30
+            marginBottom: 30,
+            flex:1
         }}>
          <View style={{
           flexDirection: "row",
@@ -107,10 +108,17 @@ export const Feed = () => {
             style={{width:"100%",height:200, borderRadius: 15, marginRight: 20}}
 
           /> : null }
-          <Text style={{
+         <View style={{
+           alignItems: 'baseline'
+         }}>
+         <View style={{
+           alignItems: 'baseline'
+         }}>
+         <Text style={{
             fontSize: 20,
-            fontWeight: "700"
+            fontWeight: "700",
           }}>{element.title}</Text>
+         </View>
            <View style={{}}>
            <View style={{
             backgroundColor: "#3A84EC",
@@ -121,10 +129,22 @@ export const Feed = () => {
           <Text style={{color: "#fff"}}>{apiqu}</Text>
           </View>
           <A style={{color:"grey",textDecorationLine: "underline",marginTop:10}} href={element.link}>Link</A>
+          
            </View>
+         </View>
          </View>
          <View>
           <Text>{element.description}</Text>
+          <View style={{width:"100%",height:1,backgroundColor:"#000", borderRadius:20}}></View>
+        <View>
+        <Text style={{fontSize:19,
+          fontWeight:"700",color:"coral",marginTop:20}}>Add Comment</Text>
+          <View style={{flexDirection:"row",width:"100%",justifyContent:'space-between',alignItems:"center"}}>
+          <TextInput style={{backgroundColor:"#D1D1D1",borderRadius:20,padding:10,width:"60%",color:"#000"}}/>
+          <AntDesign name="rightcircle" size={30} color="#3A84EC"  onPress={handleFeedIn}/>
+          </View>
+        </View>
+
           <Text style={{marginTop: 20, color: "grey"}}>{element.creator}</Text>
          <View style={{flexDirection: "row",alignItems: "center"}}>
           <View style={{

@@ -12,6 +12,7 @@ import { LineChart, Grid ,XAxis} from 'react-native-svg-charts'
 import {auth} from "../firebase"
 import * as Linking from 'expo-linking';
 import { A } from '@expo/html-elements';
+import { Appearance, useColorScheme } from 'react-native';
 
 
 
@@ -120,6 +121,7 @@ async function cardPrice1 (cardano){
   };
   return (
     <View style={{position: "relative",  flex: 1}}>
+      
       <Text style={{fontSize: 40, fontWeight: "700", marginTop: 20,paddingLeft:16}}>Market Data</Text>
       <Text style={{fontSize: 20,paddingLeft:16}}>Market data for crypto</Text>
       <ScrollView style={{
@@ -133,8 +135,8 @@ async function cardPrice1 (cardano){
         <Text style={{fontSize: 20, fontWeight: "700"}}>Bitcoin</Text>
        </View>
         <View>
-        <Text style={{color : "green", fontSize: 20, fontWeight: "700"}}>$ {btcprice}</Text>
-        <Text>+{moreBtc}%</Text>
+        <Text style={{color : `${moreBtc < 0 ? "red": "green"}`, fontSize: 20, fontWeight: "700"}}>$ {btcprice}</Text>
+        <Text>{moreBtc}%</Text>
         </View>
         </View>
         <View>
@@ -148,6 +150,15 @@ async function cardPrice1 (cardano){
       >
         <Grid />
             </LineChart>
+            <View style={{flexDirection:"row",justifyContent:"space-between",overflow:"hidden"}}> 
+              <Text style={{fontSize:10}}>Monday</Text>
+              <Text style={{fontSize:10}}>Tuesday</Text>
+              <Text style={{fontSize:10}}>Wensday</Text>
+              <Text style={{fontSize:10}}>Thursday</Text>
+              <Text style={{fontSize:10}}>Friday</Text>
+              <Text style={{fontSize:10}}>Saturady</Text>
+              <Text style={{fontSize:10}}>Sunday</Text>
+            </View>
         </View>
         <View>
         <View style={{flexDirection:"row",alignItems:"center",marginTop:13}}>
@@ -173,8 +184,8 @@ async function cardPrice1 (cardano){
         <Text style={{fontSize: 20, fontWeight: "700"}}>Ethereum</Text>
        </View>
         <View>
-        <Text style={{color : "green", fontSize: 20, fontWeight: "700"}}>$ {ethPrice}</Text>
-        <Text>+{moreEth}%</Text>
+        <Text style={{color : `${moreBtc < 0 ? "red": "green"}`, fontSize: 20, fontWeight: "700"}}>$ {ethPrice}</Text>
+        <Text>{moreEth}%</Text>
         </View>
         </View>
         <View>
@@ -189,6 +200,15 @@ async function cardPrice1 (cardano){
         <Grid />
             </LineChart>
         </View>
+        <View style={{flexDirection:"row",justifyContent:"space-between",overflow:"hidden"}}> 
+              <Text style={{fontSize:10}}>Monday</Text>
+              <Text style={{fontSize:10}}>Tuesday</Text>
+              <Text style={{fontSize:10}}>Wensday</Text>
+              <Text style={{fontSize:10}}>Thursday</Text>
+              <Text style={{fontSize:10}}>Friday</Text>
+              <Text style={{fontSize:10}}>Saturady</Text>
+              <Text style={{fontSize:10}}>Sunday</Text>
+            </View>
         <View>
         <View style={{flexDirection:"row",alignItems:"center",marginTop:13}}>
         <Text style={{color:"green",fontSize:20,alignItems:"center",marginRight:10}}>Postive Percentage:</Text><Text style={{fontWeight:"700"}}>{ethpostive}%</Text>
@@ -213,8 +233,8 @@ async function cardPrice1 (cardano){
         <Text style={{fontSize: 20, fontWeight: "700"}}>Cardano</Text>
        </View>
         <View>
-        <Text style={{color : "green", fontSize: 20, fontWeight: "700"}}>$ {cardPrice}</Text>
-        <Text>+{moreADA}%</Text>
+        <Text style={{color : `${moreBtc < 0 ? "red": "green"}`, fontSize: 20, fontWeight: "700"}}>$ {cardPrice}</Text>
+        <Text>{moreADA}%</Text>
         </View>
         </View>
         <View>
@@ -228,6 +248,15 @@ async function cardPrice1 (cardano){
       >
         <Grid />
             </LineChart>
+            <View style={{flexDirection:"row",justifyContent:"space-between",overflow:"hidden"}}> 
+              <Text style={{fontSize:10}}>Monday</Text>
+              <Text style={{fontSize:10}}>Tuesday</Text>
+              <Text style={{fontSize:10}}>Wensday</Text>
+              <Text style={{fontSize:10}}>Thursday</Text>
+              <Text style={{fontSize:10}}>Friday</Text>
+              <Text style={{fontSize:10}}>Saturady</Text>
+              <Text style={{fontSize:10}}>Sunday</Text>
+            </View>
         </View>
         <View>
         <View style={{flexDirection:"row",alignItems:"center",marginTop:13}}>

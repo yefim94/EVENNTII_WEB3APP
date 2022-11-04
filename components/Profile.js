@@ -7,7 +7,8 @@ import { AntDesign } from '@expo/vector-icons';
  */}
  import * as Linking from 'expo-linking';
  import { A } from '@expo/html-elements';
- 
+ import { Appearance, useColorScheme } from 'react-native';
+
 
 export const Profile = ({setLoggedIn}) => {
   const [profileData, setProfileData] = useState([]);

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView , Image, TextInput, Button, Modal,
 import { useState, useEffect } from 'react';
 import {auth} from "./firebase"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
+import { Appearance, useColorScheme } from 'react-native';
 
 export const Main = ({setLoggedIn}) => {
   const [email, setEmail] = useState("")
@@ -11,9 +12,6 @@ export const Main = ({setLoggedIn}) => {
   const [emaillo, setEmaillo] = useState("")
   const [passwordlo,setPasswordlo] = useState("")
   const [siimage,setImage] = useState(["  https://arke-art.com/wp-content/uploads/2021/08/avatar2.png","https://media.wired.com/photos/603959e5f02d2d2aebd211e8/1:1/w_3000,h_3000,c_limit/business_nft_beeple.jpg"])
-  {/**
-  "https://imageio.forbes.com/specials-images/imageserve/6170e01f8d7639b95a7f2eeb/Sotheby-s-NFT-Natively-Digital-1-2-sale-Bored-Ape-Yacht-Club--8817-by-Yuga-Labs/0x0.png?format=png&width=960","https://arke-art.com/wp-content/uploads/2021/08/avatar2.png","https://media.wired.com/photos/603959e5f02d2d2aebd211e8/1:1/w_3000,h_3000,c_limit/business_nft_beeple.jpg","https://insidebitcoins.com/wp-content/uploads/2022/01/GNSS-NFT.jpeg","https://media-exp1.licdn.com/dms/image/C5622AQFakpgl0fTMqg/feedshare-shrink_2048_1536/0/1641091429754?e=2147483647&v=beta&t=EvLSL_KMvHzchMYDAWuoqVlPqWfmnzpsSa_u05NfgsA","https://www.fintechfutures.com/files/2021/12/AdobeStock_427631171-NFT.jpeg"
-*/}
   const [spim,setSpIm] = useState("")
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -75,7 +73,7 @@ export const Main = ({setLoggedIn}) => {
           <Image
             style={styles2.tinyLogo}
             source={{
-              uri: "https://arke-art.com/wp-content/uploads/2021/08/avatar2.png"
+              uri: "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iV4SDQ2SyAjw/v2/1200x-1.jpg"
             }}
       />
           </View>
@@ -97,6 +95,11 @@ export const Main = ({setLoggedIn}) => {
         placeholder="Enter your password..."/>
             <View style={styles2.buttonco}>
             <Button  onPress={handleForm} color="white"  title="Get Started"  style={styles2.buttonsi} />
+            </View>
+            <View style={{flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
+              <Image style={{width:"70%",height:40,borderRadius:10,marginTop:10}} source={{
+                uri:"https://cdn.discordapp.com/attachments/783336191529320498/1037903445790826627/Screen_Shot_2022-11-03_at_9.37.38_PM.png"
+              }}/>
             </View>
             <Modal
                   animationType="slide"
@@ -179,7 +182,7 @@ const styles2 = StyleSheet.create({
   disimagco: {
     justifyContent: 'center',
     alignItems: "center",
-    flex: 0.6,
+    flex: 0.5,
   },
   linear: {
     position: "absolute",
