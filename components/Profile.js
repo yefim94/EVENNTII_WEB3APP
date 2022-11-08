@@ -8,12 +8,16 @@ import { AntDesign } from '@expo/vector-icons';
  import * as Linking from 'expo-linking';
  import { A } from '@expo/html-elements';
  import { Appearance, useColorScheme } from 'react-native';
+ import { NavigationContainer } from '@react-navigation/native';
 
 
 export const Profile = ({setLoggedIn}) => {
   const [profileData, setProfileData] = useState([]);
   const [apiQ,setApiQ] = useState("")
   const [nfttei,setNftTei] = useState("")
+  const [comments,setComments] = useState([])
+  const[commentText,setCommentText] = useState("")
+
  async  function getData () {
   const options = {method: 'GET', headers: {accept: 'application/json', 'X-API-Key': 'WYON0dXwg4zG3GSsaPb79ofaPTLAbDUpmt01OuTlZihmzoH1F059it3bdsXSou0t'}};
 
@@ -89,7 +93,21 @@ setProfileData(ddata.result)
         </View>
       )} 
       
-    </>: null}
+    </>: <>
+    <Text style={{
+      fontWeight:"700",
+      color:"#000",
+      fontSize:20,
+      marginBottom:20
+    }}>Try searching something! Anything!</Text>
+    <Image source={{
+    uri:"https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/50e513115094373.6047d1f4cf3f1.jpg"
+    }} style={{
+      width:"100%",
+      borderRadius:20,
+      height:500
+    }}/>
+    </>}
       </ScrollView>
       </View>
   )

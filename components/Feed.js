@@ -6,6 +6,10 @@ import { auth } from '../firebase';
 import * as Linking from 'expo-linking';
 import { A } from '@expo/html-elements';
 import { Appearance, useColorScheme } from 'react-native';
+import { func } from 'prop-types';
+import { NavigationContainer } from '@react-navigation/native';
+import { Entypo } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons'; 
 
 export const Feed = () => {
   const [feedData, setFeedData] = useState([]);
@@ -16,10 +20,7 @@ export const Feed = () => {
     setApiqu( feedInput )
     setFeedInput("")
   }
-  //will call provided function when items in array is updated
-  useEffect(() => {
-  }, [feedData]);
-  // will call provided function once after first render
+  
   useEffect(() => {
 
     getData();
@@ -48,6 +49,19 @@ export const Feed = () => {
     const results2 = data2.results;
     setFeedData2(results2);
   }
+  const handleNewComment = async() =>{
+    try {
+      const docRef = await addDoc(collection(db, "comments"), {
+        description: commentText
+      });
+    
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      alert(e)
+    }
+    
+    setCommentText("")
+  }
   
   return (
     <View style={{
@@ -57,15 +71,6 @@ export const Feed = () => {
       <Text style={{fontSize: 40, fontWeight: "700"}}>News Feed</Text>
      <View style={{marginBottom: 20}}>
       <Text style={{fontSize: 25, fontWeight: "650", marginBottom: 10}}>What do you want to read?</Text>
-      <LinearGradient
-        // Background Linear Gradient
-        colors={['rgba(0,0,0,0.8)', 'transparent']}
-      />
-      <LinearGradient
-        // Button Linear Gradient
-        colors={['#4c669f', '#3b5998', '#192f6a']}>
-        <Text>Sign in with Facebook</Text>
-      </LinearGradient>
      <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
      <TextInput
      placeholder='type news keyword'
@@ -90,7 +95,6 @@ export const Feed = () => {
         <View  key={key} style={{
           backgroundColor: "#fff",
             borderRadius: 20,
-            padding: 20,
             marginBottom: 30,
             flex:1
         }}>
@@ -105,11 +109,12 @@ export const Feed = () => {
               uri: `${element.image_url}`,
             }}
             // provide width to element or it wont render
-            style={{width:"100%",height:200, borderRadius: 15, marginRight: 20}}
+            style={{width:"100%",height:200, marginRight: 20,borderTopLeftRadius:20,borderTopRightRadius:20}}
 
           /> : null }
          <View style={{
-           alignItems: 'baseline'
+           alignItems: 'baseline',
+           padding:20
          }}>
          <View style={{
            alignItems: 'baseline'
@@ -133,17 +138,92 @@ export const Feed = () => {
            </View>
          </View>
          </View>
-         <View>
+         <View style={{paddingBottom:20,paddingLeft:20,paddingRight:20}}>
+          <Text>{element.description}</Text>
+          <View style={{width:"100%",height:1,backgroundColor:"#000", borderRadius:20,marginTop:10}}></View>
+
+          <Text style={{marginTop: 20, color: "grey"}}>{element.creator}</Text>
+         <View style={{flexDirection: "row",alignItems: "center",marginTop:10}}>
+          <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between",width:"100%"}}>
+          <View style={{flexDirection:"row",alignItems:"center"}}>
+          <View style={{
+            backgroundColor:"#000",
+            width:10,
+            height:10,
+            borderRadius:100,
+            marginRight: 10
+          }}></View>
+          <Text style={{color: "#000"}}>{element.language}</Text>
+          </View>
+          <View style={{backgroundColor:"#3A84EC",padding:5,borderRadius:16,flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+         <View style={{flexDirection:"row",alignItems:"center"}}>
+         <Entypo name="arrow-bold-up" size={24} color="white" />
+            <Text style={{color:"#fff"}}>32</Text>
+            <Entypo name="arrow-bold-down" size={24} color="white" />
+         </View>
+         <View style={{flexDirection:"row",alignItems:"center",marginLeft:20}}>
+         <FontAwesome name="share" size={24} color="white" />
+                   <Text style={{color:"#fff",marginLeft:10}}>Share</Text>
+         </View>
+          </View>
+         </View>
+         </View>
+         </View>
+        </View>
+      )
+      )} 
+      </>: <>
+      <Text style={{fontSize:27, marginLeft:15,marginBottom:15}}>Trending Topics:</Text>
+      {feedData2.map((element, key) => (
+        <View  key={key} style={{
+          backgroundColor: "#fff",
+            borderRadius: 20,
+            marginBottom: 30,
+            flex:1
+        }}>
+         <View style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginBottom: 20, 
+          flexWrap: "wrap",
+         }}>
+         {element.image_url ? <Image
+            source={{
+              uri: `${element.image_url}`,
+            }}
+            // provide width to element or it wont render
+            style={{width:"100%",height:200, marginRight: 20,borderTopLeftRadius:20,borderTopRightRadius:20}}
+
+          /> : null }
+         <View style={{
+           alignItems: 'baseline',
+           padding:20
+         }}>
+         <View style={{
+           alignItems: 'baseline'
+         }}>
+         <Text style={{
+            fontSize: 20,
+            fontWeight: "700",
+          }}>{element.title}</Text>
+         </View>
+           <View style={{}}>
+           <View style={{
+            backgroundColor: "#3A84EC",
+            padding: 5,
+            borderRadius: 10,
+            marginTop:20
+          }}>
+          <Text style={{color: "#fff"}}>TRENDING</Text>
+          </View>
+          <A style={{color:"grey",textDecorationLine: "underline",marginTop:10}} href={element.link}>Link</A>
+          
+           </View>
+         </View>
+         </View>
+         <View style={{paddingBottom:20,paddingLeft:20,paddingRight:20}}>
           <Text>{element.description}</Text>
           <View style={{width:"100%",height:1,backgroundColor:"#000", borderRadius:20}}></View>
-        <View>
-        <Text style={{fontSize:19,
-          fontWeight:"700",color:"coral",marginTop:20}}>Add Comment</Text>
-          <View style={{flexDirection:"row",width:"100%",justifyContent:'space-between',alignItems:"center"}}>
-          <TextInput style={{backgroundColor:"#D1D1D1",borderRadius:20,padding:10,width:"60%",color:"#000"}}/>
-          <AntDesign name="rightcircle" size={30} color="#3A84EC"  onPress={handleFeedIn}/>
-          </View>
-        </View>
 
           <Text style={{marginTop: 20, color: "grey"}}>{element.creator}</Text>
          <View style={{flexDirection: "row",alignItems: "center"}}>
@@ -160,64 +240,6 @@ export const Feed = () => {
         </View>
       )
       )} 
-      </>: <>
-      <Text style={{fontSize:27, marginLeft:15,marginBottom:15}}>Trending Topics:</Text>
-      {feedData2.map((element, key) => (
-        <View  key={key} style={{
-          backgroundColor: "#fff",
-            borderRadius: 20,
-            padding: 20,
-            height: "auto",
-            marginBottom: 30
-        }}>
-         <View style={{
-          flexDirection: "row",
-          alignItems: "center",
-          marginBottom: 20, 
-          flexWrap: "wrap",
-         }}>
-         {element.image_url ? <Image
-            source={{
-              uri: `${element.image_url}`,
-            }}
-            // provide width to element or it wont render
-            style={{width:"100%",height:200, borderRadius: 15, marginRight: 20}}
-
-          /> : null }
-          <Text style={{
-            fontSize: 20,
-            fontWeight: "700"
-          }}>{element.title}</Text>
-           <View style={{width: "auto"}}>
-           <View style={{
-            backgroundColor: "#3A84EC",
-            padding: 5,
-            width: 100,
-            borderRadius: 10,
-            marginTop:20
-          }}>
-          <Text style={{color: "#fff"}}>TRENDING</Text>
-          </View>
-          <A style={{color:"grey",textDecorationLine: "underline",marginTop:10}} href={element.link}>Link</A>
-           </View>
-         </View>
-         <View>
-          <Text>{element.description}</Text>
-          <Text style={{marginTop: 20, color: "grey"}}>{element.creator}</Text>
-         <View style={{flexDirection: "row",alignItems: "center"}}>
-          <View style={{
-            backgroundColor:"#000",
-            width:10,
-            height:10,
-            borderRadius:100,
-            marginRight: 10
-          }}></View>
-         <Text style={{color: "#000"}}>{element.language}</Text>
-         </View>
-         </View>
-        </View>
-      )
-      )}
       </>}
       </ScrollView>
     </View>

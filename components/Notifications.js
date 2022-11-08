@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { ScrollView, Text,  View, StyleSheet ,Image} from 'react-native'
+import { ScrollView, Text,  View, StyleSheet ,Image,TextInput} from 'react-native'
 import {
   BarChart,
   PieChart,
@@ -13,6 +13,7 @@ import {auth} from "../firebase"
 import * as Linking from 'expo-linking';
 import { A } from '@expo/html-elements';
 import { Appearance, useColorScheme } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 
 
 
@@ -124,11 +125,24 @@ async function cardPrice1 (cardano){
       
       <Text style={{fontSize: 40, fontWeight: "700", marginTop: 20,paddingLeft:16}}>Market Data</Text>
       <Text style={{fontSize: 20,paddingLeft:16}}>Market data for crypto</Text>
+      <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center",margin:20}}>
+     <TextInput
+     placeholder='type news keyword'
+        style={{
+          backgroundColor: "#D1D1D1",
+          borderRadius: 20,
+          padding: 10,
+          fontSize: 16,
+          width: "60%"
+        }}
+      />
+<AntDesign name="rightcircle" size={30} color="#3A84EC" />
+     </View>
       <ScrollView style={{
         padding: 0, margin: 30
       }}>
         <Text style={{textDecorationLine:"underline",color:"grey",fontSize:10,marginBottom:20}}>**Chart measured weekly</Text>
-      <View style={{flex:1,backgroundColor: "#fff",borderRadius: 20,padding:30,marginBottom:30}}>
+      <View style={{flex:1,backgroundColor: "#fff",borderRadius: 10,padding:30,marginBottom:30}}>
         <View style={{flexDirection: "row",alignItems:"center",justifyContent:"space-between"}}>
        <View style={{flexDirection:"row",alignItems:"center"}}>
        <Image source={{uri: `${btcImage}`}} style={{width:40,height:40,marginRight:20}} />
@@ -184,8 +198,8 @@ async function cardPrice1 (cardano){
         <Text style={{fontSize: 20, fontWeight: "700"}}>Ethereum</Text>
        </View>
         <View>
-        <Text style={{color : `${moreBtc < 0 ? "red": "green"}`, fontSize: 20, fontWeight: "700"}}>$ {ethPrice}</Text>
-        <Text>{moreEth}%</Text>
+          <Text style={{color : `${moreBtc < 0 ? "red": "green"}`, fontSize: 20, fontWeight: "700"}}>$ {ethPrice}</Text>
+          <Text>{moreEth}%</Text>
         </View>
         </View>
         <View>

@@ -96,11 +96,13 @@ export const Main = ({setLoggedIn}) => {
             <View style={styles2.buttonco}>
             <Button  onPress={handleForm} color="white"  title="Get Started"  style={styles2.buttonsi} />
             </View>
-            <View style={{flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
+         {/**
+          *    <View style={{flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
               <Image style={{width:"70%",height:40,borderRadius:10,marginTop:10}} source={{
                 uri:"https://cdn.discordapp.com/attachments/783336191529320498/1037903445790826627/Screen_Shot_2022-11-03_at_9.37.38_PM.png"
               }}/>
             </View>
+          */}
             <Modal
                   animationType="slide"
                   transparent={true}

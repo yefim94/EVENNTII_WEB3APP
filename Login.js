@@ -13,7 +13,7 @@ import { Entypo } from '@expo/vector-icons';
 import { useState } from 'react';
 const Tab = createMaterialBottomTabNavigator();
 import { Appearance, useColorScheme } from 'react-native';
-
+import Forums from "./components/Forums"
 export const Login = ({setLoggedIn}) => {
   const emails = ["gmail, yahoo, aol, nycdoestudents"]
   const username = auth.currentUser.email.replace(/@gmail.com/, '').replace(/@yahoo.com/, '').toUpperCase()
@@ -37,10 +37,11 @@ export const Login = ({setLoggedIn}) => {
           <View style={styles3.modalView}>
           <View style={{alignItems:"center"}}> 
             <Text style={styles3.modalText}>Settings:</Text>
+            <View style={{backgroundColor:"#000",width:100,height:100,borderRadius:500,marginBottom:20}}></View>
             <Text style={{fontSize:20}}>Hello,  <Text style={{color:"#3A84EC",fontWeight:"700"}}>{username}</Text></Text>
             </View>
            <View style={{flexDirection:"row", alignItems:"center"}}>
-           <Text>Dark Mode:</Text>
+           <Text style={{marginRight:20}}>Dark Mode:</Text>
             <Switch
         trackColor={{ false: "#767577", true: "#81b0ff" }}
         thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
@@ -48,6 +49,21 @@ export const Login = ({setLoggedIn}) => {
         onValueChange={toggleSwitch}
         value={isEnabled}
       />
+           </View>
+           <View style={{width:"100%"}}>
+            <View style={{backgroundColor:"#D9D9D9",padding:15,borderRadius:20,marginBottom:15}}>
+            <Text style={{color:"#3A84EC",fontWeight:"700",textDecorationLine:"underline"}}>FAQ -  POPULAR ASKED QUESTIONS</Text>
+            </View>
+            <View style={{backgroundColor:"#D9D9D9",padding:15,borderRadius:20,marginBottom:15}}>
+            <Text style={{color:"#3A84EC",fontWeight:"700",textDecorationLine:"underline"}}>Leave us a review </Text>
+            </View>
+            <View style={{backgroundColor:"#D9D9D9",padding:15,borderRadius:20,marginBottom:15}}>
+            <Text style={{color:"#3A84EC",fontWeight:"700",textDecorationLine:"underline"}}>Notifications</Text>
+            </View>
+            <View style={{backgroundColor:"#D9D9D9",padding:15,borderRadius:20,marginBottom:15}}>
+            <Text style={{color:"#3A84EC",fontWeight:"700",textDecorationLine:"underline"}}>About us</Text>
+            </View>
+                        
            </View>
           <View style={{width:"100%"}}>
           <View style={styles3.signout}>
@@ -94,6 +110,16 @@ export const Login = ({setLoggedIn}) => {
         component={Feed}
         options={{
           tabBarLabel: 'News',
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="ios-newspaper-sharp" size={30} color={color} />
+          ),
+        }}
+      />
+           <Tab.Screen
+        name="Forums"
+        component={Forums}
+        options={{
+          tabBarLabel: 'Forums',
           tabBarIcon: ({ color }) => (
             <Ionicons name="ios-newspaper-sharp" size={30} color={color} />
           ),

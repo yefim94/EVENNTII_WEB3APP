@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword,signOut} from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+
 import {REACT_APP_API_KEY} from '@env'
 import { useEffect } from "react";
 const firebaseConfig = {
@@ -37,3 +39,4 @@ export default function signOutUser () {
   });
   
 }
+export const db = getFirestore(myApp);
