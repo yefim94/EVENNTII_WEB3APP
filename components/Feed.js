@@ -5,7 +5,7 @@ import { LinearGradient } from 'react-native-svg';
 import { auth } from '../firebase';
 import * as Linking from 'expo-linking';
 import { A } from '@expo/html-elements';
-import { Appearance, useColorScheme } from 'react-native';
+import { Appearance, useColorScheme ,Share} from 'react-native';
 import { func } from 'prop-types';
 import { NavigationContainer } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons'; 
@@ -62,6 +62,26 @@ export const Feed = () => {
     
     setCommentText("")
   }
+    const onShare = async (title,link) => {
+      try {
+        const result = await Share.share({
+          message:
+            `EVENNTII NEWS :  ${title}`,
+            url:`${link}`
+        });
+        if (result.action === Share.sharedAction) {
+          if (result.activityType) {
+            // shared with activity type of result.activityType
+          } else {
+            // shared
+          }
+        } else if (result.action === Share.dismissedAction) {
+          // dismissed
+        }
+      } catch (error) {
+        alert(error.message);
+      }
+    };
   
   return (
     <View style={{
@@ -162,7 +182,7 @@ export const Feed = () => {
             <Entypo name="arrow-bold-down" size={24} color="white" />
          </View>
          <View style={{flexDirection:"row",alignItems:"center",marginLeft:20}}>
-         <FontAwesome name="share" size={24} color="white" />
+         <FontAwesome name="share" size={24} color="white" onPress={() => onShare(element.title,element.link)} />
                    <Text style={{color:"#fff",marginLeft:10}}>Share</Text>
          </View>
           </View>
