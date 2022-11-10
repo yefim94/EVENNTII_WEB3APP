@@ -5,7 +5,7 @@ import { LinearGradient } from 'react-native-svg';
 import { auth } from '../firebase';
 import * as Linking from 'expo-linking';
 import { A } from '@expo/html-elements';
-import { Appearance, useColorScheme ,Share} from 'react-native';
+import { Appearance, useColorScheme ,Share,Pressable,Modal} from 'react-native';
 import { func } from 'prop-types';
 import { NavigationContainer } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons'; 
@@ -16,6 +16,7 @@ export const Feed = () => {
   const [feedData2, setFeedData2] = useState([]);
   const [feedInput, setFeedInput] = useState("");
   const [apiqu, setApiqu] =  useState("");
+  const [title2,setTitle2] = useState("")
   async function handleFeedIn () {
     setApiqu( feedInput )
     setFeedInput("")
@@ -26,28 +27,32 @@ export const Feed = () => {
     getData();
   }, [apiqu]);
   async function getData() {
-    // you may want to change your api key
-    const API_URL = `https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=${apiqu}&language=en&category=business,technology`
-    {/**
-  https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=web3&language=en&category=business,technology 
-    https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=${apiqu}&country=us&language=en  */}
-    const response = await fetch(
-      API_URL
-    );
-    const data = await response.json();
-    const results = data.results;
-    setFeedData(results);
-
-    const API_URL2 = `https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=web3&language=en&category=business,technology`
-    {/**
-  https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=web3&language=en&category=business,technology 
-    https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=${apiqu}&country=us&language=en  */}
-    const response2 = await fetch(
-      API_URL2
-    );
-    const data2 = await response2.json();
-    const results2 = data2.results;
-    setFeedData2(results2);
+  try {
+      // you may want to change your api key
+      const API_URL = `https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=${apiqu}&language=en&category=business,technology`
+      {/**
+    https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=web3&language=en&category=business,technology 
+      https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=${apiqu}&country=us&language=en  */}
+      const response = await fetch(
+        API_URL
+      );
+      const data = await response.json();
+      const results = data.results;
+      setFeedData(results);
+  
+      const API_URL2 = `https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=web3&language=en&category=business,technology`
+      {/**
+    https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=web3&language=en&category=business,technology 
+      https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=${apiqu}&country=us&language=en  */}
+      const response2 = await fetch(
+        API_URL2
+      );
+      const data2 = await response2.json();
+      const results2 = data2.results;
+      setFeedData2(results2);
+  } catch(E) {
+    alert(E)
+  }
   }
   const handleNewComment = async() =>{
     try {
@@ -82,7 +87,18 @@ export const Feed = () => {
         alert(error.message);
       }
     };
+  const upvote = () => {
+    alert("upvoted")
+  }
+  const downvote = () => {
+    alert("downvoted")
+  }
   
+  const handleFeedScreen = (image_url,title,description,link) => {
+    setTitle2(title)
+    setModalVisible(true) 
+  }
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={{
       borderRadius: 20, 
@@ -112,12 +128,44 @@ export const Feed = () => {
         <Text style={{fontSize:27, marginLeft:15,marginBottom:15}}>News for <Text style={{color:"#3A84EC",fontWeight:"700"}}>{apiqu}</Text></Text>
 
         {feedData.map((element, key) => (
-        <View  key={key} style={{
+         
+            <View   key={key.id} style={{
           backgroundColor: "#fff",
             borderRadius: 20,
             marginBottom: 30,
             flex:1
         }}>
+          <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={{backgroundColor:"#fff",height:"100%",padding:40}}>
+         
+         {element.image_url ? <>
+          <Image souce={{
+            uri:`${element.image_url}`
+          }} style={{height:400,width:"100%"}}/>
+         </> : null}
+          <View style={{}}>
+            <Text style={{color:"#000",fontSize:26,fontWeight:"700"}} >{element.title}</Text>
+            <Text  >{element.description}</Text>
+            <A style={{color:"grey",textDecorationLine: "underline",marginTop:10}} href={element.link}>Link</A>
+            <Pressable
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={{}}>Hide Modal</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Pressable
+            onPress={() => setModalVisible(true)}
+          >
          <View style={{
           flexDirection: "row",
           alignItems: "center",
@@ -158,6 +206,7 @@ export const Feed = () => {
            </View>
          </View>
          </View>
+          </Pressable>
          <View style={{paddingBottom:20,paddingLeft:20,paddingRight:20}}>
           <Text>{element.description}</Text>
           <View style={{width:"100%",height:1,backgroundColor:"#000", borderRadius:20,marginTop:10}}></View>
@@ -177,9 +226,9 @@ export const Feed = () => {
           </View>
           <View style={{backgroundColor:"#3A84EC",padding:5,borderRadius:16,flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
          <View style={{flexDirection:"row",alignItems:"center"}}>
-         <Entypo name="arrow-bold-up" size={24} color="white" />
-            <Text style={{color:"#fff"}}>32</Text>
-            <Entypo name="arrow-bold-down" size={24} color="white" />
+         <Entypo name="arrow-bold-up" size={24} color="white" onPress={upvote}/>
+            <Text style={{color:"#fff"}}>3</Text>
+            <Entypo name="arrow-bold-down" size={24} color="white" onPress={downvote}/>
          </View>
          <View style={{flexDirection:"row",alignItems:"center",marginLeft:20}}>
          <FontAwesome name="share" size={24} color="white" onPress={() => onShare(element.title,element.link)} />
@@ -190,6 +239,7 @@ export const Feed = () => {
          </View>
          </View>
         </View>
+  
       )
       )} 
       </>: <>
@@ -204,7 +254,7 @@ export const Feed = () => {
          <View style={{
           flexDirection: "row",
           alignItems: "center",
-          marginBottom: 20, 
+          marginBottom: 2, 
           flexWrap: "wrap",
          }}>
          {element.image_url ? <Image

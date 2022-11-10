@@ -1,6 +1,6 @@
 import React from 'react'
 import {useState, useEffect} from "react"
-import { Text, View,ImageBackground, ScrollView, Button, Image, StyleSheet , TextInput} from 'react-native'
+import { Text, View,ImageBackground, ScrollView, Button, Image, StyleSheet , TextInpu,Pressablet} from 'react-native'
 import { func } from 'prop-types';
 import { AntDesign } from '@expo/vector-icons'; 
 {/**import Carousel from 'react-native-snap-carousel';
@@ -20,7 +20,6 @@ export const Profile = ({setLoggedIn}) => {
 
  async  function getData () {
   const options = {method: 'GET', headers: {accept: 'application/json', 'X-API-Key': 'WYON0dXwg4zG3GSsaPb79ofaPTLAbDUpmt01OuTlZihmzoH1F059it3bdsXSou0t'}};
-
 const data = await fetch(`https://deep-index.moralis.io/api/v2/nft/search?chain=eth&format=decimal&q=${apiQ}&filter=name&limit=10`, options)
 const ddata = await data.json()
 setProfileData(ddata.result)
@@ -35,6 +34,9 @@ setProfileData(ddata.result)
     getData();
     
   }, [apiQ]);
+  function liked (id) {
+    setPressed(true)
+  }
   const [pressed,setPressed] = useState(false)
   return (
     <View style={{padding: 20}}>
@@ -59,7 +61,7 @@ setProfileData(ddata.result)
    </View>
     <ScrollView>
     {profileData ? <>
-      {profileData.map((el, key) => 
+      {profileData.map((el, key,id) => 
         <View style={{
           backgroundColor: "#fff",
           padding: 10,
@@ -68,7 +70,7 @@ setProfileData(ddata.result)
         }} key={key}>
           <View style={{position: "relative"}}>
             <View style={{position: "absolute", zIndex: 10, right: 0, backgroundColor: "#fff", padding: 8,borderRadius: 30, marginRight: 20, marginTop: 10}}>
-            <AntDesign onPress={() => setPressed(true)} name="heart" size={24} color={pressed ? "#FF717B": "grey"} />
+            <AntDesign onPress={(id) => liked(id)} name="heart" size={24} color={pressed ? "#FF717B": "grey"} />
             </View>
           {JSON.parse(el.metadata).image.includes("https") ? <>
               <Image source={{
