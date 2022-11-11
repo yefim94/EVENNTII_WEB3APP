@@ -23,7 +23,7 @@ export const Login = ({setLoggedIn}) => {
   const colorScheme = useColorScheme();
 
   return (
-    <View style={{marginTop: 35, flex: 1, borderRadius: 20}}>
+    <View style={{marginTop: 15, flex: 1, borderRadius: 20}}>
             <StatusBar hidden />
             <Modal
         animationType="slide"
@@ -37,8 +37,12 @@ export const Login = ({setLoggedIn}) => {
           <View style={styles3.modalView}>
           <View style={{alignItems:"center"}}> 
             <Text style={styles3.modalText}>Settings:</Text>
-            <View style={{backgroundColor:"#000",width:100,height:100,borderRadius:500,marginBottom:20}}></View>
-            <Text style={{fontSize:20}}>Hello,  <Text style={{color:"#3A84EC",fontWeight:"700"}}>{username}</Text></Text>
+            <View>
+              <Image source={{
+                uri:"https://publish.one37pm.net/wp-content/uploads/2021/11/Brantly.eth_.png"
+              }} style={{width:100,height:100,borderRadius:500,marginBottom:20}}/>
+            </View>
+            <Text style={{fontSize:30}}>Hello,  <Text style={{color:"#3A84EC",fontWeight:"700"}}>{username}</Text></Text>
             </View>
            <View style={{flexDirection:"row", alignItems:"center"}}>
            <Text style={{marginRight:20}}>Dark Mode:</Text>
@@ -79,9 +83,10 @@ export const Login = ({setLoggedIn}) => {
         </View>
       </Modal>
            <View style={styles3.logoCont}>
-        <View style={{flexDirection: "row"}}>
+{/**
+ *         <View style={{flexDirection: "row"}}>
         <View style={styles3.logostco}>
-           <Image style={{height: 60,width:60}} source={{
+           <Image style={{height: 40,width:40}} source={{
             uri: "https://cdn.discordapp.com/attachments/783336191529320498/1034953013695103017/Screen_Shot_2022-10-26_at_6.13.27_PM.png"
            }}/>
           </View>
@@ -89,13 +94,19 @@ export const Login = ({setLoggedIn}) => {
          <Text style={styles3.logo}>EVENNTII</Text>
          </View>
         </View>
-         <View style={{flexDirection:"row",alignItems:"center"}}>
+ */}
+         <View style={{flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
+         <View>
+              <Image source={{
+                uri:"https://publish.one37pm.net/wp-content/uploads/2021/11/Brantly.eth_.png"
+              }} style={{width:35,height:35,borderRadius:500,marginRight:10,borderColor:"#3A84EC",borderWidth:3}}/>
+            </View>
          <Text style={styles3.username}>{username}</Text>
+         </View>
          <Pressable style={[styles3.button, styles3.buttonOpen]} onPress={() => setModalVisible(true)}>
          <Entypo name="dots-three-vertical" size={24} color="black" />
 
       </Pressable>
-         </View>
         </View>
     <NavigationContainer 
 >
@@ -105,7 +116,7 @@ export const Login = ({setLoggedIn}) => {
       inactiveColor='#3A84EC'
       barStyle={{ backgroundColor: '#fff' }}
     >
-      <Tab.Screen
+     <Tab.Screen
         name="Feed"
         component={Feed}
         options={{
@@ -115,6 +126,7 @@ export const Login = ({setLoggedIn}) => {
           ),
         }}
       />
+     
            <Tab.Screen
         name="Forums"
         component={Forums}
@@ -170,7 +182,7 @@ const styles3 = StyleSheet.create({
     fontWeight: "700"
   },
   logo :{
-    fontSize: 30,
+    fontSize: 25,
     color: "#000",
     fontWeight: "700",
   },

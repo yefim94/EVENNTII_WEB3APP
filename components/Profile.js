@@ -1,6 +1,6 @@
 import React from 'react'
 import {useState, useEffect} from "react"
-import { Text, View,ImageBackground, ScrollView, Button, Image, StyleSheet , TextInpu,Pressablet} from 'react-native'
+import { Text, View,ImageBackground, ScrollView, Button, Image, StyleSheet , TextInput,Pressable,Modal} from 'react-native'
 import { func } from 'prop-types';
 import { AntDesign } from '@expo/vector-icons'; 
 {/**import Carousel from 'react-native-snap-carousel';
@@ -19,10 +19,15 @@ export const Profile = ({setLoggedIn}) => {
   const[commentText,setCommentText] = useState("")
 
  async  function getData () {
-  const options = {method: 'GET', headers: {accept: 'application/json', 'X-API-Key': 'WYON0dXwg4zG3GSsaPb79ofaPTLAbDUpmt01OuTlZihmzoH1F059it3bdsXSou0t'}};
-const data = await fetch(`https://deep-index.moralis.io/api/v2/nft/search?chain=eth&format=decimal&q=${apiQ}&filter=name&limit=10`, options)
+  try {
+    const options = {method: 'GET', headers: {accept: 'application/json', 'X-API-Key': 'kKNkP0fpFBo4ksVKTc3kOPPI9DJ6JHvBL3yleG4mAAJWHBWF7lyZLjEGI7qvmn9c'}};
+const data = await fetch(`https://deep-index.moralis.io/api/v2/nft/search?chain=eth&format=decimal&q=${apiQ}&filter=name&limit=50`, options)
 const ddata = await data.json()
 setProfileData(ddata.result)
+  }
+   catch(ee) {
+    alert(ee)
+   }
   }
 
   async function handleNftIn () {
@@ -37,6 +42,8 @@ setProfileData(ddata.result)
   function liked (id) {
     setPressed(true)
   }
+  const [modalVisible, setModalVisible] = useState(false);
+
   const [pressed,setPressed] = useState(false)
   return (
     <View style={{padding: 20}}>
@@ -62,9 +69,30 @@ setProfileData(ddata.result)
     <ScrollView>
     {profileData ? <>
       {profileData.map((el, key,id) => 
-        <View style={{
+      <>
+             <Modal
+       animationType="slide"
+       transparent={true}
+       visible={modalVisible}
+       onRequestClose={() => {
+         Alert.alert("Modal has been closed.");
+         setModalVisible(!modalVisible);
+       }}
+     >
+       <View style={{backgroundColor:"#fff",height:"100%",padding:40}}>
+        
+        
+           <Pressable
+             onPress={() => setModalVisible(!modalVisible)}
+           >
+             <Text style={{}}>Hide Modal</Text>
+           </Pressable>
+       </View>
+     </Modal>
+        <Pressable   onPress={() => setModalVisible(true)} key={key}>
+          <View style={{
           backgroundColor: "#fff",
-          padding: 10,
+          display: `${JSON.parse(el.metadata).image.includes("https") ? "block": "none"}`,
           borderRadius: 20,
           marginBottom: 20
         }} key={key}>
@@ -75,10 +103,10 @@ setProfileData(ddata.result)
           {JSON.parse(el.metadata).image.includes("https") ? <>
               <Image source={{
             uri: `${JSON.parse(el.metadata).image}`
-          }} style={{width: "1005", height: 200, borderRadius: 30, width: "100%"}}/> 
+          }} style={{width: "1005", height: 200, width: "100%",borderTopLeftRadius:20,borderTopRightRadius:20}}/> 
           </>: null}
           </View>
-          <View style={{marginTop: 20}}>
+          <View style={{marginTop: 20, padding:20,}}>
             <View style={{flexDirection: "row", alignItems:"center"}}>
               <Text style={{marginRight:10, color: "grey"}}>ID</Text>
               <View style={{width: 10,height:10,backgroundColor:"#000", borderRadius:50}}></View>
@@ -86,13 +114,15 @@ setProfileData(ddata.result)
             </View>
             <Text style={{fontSize: 20, fontWeight: "700", marginBottom: 10}} key={key}>{JSON.parse(el.metadata).name}</Text>
           <Text>{JSON.parse(el.metadata).description}</Text>
-          <View style={{backgroundColor: "#000", borderRadius: 10,padding:7,justifyContent: "center", alignItems: "center"}}>
+          <View style={{backgroundColor: "#3A84EC", borderRadius: 10,padding:7,justifyContent: "center", alignItems: "center",marginTop:20}}>
             {el.token_uri.includes("https") ? <>
             <A style={{color:"white", fontSize: 19}} href={el.token_uri}><Text>learn More</Text></A> 
             </> : <Text>Learn More</Text>} 
              </View>
           </View>
         </View>
+        </Pressable>
+      </>
       )} 
       
     </>: <>

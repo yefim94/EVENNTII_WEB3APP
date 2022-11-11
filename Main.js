@@ -73,7 +73,7 @@ export const Main = ({setLoggedIn}) => {
           <Image
             style={styles2.tinyLogo}
             source={{
-              uri: "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iV4SDQ2SyAjw/v2/1200x-1.jpg"
+              uri: "https://about.fb.com/wp-content/uploads/2022/06/CD22_440-NRP-NFTs_A-Beginners-Guide_Header-sm.gif"
             }}
       />
           </View>
@@ -126,6 +126,7 @@ export const Main = ({setLoggedIn}) => {
                       <Text style={styles2.teinhe}>Password</Text>
                       <TextInput value={password} onChangeText={value => {setPassword(value)}} color="#fff" style={styles2.textinpu} secureTextEntry autoCapitalize="none"
                         placeholder="Enter your password..."/>
+                        <Text style={{textDecorationLine:"underline",color:"#fff",marginBottom:10}}>Forgot Password?</Text>
                    <View style={{
                         backgroundColor: "#4D76D8",
                         borderRadius: 10,
@@ -185,6 +186,7 @@ const styles2 = StyleSheet.create({
     justifyContent: 'center',
     alignItems: "center",
     flex: 0.5,
+    backgroundColor:"#18113A"
   },
   linear: {
     position: "absolute",
@@ -195,7 +197,7 @@ const styles2 = StyleSheet.create({
     marginBottom: 100
   },
   bottom: {
-    flex: 0.5,
+    flex: 0.4,
     padding: 20,
     display: "flex",
     justifyContent: "space-between",
@@ -223,6 +225,7 @@ const styles2 = StyleSheet.create({
   disblu: {
     color: "#000",
     fontSize: 25,
+    marginBottom:15,
     textAlign: "center",
     fontWeight: "600",
   },
@@ -237,9 +240,9 @@ const styles2 = StyleSheet.create({
     height: "100%",
     marginBottom: 20,
     zIndex: 50,
+    marginTop:40
   },
   signupCo: {
-    marginTop: 30
   },
   siteco: {
     alignItems: "center"

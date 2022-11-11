@@ -127,7 +127,7 @@ async function cardPrice1 (cardano){
       <Text style={{fontSize: 20,paddingLeft:16}}>Market data for crypto</Text>
       <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center",margin:20}}>
      <TextInput
-     placeholder='type news keyword'
+     placeholder='type cryptocurrency'
         style={{
           backgroundColor: "#D1D1D1",
           borderRadius: 20,
@@ -186,8 +186,8 @@ async function cardPrice1 (cardano){
         <View style={{flexDirection:"row",alignItems:"center",marginTop:13}}>
           <Text style={{fontSize:20}}>Volume: </Text><Text  style={{fontWeight:"700"}}>{btcvolume}</Text>
         </View>
-        <View style={{backgroundColor:"#000",marginTop:10,padding:10,borderRadius:10,alignItems:"center"}}>
-        <A style={{color:"#fff",fontSize:20}} href={btclink}>Learn More</A>
+        <View style={{backgroundColor:"#3A84EC",marginTop:10,padding:10,borderRadius:10,alignItems:"center"}}>
+        <A style={{color:"#fff",fontSize:20}} href={btclink}>Home Page</A>
         </View>
         </View>
       </View>
@@ -235,8 +235,8 @@ async function cardPrice1 (cardano){
         <View style={{flexDirection:"row",alignItems:"center",marginTop:13}}>
           <Text style={{fontSize:20}}>Volume: </Text><Text  style={{fontWeight:"700"}}>{ethvolume}</Text>
         </View>
-        <View style={{backgroundColor:"#000",marginTop:10,padding:10,borderRadius:10,alignItems:"center"}}>
-        <A style={{color:"#fff",fontSize:20}} href={ethlink}>Learn More</A>
+        <View style={{backgroundColor:"#3A84EC",marginTop:10,padding:10,borderRadius:10,alignItems:"center"}}>
+        <A style={{color:"#fff",fontSize:20}} href={ethlink}>Home Page </A>
         </View>
         </View>
       </View>
@@ -248,7 +248,7 @@ async function cardPrice1 (cardano){
        </View>
         <View>
         <Text style={{color : `${moreBtc < 0 ? "red": "green"}`, fontSize: 20, fontWeight: "700"}}>$ {cardPrice}</Text>
-        <Text>{moreADA}%</Text>
+        <Text>{moreADA > 0 ? <Text>+</Text> :  <Text>-</Text>}{moreADA}%</Text>
         </View>
         </View>
         <View>
@@ -284,8 +284,8 @@ async function cardPrice1 (cardano){
         <View style={{flexDirection:"row",alignItems:"center",marginTop:13}}>
           <Text style={{fontSize:20}}>Volume: </Text><Text  style={{fontWeight:"700"}}>{adavolume}</Text>
         </View>
-        <View style={{backgroundColor:"#000",marginTop:10,padding:10,borderRadius:10,alignItems:"center"}}>
-        <A style={{color:"#fff",fontSize:20}} href={adalink}>Learn More</A>
+        <View style={{backgroundColor:"#3A84EC",marginTop:10,padding:10,borderRadius:10,alignItems:"center"}}>
+        <A style={{color:"#fff",fontSize:20}} href={adalink}>Home Page</A>
         </View>
         </View>
       </View>
