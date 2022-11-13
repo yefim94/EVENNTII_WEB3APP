@@ -2,9 +2,26 @@ import React from 'react'
 import { StyleSheet, Text, View, SafeAreaView , Image, TextInput, Button, Modal, Pressable, StatusBar,Alert} from 'react-native';
 import { useState, useEffect } from 'react';
 import {auth} from "./firebase"
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,sendPasswordResetEmail} from "firebase/auth";
 import { Appearance, useColorScheme } from 'react-native';
+import {
+  exchangeCodeAsync,
+  makeRedirectUri,
+  TokenResponse,
+  useAuthRequest,
+} from "expo-auth-session";
+import * as WebBrowser from "expo-web-browser";
+WebBrowser.maybeCompleteAuthSession();
 
+// Endpoint
+const discovery = {
+  authorizationEndpoint: "https://www.coinbase.com/oauth/authorize",
+  tokenEndpoint: "https://api.coinbase.com/oauth/token",
+  revocationEndpoint: "https://api.coinbase.com/oauth/revoke",
+};
+
+const redirectUri = "exp://localhost:19000/--/"
+const CLIENT_ID = "00cdc90882780c73673a820f2a7db09f6de8f9ec4c522be7c7a306485b0ca487";
 export const Main = ({setLoggedIn}) => {
   const [email, setEmail] = useState("")
   const [slideim, setslideIm] =useState([])
@@ -54,7 +71,33 @@ export const Main = ({setLoggedIn}) => {
     const i = Math.floor(Math.random() * siimage.length)
     setSpIm(siimage[i])
   }, [])
-  
+  const forgotPassword = async (email) => {
+    return sendPasswordResetEmail(auth, email).then((a) => {
+      alert("Password reset email sent")
+    }).catch(e => alert(e))
+  }
+  const [request, response, promptAsync] = useAuthRequest(
+    {
+      clientId: CLIENT_ID,
+      scopes: ["wallet:accounts:read"],
+      redirectUri,
+    },
+    discovery
+  );
+  const {
+    // The token will be auto exchanged after auth completes.
+    token,
+    exchangeError,
+  } = useAutoExchange(
+    response?.type === "success" ? response.params.code  : null
+  );
+
+  React.useEffect(() => {
+    if (token) {
+      console.log("My Token:", token.accessToken);
+    }
+  }, [token]);
+
   return (
     <View style={{flex: 1, backgroundColor: "#F5F5F5", borderRadius: 20}}>
       <StatusBar hidden />
@@ -69,13 +112,16 @@ export const Main = ({setLoggedIn}) => {
          */}
         {/** */}
         <View style={styles2.disimagco}>
-      <View style={styles2.linear}></View>
-          <Image
-            style={styles2.tinyLogo}
-            source={{
-              uri: "https://about.fb.com/wp-content/uploads/2022/06/CD22_440-NRP-NFTs_A-Beginners-Guide_Header-sm.gif"
-            }}
-      />
+          <View>
+            <Image style={{height:60,width:210,paddingLeft:10}} source={{
+              uri:"https://cdn.discordapp.com/attachments/783336191529320498/1041428064955019324/Screen_Shot_2022-11-13_at_2.03.15_PM.png"
+            }}/>
+          </View>
+          <View>
+            <Image source={{
+              uri:"https://cdn.discordapp.com/attachments/783336191529320498/1041432134482669609/Screen_Shot_2022-11-13_at_2.19.26_PM.png"
+            }} style={{width:"100%",height:300,borderRadius:20}} />
+          </View>
           </View>
         <View style={styles2.bottom}>
         <View style={styles2.disTeCo}>
@@ -94,7 +140,13 @@ export const Main = ({setLoggedIn}) => {
             <TextInput value={password} onChangeText={value => {setPassword(value)}} color="#fff" style={styles2.textinpu} secureTextEntry autoCapitalize="none"
         placeholder="Enter your password..."/>
             <View style={styles2.buttonco}>
-            <Button  onPress={handleForm} color="white"  title="Get Started"  style={styles2.buttonsi} />
+            <Button  onPress={handleLogin} color="white"  title="Sign In"  style={styles2.buttonsi} />
+            </View>
+            <View style={{backgroundColor:"#000",borderRadius:20,padding:10,marginTop:10}}>
+            <Button title="Coinbase Connect"color="white"  disabled={!request}
+      onPress={() => {
+        promptAsync();
+      }}/>
             </View>
          {/**
           *    <View style={{flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
@@ -116,7 +168,7 @@ export const Main = ({setLoggedIn}) => {
                     <Image source={{
                         uri: "https://www.modernretail.co/wp-content/uploads/sites/5/2022/01/blockchain-explained-gif.gif"
                       }} style={{width: "100%",height: 380, position: "relative",bottom: 0,}}/>
-                      <Text style={styles2.modalText}>Welcome Back...</Text>
+                      <Text style={styles2.modalText}>Get Started</Text>
                       
                       <View style={{
                         width: "100%"
@@ -126,13 +178,13 @@ export const Main = ({setLoggedIn}) => {
                       <Text style={styles2.teinhe}>Password</Text>
                       <TextInput value={password} onChangeText={value => {setPassword(value)}} color="#fff" style={styles2.textinpu} secureTextEntry autoCapitalize="none"
                         placeholder="Enter your password..."/>
-                        <Text style={{textDecorationLine:"underline",color:"#fff",marginBottom:10}}>Forgot Password?</Text>
+                        <Text onPress={(email) => forgotPassword(email)} style={{textDecorationLine:"underline",color:"#fff",marginBottom:10}}>Forgot Password?</Text>
                    <View style={{
                         backgroundColor: "#4D76D8",
                         borderRadius: 10,
                         padding: 7
                    }} >
-                    <Button  type="submit" onPress={handleLogin} color="white"  title="Get Started"   />
+                    <Button  type="submit" onPress={handleForm} color="white"  title="Get Started"   />
                   </View> 
                       </View>
                       <Pressable
@@ -154,7 +206,7 @@ export const Main = ({setLoggedIn}) => {
               color: "grey",
               textAlign: "center",
               textDecorationLine: "underline"
-            }}>Already have a account?</Text>
+            }}>Dont Have An Account?</Text>
             </Pressable>
           </View>
         </View>
@@ -183,10 +235,10 @@ const styles2 = StyleSheet.create({
     alignItems: "center",
   },
   disimagco: {
-    justifyContent: 'center',
-    alignItems: "center",
-    flex: 0.5,
-    backgroundColor:"#18113A"
+    flex: 0.45,
+    marginTop:40,
+    marginLeft:20,marginRight:20,
+    marginBottom:20
   },
   linear: {
     position: "absolute",
@@ -197,7 +249,7 @@ const styles2 = StyleSheet.create({
     marginBottom: 100
   },
   bottom: {
-    flex: 0.4,
+    flex: 0.6,
     padding: 20,
     display: "flex",
     justifyContent: "space-between",
@@ -224,10 +276,10 @@ const styles2 = StyleSheet.create({
   },
   disblu: {
     color: "#000",
-    fontSize: 25,
+    fontSize: 30,
     marginBottom:15,
     textAlign: "center",
-    fontWeight: "600",
+    fontWeight: "700",
   },
   diswhi: {
     color: "#fff",
@@ -237,10 +289,9 @@ const styles2 = StyleSheet.create({
   },
   tinyLogo : {
     width: "100%",
-    height: "100%",
+    height:"100%",
     marginBottom: 20,
     zIndex: 50,
-    marginTop:40
   },
   signupCo: {
   },
@@ -337,3 +388,57 @@ const styles2 = StyleSheet.create({
     textAlign: "center"
   }
 });
+type State = {
+  token: TokenResponse | null;
+  exchangeError: Error | null;
+};
+
+// A hook to automatically exchange the auth token for an access token.
+// this should be performed in a server and not here in the application.
+// For educational purposes only:
+function useAutoExchange(code?: string): State {
+  const [state, setState] = React.useReducer(
+    (state: State, action: Partial<State>) => ({ ...state, ...action }),
+    { token: null, exchangeError: null }
+  );
+  const isMounted = useMounted();
+
+  React.useEffect(() => {
+    if (!code) {
+      setState({ token: null, exchangeError: null });
+      return;
+    }
+
+    exchangeCodeAsync(
+      {
+        clientId: CLIENT_ID,
+        clientSecret: "b2106d0e380eba882cae2e6a8ead932a635896827d87b9929ed3c70fa34e4552",
+        code,
+        redirectUri,
+      },
+      discovery
+    )
+      .then((token) => {
+        if (isMounted.current) {
+          setState({ token, exchangeError: null });
+        }
+      })
+      .catch((exchangeError) => {
+        if (isMounted.current) {
+          setState({ exchangeError, token: null });
+        }
+      });
+  }, [code]);
+
+  return state;
+}
+
+function useMounted() {
+  const isMounted = React.useRef(true);
+  React.useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+  return isMounted;
+}

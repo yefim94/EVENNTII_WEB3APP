@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "your-scheme",
     "userInterfaceStyle": "automatic",
     "name": "my-app",
     "slug": "my-app",

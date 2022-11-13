@@ -130,7 +130,7 @@ export default function Forums() {
             </View>
       </ScrollView>
           )}
-             <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center",paddingLeft:20}}>
+             <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center",paddingLeft:20,marginBottom:200}}>
               <TextInput
               placeholder='add comment'
                   style={{

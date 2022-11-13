@@ -11,6 +11,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { Entypo } from '@expo/vector-icons'; 
 import { useState } from 'react';
+import { MaterialIcons } from '@expo/vector-icons'; 
+import {  deleteUser } from "firebase/auth";
 const Tab = createMaterialBottomTabNavigator();
 import { Appearance, useColorScheme } from 'react-native';
 import Forums from "./components/Forums"
@@ -21,7 +23,15 @@ export const Login = ({setLoggedIn}) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const colorScheme = useColorScheme();
-
+  const user = auth.currentUser;
+function deleteACC () {
+  deleteUser(user).then(() => {
+    setLoggedIn(false)
+  }).catch((error) => {
+   alert(error)
+  });
+  
+}
   return (
     <View style={{marginTop: 15, flex: 1, borderRadius: 20}}>
             <StatusBar hidden />
@@ -70,6 +80,9 @@ export const Login = ({setLoggedIn}) => {
                         
            </View>
           <View style={{width:"100%"}}>
+          <View style={styles3.deleteacc}>
+        <Button onPress={(e) => deleteACC()} color="#fff" title="delete account" />
+        </View>
           <View style={styles3.signout}>
         <Button onPress={(e) => {setLoggedIn(false)}} color="#fff" title="sign out" />
         </View>
@@ -133,7 +146,7 @@ export const Login = ({setLoggedIn}) => {
         options={{
           tabBarLabel: 'Forums',
           tabBarIcon: ({ color }) => (
-            <Ionicons name="ios-newspaper-sharp" size={30} color={color} />
+            <MaterialIcons name="forum" size={24} color={color} />
           ),
         }}
       />
@@ -172,6 +185,11 @@ const styles3 = StyleSheet.create({
   },
   logostco: {
    
+  },
+  deleteacc:{
+    backgroundColor:"#B01A1A",
+    borderRadius:20,
+    padding:10
   },
   disimagco: {
   },

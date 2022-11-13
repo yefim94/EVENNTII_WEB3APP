@@ -20,8 +20,8 @@ export const Profile = ({setLoggedIn}) => {
 
  async  function getData () {
   try {
-    const options = {method: 'GET', headers: {accept: 'application/json', 'X-API-Key': 'kKNkP0fpFBo4ksVKTc3kOPPI9DJ6JHvBL3yleG4mAAJWHBWF7lyZLjEGI7qvmn9c'}};
-const data = await fetch(`https://deep-index.moralis.io/api/v2/nft/search?chain=eth&format=decimal&q=${apiQ}&filter=name&limit=50`, options)
+    const options = {method: 'GET', headers: {accept: 'application/json', 'X-API-Key': 'WYON0dXwg4zG3GSsaPb79ofaPTLAbDUpmt01OuTlZihmzoH1F059it3bdsXSou0t'}};
+const data = await fetch(`https://deep-index.moralis.io/api/v2/nft/search?chain=eth&format=decimal&q=${apiQ}&filter=name&limit=10`, options)
 const ddata = await data.json()
 setProfileData(ddata.result)
   }
@@ -70,7 +70,7 @@ setProfileData(ddata.result)
     {profileData ? <>
       {profileData.map((el, key,id) => 
       <>
-             <Modal
+             <Modal 
        animationType="slide"
        transparent={true}
        visible={modalVisible}
@@ -79,13 +79,18 @@ setProfileData(ddata.result)
          setModalVisible(!modalVisible);
        }}
      >
+      <View>
+        <Image source={{
+          uri:`https://blockworks.co/wp-content/uploads/2022/01/Bored-Ape-Yacht-Club_Ape_wide.jpg`
+        }} style={{width:"100%",height:400}}></Image>
+      </View>
        <View style={{backgroundColor:"#fff",height:"100%",padding:40}}>
         
         
            <Pressable
-             onPress={() => setModalVisible(!modalVisible)}
+             onPress={() => setModalVisible(!modalVisible)} style={{backgroundColor:"#3A84EC",padding:20,borderRadius:20}}
            >
-             <Text style={{}}>Hide Modal</Text>
+             <Text style={{color:"#fff"}}>Hide Modal</Text>
            </Pressable>
        </View>
      </Modal>
