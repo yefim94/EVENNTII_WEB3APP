@@ -13,16 +13,19 @@ import { Entypo } from '@expo/vector-icons';
 import { useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import {  deleteUser } from "firebase/auth";
+import { useEffect } from 'react';
 const Tab = createMaterialBottomTabNavigator();
 import { Appearance, useColorScheme } from 'react-native';
 import Forums from "./components/Forums"
 export const Login = ({setLoggedIn}) => {
   const emails = ["gmail, yahoo, aol, nycdoestudents"]
-  const username = auth.currentUser.email.replace(/@gmail.com/, '').replace(/@yahoo.com/, '').toUpperCase()
+  const username = auth.currentUser.email.replace(/@gmail.com/, '').replace(/@yahoo.com/, '').replace(/@aol.com/, '').toUpperCase()
   const [modalVisible, setModalVisible] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  const colorScheme = useColorScheme();
+  const toggleSwitch = () => {
+    setIsEnabled(previousState => !previousState)
+    colorScheme === "dark"
+  };
   const user = auth.currentUser;
 function deleteACC () {
   deleteUser(user).then(() => {
@@ -32,6 +35,19 @@ function deleteACC () {
   });
   
 }
+const colorScheme = useColorScheme();
+useEffect(()=>{
+  const colorScheme = Appearance.getColorScheme();
+    if (colorScheme === 'dark') {
+       setIsEnabled(true); // true means dark
+    }else{
+       setIsEnabled(false); // false means light
+    }
+},[])
+  if (colorScheme === 'dark') {
+  } else {
+    // render some light thing
+  }
   return (
     <View style={{marginTop: 15, flex: 1, borderRadius: 20}}>
             <StatusBar hidden />
@@ -89,7 +105,7 @@ function deleteACC () {
         <Pressable
               style={[styles3.button, styles3.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles3.textStyle}>Hide Modal</Text>
+              <Text style={styles3.textStyle}>Cancel</Text>
             </Pressable>
           </View>
           </View>
@@ -233,15 +249,15 @@ const styles3 = StyleSheet.create({
   centeredView: {
     flex:1,
     alignItems:"center",
-    justifyContent:"center"
+    justifyContent:"center",
   },
   modalView: {
     height:"100%",
+    backgroundColor: "white",
     paddingTop:90,
     alignItems:"",
     justifyContent:'space-between',    
     width:"100%",
-    backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',

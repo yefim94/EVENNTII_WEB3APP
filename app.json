@@ -20,7 +20,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yefim94.my-app"
+      "bundleIdentifier": "com.yefim94.my-app",
+      "userInterfaceStyle": "automatic"
     },
     "android": {
       "adaptiveIcon": {

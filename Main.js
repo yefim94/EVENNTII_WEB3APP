@@ -1,8 +1,10 @@
 import React from 'react'
-import { StyleSheet, Text, View, SafeAreaView , Image, TextInput, Button, Modal, Pressable, StatusBar,Alert} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView , Image, TextInput, Button, Modal, Pressable, StatusBar,Alert,ScrollView} from 'react-native';
 import { useState, useEffect } from 'react';
 import {auth} from "./firebase"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,sendPasswordResetEmail} from "firebase/auth";
+import Onboarding from 'react-native-onboarding-swiper';
+import { Dimensions } from 'react-native';
 import { Appearance, useColorScheme } from 'react-native';
 import {
   exchangeCodeAsync,
@@ -97,6 +99,7 @@ export const Main = ({setLoggedIn}) => {
       console.log("My Token:", token.accessToken);
     }
   }, [token]);
+  const { width, height } = Dimensions.get('window');
 
   return (
     <View style={{flex: 1, backgroundColor: "#F5F5F5", borderRadius: 20}}>
@@ -116,14 +119,21 @@ export const Main = ({setLoggedIn}) => {
             <Image style={{height:60,width:210,paddingLeft:10}} source={{
               uri:"https://cdn.discordapp.com/attachments/783336191529320498/1041428064955019324/Screen_Shot_2022-11-13_at_2.03.15_PM.png"
             }}/>
+          </View> 
           </View>
-          <View>
-            <Image source={{
-              uri:"https://cdn.discordapp.com/attachments/783336191529320498/1041432134482669609/Screen_Shot_2022-11-13_at_2.19.26_PM.png"
-            }} style={{width:"100%",height:300,borderRadius:20}} />
-          </View>
-          </View>
-        <View style={styles2.bottom}>
+          <Onboarding style={{flex:4}}
+  pages={[
+    {
+      backgroundColor: 'red',
+      image: <Image source={{uri:"https://thumbor.forbes.com/thumbor/fit-in/x/https://www.forbes.com/advisor/in/wp-content/uploads/2022/03/monkey-g412399084_1280.jpg"}} style={{width:"100%",heiht:200}}/>,
+      title: <Text>react native swiper</Text>,
+      subtitle: <Text>Done with React Native Onboarding Swiper</Text>,
+    },
+    {
+      backgroundColor: '#fff',
+      subtitle: <>
+      
+      <ScrollView style={{}}>
         <View style={styles2.disTeCo}>
           <Text style={styles2.disblu}>
           Discover Rare NFT and Crypto Analytics 
@@ -210,7 +220,17 @@ export const Main = ({setLoggedIn}) => {
             </Pressable>
           </View>
         </View>
-        </View>
+        </ScrollView></>,
+    },
+    {
+      backgroundColor: '#fff',
+      image: <Image source={{uri:"https://thumbor.forbes.com/thumbor/fit-in/x/https://www.forbes.com/advisor/in/wp-content/uploads/2022/03/monkey-g412399084_1280.jpg"}} />,
+      title: <Text>react native swiper</Text>,
+      subtitle: <Text>Done with React Native Onboarding Swiper</Text>,
+    },
+  ]}
+/>
+   
       </View> 
   )
 }
@@ -235,7 +255,7 @@ const styles2 = StyleSheet.create({
     alignItems: "center",
   },
   disimagco: {
-    flex: 0.45,
+    flex: 0.1,
     marginTop:40,
     marginLeft:20,marginRight:20,
     marginBottom:20
@@ -249,7 +269,7 @@ const styles2 = StyleSheet.create({
     marginBottom: 100
   },
   bottom: {
-    flex: 0.6,
+    flex: 0.9,
     padding: 20,
     display: "flex",
     justifyContent: "space-between",
