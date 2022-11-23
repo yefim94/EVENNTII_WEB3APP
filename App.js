@@ -6,7 +6,17 @@ import { Main } from './Main.js';
 import { auth } from "./firebase";
 import {  onAuthStateChanged} from "firebase/auth";
 import { useEffect} from 'react';
-
+{/**
+"expo-notifications",
+        {
+          "icon": "./local/assets/notification-icon.png",
+          "color": "#ffffff",
+          "sounds": [
+            "./local/assets/notification-sound.wav",
+            "./local/assets/notification-sound-other.wav"
+          ]
+        }
+*/}
 export default function App() {
   useEffect(() => {
     const handAuth = (e) => {

@@ -17,7 +17,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 
 
-export const Notifications = () => {
+export const Notifications1 = () => {
   
 
   const [historicData, setHistoricData] = useState();
@@ -247,8 +247,8 @@ async function cardPrice1 (cardano){
         <Text style={{fontSize: 20, fontWeight: "700"}}>Cardano</Text>
        </View>
         <View>
-        <Text style={{color : `${moreBtc < 0 ? "red": "green"}`, fontSize: 20, fontWeight: "700"}}>$ {cardPrice}</Text>
-        <Text>{moreADA > 0 ? <Text>+</Text> :  <Text>-</Text>}{moreADA}%</Text>
+        <Text style={{color : `${moreADA < 0 ? "red": "green"}`, fontSize: 20, fontWeight: "700"}}>$ {cardPrice}</Text>
+        <Text>{moreADA > 0 ? <Text>+</Text> :  <Text></Text>}{moreADA}%</Text>
         </View>
         </View>
         <View>

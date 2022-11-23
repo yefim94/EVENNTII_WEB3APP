@@ -1,11 +1,16 @@
+//imports
 import React from 'react'
 import { StyleSheet, Text, View, SafeAreaView , Image, TextInput, Button,StatusBar,Modal,Pressable,Switch} from 'react-native';
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
+import * as ImagePicker from 'expo-image-picker';
+import { Platform } from 'react-native';
 import { Feed } from './components/Feed';
 import { Profile } from './components/Profile';
-import { Notifications } from './components/Notifications';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Notifications1 } from './components/Notifications1';
 import {auth} from "./firebase"
 import { Ionicons } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons'; 
@@ -13,12 +18,34 @@ import { Entypo } from '@expo/vector-icons';
 import { useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import {  deleteUser } from "firebase/auth";
-import { useEffect } from 'react';
-const Tab = createMaterialBottomTabNavigator();
+import { useEffect ,useRef} from 'react';
 import { Appearance, useColorScheme } from 'react-native';
 import Forums from "./components/Forums"
+
+//tabs
+const Tab = createMaterialBottomTabNavigator();
+
+
 export const Login = ({setLoggedIn}) => {
-  const emails = ["gmail, yahoo, aol, nycdoestudents"]
+  //state
+  const [image, setImage] = useState("");
+  //functions
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.uri);
+    }
+  };
+
   const username = auth.currentUser.email.replace(/@gmail.com/, '').replace(/@yahoo.com/, '').replace(/@aol.com/, '').toUpperCase()
   const [modalVisible, setModalVisible] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
@@ -43,13 +70,28 @@ useEffect(()=>{
     }else{
        setIsEnabled(false); // false means light
     }
+    registerForPushNotificationsAsync()
 },[])
   if (colorScheme === 'dark') {
   } else {
     // render some light thing
   }
+    registerForPushNotificationsAsync = async () => {
+      
+    
+      if (Platform.OS === 'android') {
+        Notifications.setNotificationChannelAsync('default', {
+          name: 'default',
+          importance: Notifications.AndroidImportance.MAX,
+          vibrationPattern: [0, 250, 250, 250],
+          lightColor: '#FF231F7C',
+        });
+      }
+    };
+  
+  
   return (
-    <View style={{marginTop: 15, flex: 1, borderRadius: 20}}>
+    <View style={styles3.maincont}>
             <StatusBar hidden />
             <Modal
         animationType="slide"
@@ -61,16 +103,15 @@ useEffect(()=>{
         }}>
         <View style={styles3.centeredView}>
           <View style={styles3.modalView}>
-          <View style={{alignItems:"center"}}> 
+          <View style={styles3.modalview2}> 
             <Text style={styles3.modalText}>Settings:</Text>
-            <View>
-              <Image source={{
-                uri:"https://publish.one37pm.net/wp-content/uploads/2021/11/Brantly.eth_.png"
-              }} style={{width:100,height:100,borderRadius:500,marginBottom:20}}/>
+            <Text style={styles3.hi}>Hello,  <Text style={styles3.helloUsername}>{username}</Text></Text>
+            <View style={styles3.imagemocont}>
+            <Button title="Pick an image from camera roll" onPress={pickImage} />
+    <Image source={{ uri: `${image ? image : "https://media.istockphoto.com/id/1248723171/vector/camera-photo-upload-icon-on-isolated-white-background-eps-10-vector.jpg?s=612x612&w=0&k=20&c=e-OBJ2jbB-W_vfEwNCip4PW4DqhHGXYMtC3K_mzOac0="}` }} style={{ width: 200, height: 200,borderRadius:500 }} />
             </View>
-            <Text style={{fontSize:30}}>Hello,  <Text style={{color:"#3A84EC",fontWeight:"700"}}>{username}</Text></Text>
             </View>
-           <View style={{flexDirection:"row", alignItems:"center"}}>
+           <View style={{flexDirection:"row", alignItems:"center",marginBottom:15}}>
            <Text style={{marginRight:20}}>Dark Mode:</Text>
             <Switch
         trackColor={{ false: "#767577", true: "#81b0ff" }}
@@ -87,13 +128,12 @@ useEffect(()=>{
             <View style={{backgroundColor:"#D9D9D9",padding:15,borderRadius:20,marginBottom:15}}>
             <Text style={{color:"#3A84EC",fontWeight:"700",textDecorationLine:"underline"}}>Leave us a review </Text>
             </View>
-            <View style={{backgroundColor:"#D9D9D9",padding:15,borderRadius:20,marginBottom:15}}>
-            <Text style={{color:"#3A84EC",fontWeight:"700",textDecorationLine:"underline"}}>Notifications</Text>
+            <View style={{backgroundColor:"#D9D9D9",padding:15,borderRadius:20,marginBottom:15}}  >
+            <Text style={{color:"#3A84EC",fontWeight:"700",textDecorationLine:"underline"}} onPress={() => registerForPushNotificationsAsync()}>Notifications</Text>
             </View>
             <View style={{backgroundColor:"#D9D9D9",padding:15,borderRadius:20,marginBottom:15}}>
             <Text style={{color:"#3A84EC",fontWeight:"700",textDecorationLine:"underline"}}>About us</Text>
-            </View>
-                        
+            </View> 
            </View>
           <View style={{width:"100%"}}>
           <View style={styles3.deleteacc}>
@@ -124,11 +164,11 @@ useEffect(()=>{
          </View>
         </View>
  */}
-         <View style={{flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
+         <View style={styles3.bottomcont}>
          <View>
               <Image source={{
-                uri:"https://publish.one37pm.net/wp-content/uploads/2021/11/Brantly.eth_.png"
-              }} style={{width:35,height:35,borderRadius:500,marginRight:10,borderColor:"#3A84EC",borderWidth:3}}/>
+                uri:image
+              }} style={{width:48,height:48,borderRadius:500,marginRight:10,borderColor:"#3A84EC",borderWidth:3}}/>
             </View>
          <Text style={styles3.username}>{username}</Text>
          </View>
@@ -168,7 +208,7 @@ useEffect(()=>{
       />
       <Tab.Screen
         name="Notifications"
-        component={Notifications}
+        component={Notifications1}
         options={{
           tabBarLabel: 'Crypto',
           tabBarIcon: ({ color }) => (
@@ -259,7 +299,10 @@ const styles3 = StyleSheet.create({
     justifyContent:'space-between',    
     width:"100%",
     borderRadius: 20,
-    padding: 35,
+    paddingTop:60,
+    paddingLeft: 20,
+    paddingRight:20,
+    paddingBottom:20,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -291,4 +334,75 @@ const styles3 = StyleSheet.create({
     paddingLeft:16,
     fontWeight:"700"
   },
+  maincont:{
+    marginTop: 30, flex: 1, borderRadius: 20
+  },
+  modalview2:{
+    alignItems:"center"
+  },
+  hi:{
+    fontSize:30
+  },
+  helloUsername:{
+    color:"#3A84EC",fontWeight:"700"
+  },
+  imagemocont:{
+    alignItems:"center"
+  },
+  bottomcont:{
+    flexDirection:"row",alignItems:"center",justifyContent:"center"
+  }
 });
+
+//push notifcations
+
+async function schedulePushNotification() {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "You've got mail! 📬",
+      body: 'Here is the notification body',
+      data: { data: 'goes here' },
+    },
+    trigger: { seconds: 2 },
+  });
+}
+
+async function registerForPushNotificationsAsync() {
+  let token;
+
+  if (Platform.OS === 'android') {
+    await Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  if (Device.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  return token;
+}
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+

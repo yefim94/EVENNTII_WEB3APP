@@ -13,27 +13,17 @@ import {
   useAuthRequest,
 } from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
-WebBrowser.maybeCompleteAuthSession();
 
-// Endpoint
-const discovery = {
-  authorizationEndpoint: "https://www.coinbase.com/oauth/authorize",
-  tokenEndpoint: "https://api.coinbase.com/oauth/token",
-  revocationEndpoint: "https://api.coinbase.com/oauth/revoke",
-};
-
-const redirectUri = "exp://localhost:19000/--/"
-const CLIENT_ID = "00cdc90882780c73673a820f2a7db09f6de8f9ec4c522be7c7a306485b0ca487";
 export const Main = ({setLoggedIn}) => {
+  // state 
   const [email, setEmail] = useState("")
   const [slideim, setslideIm] =useState([])
   const [password,setPassword] = useState("")
   const [emaillo, setEmaillo] = useState("")
   const [passwordlo,setPasswordlo] = useState("")
-  const [siimage,setImage] = useState(["  https://arke-art.com/wp-content/uploads/2021/08/avatar2.png","https://media.wired.com/photos/603959e5f02d2d2aebd211e8/1:1/w_3000,h_3000,c_limit/business_nft_beeple.jpg"])
   const [spim,setSpIm] = useState("")
   const [modalVisible, setModalVisible] = useState(false);
-
+// functions for auth
   const handleForm = () => {
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
@@ -69,15 +59,13 @@ export const Main = ({setLoggedIn}) => {
     setEmail("")
     setPassword("")
   }
-  useEffect(() => {
-    const i = Math.floor(Math.random() * siimage.length)
-    setSpIm(siimage[i])
-  }, [])
   const forgotPassword = async (email) => {
     return sendPasswordResetEmail(auth, email).then((a) => {
       alert("Password reset email sent")
     }).catch(e => alert(e))
   }
+
+  // coinbase open code
   const [request, response, promptAsync] = useAuthRequest(
     {
       clientId: CLIENT_ID,
@@ -102,7 +90,7 @@ export const Main = ({setLoggedIn}) => {
   const { width, height } = Dimensions.get('window');
 
   return (
-    <View style={{flex: 1, backgroundColor: "#F5F5F5", borderRadius: 20}}>
+    <View style={styles2.overallCont}>
       <StatusBar hidden />
         {/** */}
         {/**
@@ -116,24 +104,15 @@ export const Main = ({setLoggedIn}) => {
         {/** */}
         <View style={styles2.disimagco}>
           <View>
-            <Image style={{height:60,width:210,paddingLeft:10}} source={{
+            <Image style={styles2.logoImage} source={{
               uri:"https://cdn.discordapp.com/attachments/783336191529320498/1041428064955019324/Screen_Shot_2022-11-13_at_2.03.15_PM.png"
             }}/>
           </View> 
           </View>
-          <Onboarding style={{flex:4}}
-  pages={[
-    {
-      backgroundColor: 'red',
-      image: <Image source={{uri:"https://thumbor.forbes.com/thumbor/fit-in/x/https://www.forbes.com/advisor/in/wp-content/uploads/2022/03/monkey-g412399084_1280.jpg"}} style={{width:"100%",heiht:200}}/>,
-      title: <Text>react native swiper</Text>,
-      subtitle: <Text>Done with React Native Onboarding Swiper</Text>,
-    },
-    {
-      backgroundColor: '#fff',
-      subtitle: <>
-      
-      <ScrollView style={{}}>
+      <View style={styles2.bottom1}>
+        <Image source={{
+          uri:`https://cronuts.digital/wp-content/uploads/2022/01/5402207-scaled.jpg`
+        }} style={styles2.mainImage}/>
         <View style={styles2.disTeCo}>
           <Text style={styles2.disblu}>
           Discover Rare NFT and Crypto Analytics 
@@ -143,16 +122,16 @@ export const Main = ({setLoggedIn}) => {
         {/** */}
         <View style={styles2.signupCo}>
           <View style={styles2.siteco}> 
-          <Text style={{color: "rgba(0,0,0,0.5)",fontSize: 15, textAlign: "center"}}>NFTs and Crypto have exciting new properties: they’re unique, provably scarce, and usable across multiple applications.</Text>
+          <Text style={styles2.maindesc}>NFTs and Crypto have exciting new properties: they’re unique, provably scarce, and usable across multiple applications.</Text>
           </View>
           <View style={styles2.teinpuco}>
-            <TextInput value={email} onChangeText={value => {setEmail(value)}} color="#fff" style={styles2.textinpu} placeholder="Enter your email..."         autoCapitalize='none'/>
-            <TextInput value={password} onChangeText={value => {setPassword(value)}} color="#fff" style={styles2.textinpu} secureTextEntry autoCapitalize="none"
+            <TextInput value={email} onChangeText={value => {setEmail(value)}} color="#fff" style={styles2.textinpu} placeholder="Enter your email..."         autoCapitalize='none' placeholderTextColor="#EDEDED"/>
+            <TextInput value={password} onChangeText={value => {setPassword(value)}}  placeholderTextColor="#EDEDED" color="#fff" style={styles2.textinpu} secureTextEntry autoCapitalize="none"
         placeholder="Enter your password..."/>
             <View style={styles2.buttonco}>
             <Button  onPress={handleLogin} color="white"  title="Sign In"  style={styles2.buttonsi} />
             </View>
-            <View style={{backgroundColor:"#000",borderRadius:20,padding:10,marginTop:10}}>
+            <View style={styles2.coinbasec}>
             <Button title="Coinbase Connect"color="white"  disabled={!request}
       onPress={() => {
         promptAsync();
@@ -212,37 +191,46 @@ export const Main = ({setLoggedIn}) => {
               style={[styles2.button]}
               onPress={() => setModalVisible(!modalVisible)}
             >
-             <Text style={{
-              color: "grey",
-              textAlign: "center",
-              textDecorationLine: "underline"
-            }}>Dont Have An Account?</Text>
+             <Text style={styles2.donthaveAcc}>Dont Have An Account?</Text>
             </Pressable>
           </View>
         </View>
-        </ScrollView></>,
-    },
-    {
-      backgroundColor: '#fff',
-      image: <Image source={{uri:"https://thumbor.forbes.com/thumbor/fit-in/x/https://www.forbes.com/advisor/in/wp-content/uploads/2022/03/monkey-g412399084_1280.jpg"}} />,
-      title: <Text>react native swiper</Text>,
-      subtitle: <Text>Done with React Native Onboarding Swiper</Text>,
-    },
-  ]}
-/>
+        </View>
+
    
       </View> 
   )
 }
 const styles2 = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
+  overallCont : {
+    flex: 1, backgroundColor: "#F5F5F5", borderRadius: 20
   },
   logoCont : {
     alignItems: 'center',
     flexDirection: "row",
     justifyContent: "flex-start"
+  },
+  donthaveAcc:{
+    color: "grey",
+    textAlign: "center",
+    textDecorationLine: "underline"
+  },
+  coinbasec:{
+    backgroundColor:"#000",borderRadius:20,padding:10,marginTop:10
+  },
+  maindesc:{
+    color: "rgba(0,0,0,0.5)",fontSize: 15, textAlign: "left"
+  },
+  mainImage:{
+    width:"100%",height:300
+  },
+  bottom1:{
+    flex:2,
+    paddingLeft:20,
+    paddingRight:20
+  },
+  logoImage:{
+    height:60,width:210,paddingLeft:10
   },
   logostco: {
     backgroundColor: "#3F8DFD",
@@ -298,7 +286,7 @@ const styles2 = StyleSheet.create({
     color: "#000",
     fontSize: 30,
     marginBottom:15,
-    textAlign: "center",
+    textAlign: "left",
     fontWeight: "700",
   },
   diswhi: {
@@ -314,9 +302,11 @@ const styles2 = StyleSheet.create({
     zIndex: 50,
   },
   signupCo: {
+  textAlign:"center"
   },
   siteco: {
-    alignItems: "center"
+    alignItems: "flex-start",
+    marginBottom:15
   },
   site: {
     color: "#fff",
@@ -331,7 +321,7 @@ const styles2 = StyleSheet.create({
     padding: 15,
     width: "100%",
     marginTop: 10,
-    color: "#000",
+    color: "#fff",
     marginBottom: 20,
     fontSize: 17,
     borderRadius: 10
@@ -408,6 +398,8 @@ const styles2 = StyleSheet.create({
     textAlign: "center"
   }
 });
+
+// COINBASE CODE //
 type State = {
   token: TokenResponse | null;
   exchangeError: Error | null;
@@ -462,3 +454,13 @@ function useMounted() {
   }, []);
   return isMounted;
 }
+// Endpoint
+const discovery = {
+  authorizationEndpoint: "https://www.coinbase.com/oauth/authorize",
+  tokenEndpoint: "https://api.coinbase.com/oauth/token",
+  revocationEndpoint: "https://api.coinbase.com/oauth/revoke",
+};
+
+const redirectUri = "exp://localhost:19000/--/"
+const CLIENT_ID = "00cdc90882780c73673a820f2a7db09f6de8f9ec4c522be7c7a306485b0ca487";
+WebBrowser.maybeCompleteAuthSession();

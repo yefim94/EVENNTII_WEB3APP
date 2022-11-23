@@ -1,4 +1,5 @@
-import { Text, View, Image, ScrollView, TextInput } from 'react-native'
+//imports
+import { Text, View, Image, ScrollView, TextInput,StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import { LinearGradient } from 'react-native-svg';
@@ -12,11 +13,15 @@ import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 
 export const Feed = () => {
+  //state
   const [feedData, setFeedData] = useState([]);
   const [feedData2, setFeedData2] = useState([]);
   const [feedInput, setFeedInput] = useState("");
   const [apiqu, setApiqu] =  useState("");
   const [title2,setTitle2] = useState("")
+  const [modalVisible, setModalVisible] = useState(false);
+
+  //functions
   async function handleFeedIn () {
     setApiqu( feedInput )
     setFeedInput("")
@@ -54,19 +59,6 @@ export const Feed = () => {
     alert(E)
   }
   }
-  const handleNewComment = async() =>{
-    try {
-      const docRef = await addDoc(collection(db, "comments"), {
-        description: commentText
-      });
-    
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      alert(e)
-    }
-    
-    setCommentText("")
-  }
     const onShare = async (title,link) => {
       try {
         const result = await Share.share({
@@ -98,25 +90,15 @@ export const Feed = () => {
     setTitle2(title)
     setModalVisible(true) 
   }
-  const [modalVisible, setModalVisible] = useState(false);
   return (
-    <View style={{
-      borderRadius: 20, 
-      padding: 20
-    }}>
-      <Text style={{fontSize: 40, fontWeight: "700"}}>News Feed</Text>
-     <View style={{marginBottom: 20}}>
-      <Text style={{fontSize: 25, fontWeight: "650", marginBottom: 10}}>What do you want to read?</Text>
-     <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+    <View style={feedS.maincont}>
+      <Text style={feedS.mainhead}>News Feed</Text>
+     <View style={feedS.lowermainc}>
+      <Text style={feedS.smallhead}>What do you want to read?</Text>
+     <View style={feedS.teco}>
      <TextInput
      placeholder='type news keyword'
-        style={{
-          backgroundColor: "#D1D1D1",
-          borderRadius: 20,
-          padding: 10,
-          fontSize: 16,
-          width: "60%"
-        }}
+        style={feedS.teinput}
         onChangeText={(val) => setFeedInput(val)}
         value={feedInput}
       />
@@ -125,16 +107,11 @@ export const Feed = () => {
      </View>
       <ScrollView  showsHorizontalScrollIndicator={false}>
       {apiqu ? <>
-        <Text style={{fontSize:27, marginLeft:15,marginBottom:15}}>News for <Text style={{color:"#3A84EC",fontWeight:"700"}}>{apiqu}</Text></Text>
+        <Text style={feedS.apikey}>News for <Text style={feedS.apikey2}>{apiqu}</Text></Text>
 
         {feedData.map((element, key) => (
          
-            <View   key={key.id} style={{
-          backgroundColor: "#fff",
-            borderRadius: 20,
-            marginBottom: 30,
-            flex:1
-        }}>
+            <View   key={key.id} style={feedS.newscard}>
           <Modal
         animationType="slide"
         transparent={true}
@@ -144,7 +121,7 @@ export const Feed = () => {
           setModalVisible(!modalVisible);
         }}
       >
-        <View style={{backgroundColor:"#fff",height:"100%",padding:40}}>
+        <View style={feedS.imcont}>
          
          {element.image_url ? <>
           <Image souce={{
@@ -152,9 +129,9 @@ export const Feed = () => {
           }} style={{height:400,width:"100%"}}/>
          </> : null}
           <View style={{}}>
-            <Text style={{color:"#000",fontSize:26,fontWeight:"700"}} >{element.title}</Text>
+            <Text style={feedS.title} >{element.title}</Text>
             <Text  >{element.description}</Text>
-            <A style={{color:"grey",textDecorationLine: "underline",marginTop:10}} href={element.link}>Link</A>
+            <A style={feedS.linkss} href={element.link}>Link</A>
             <Pressable
               onPress={() => setModalVisible(!modalVisible)}
             >
@@ -315,3 +292,31 @@ export const Feed = () => {
     </View>
   )
 }
+const feedS = StyleSheet.create({
+maincont:{
+  borderRadius: 20, 
+      padding: 20
+},
+mainhead:{fontSize: 40, fontWeight: "700"},
+lowermainc:{
+  marginBottom: 20
+},
+smallhead:{fontSize: 25, fontWeight: "650", marginBottom: 10},
+teco:{flexDirection: "row", justifyContent: "space-between", alignItems: "center"},
+teinput:{backgroundColor: "#D1D1D1",
+borderRadius: 20,
+padding: 10,
+fontSize: 16,
+width: "60%"},
+apikey:{fontSize:27, marginLeft:15,marginBottom:15},
+apikey2:{color:"#3A84EC",fontWeight:"700"},
+newscard:{ backgroundColor: "#fff",
+borderRadius: 20,
+marginBottom: 30,
+flex:1},
+imcont:{backgroundColor:"#fff",height:"100%",padding:40},
+title:{color:"#000",fontSize:26,fontWeight:"700"},
+linkss:{
+  color:"grey",textDecorationLine: "underline",marginTop:10
+}
+})

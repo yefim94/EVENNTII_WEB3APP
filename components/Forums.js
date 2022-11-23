@@ -67,9 +67,10 @@ export default function Forums() {
     <AntDesign name="rightcircle" size={30} color="#3A84EC"  onPress={handleFeedIn}/>
      </View>
    </View>
-   <View style={{flexDirection:"row",width:"100%",justifyContent:"space-around",alignItems:"center",margin:10,marginRight:10}}>
-    <View style={{backgroundColor:"#3A84EC",borderRadius:20,marginRight:15}}>
-      <Text style={{color:"#fff",padding:10,fontWeight:"700",borderRadius:20}}>Bitcoin</Text>
+<ScrollView horizontal={true} style={{marginBottom:20,marginLeft:20}}>
+<View style={{flexDirection:"row",width:"100%",justifyContent:"space-around",alignItems:"center"}}>
+    <View style={{backgroundColor:"#3A84EC",borderRadius:20,marginRight:15,paddingBottom:10}}>
+      <Text style={{color:"#fff",padding:10,fontWeight:"700",borderRadius:20,paddingBottom:10}}>Bitcoin</Text>
     </View>
     <View style={{backgroundColor:"#fff",borderRadius:20,marginRight:15}}>
       <Text style={{color:"#000",padding:10,fontWeight:"700",borderRadius:20}}>ETH</Text>
@@ -80,10 +81,8 @@ export default function Forums() {
     <View style={{backgroundColor:"#fff",borderRadius:20}}>
       <Text style={{color:"#000",padding:10,fontWeight:"700",borderRadius:20}}>CAD</Text>
     </View>
-    <View style={{backgroundColor:"#fff",borderRadius:20}}>
-      <Text style={{color:"#000",padding:10,fontWeight:"700",borderRadius:20}}>CAD</Text>
-    </View>
    </View>
+</ScrollView>
    <ScrollView style={{marginBottom:100}}>
       <View style={{backgroundColor:"#D9D9D9",margin:20,borderRadius:20}}>
       <View style={{position:"relative",borderRadius:20}}>
