@@ -23,7 +23,7 @@ export default function App() {
       onAuthStateChanged(auth, (user) => {
         if (user) {
           setLoggedIn(true)
-          const uid = user.uid;
+          auth.currentUser.uid = user.uid;
         } else {
           setLoggedIn(null)
         }
@@ -34,7 +34,7 @@ export default function App() {
    const [loggedIn, setLoggedIn] = useState(null)
   return (
     <View style={styles.container}>
-      {loggedIn ?  <Login setLoggedIn={setLoggedIn} /> : <Main setLoggedIn={setLoggedIn} />}
+      {loggedIn ?  <Login setLoggedIn={setLoggedIn}loggedIn={loggedIn} /> : <Main setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>}
       {/**
        * <View style={{flexDirection: "row",justifyContent: "space-between", alignItems: "center", marginLeft: 100, marginRight: 100}}>
         <Image style={styles.logosoc} source={{uri: "https://i.pinimg.com/originals/5e/ff/6c/5eff6c25d920f6a78fda288e6589bf8b.jpg"}} />

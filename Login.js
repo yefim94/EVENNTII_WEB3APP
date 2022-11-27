@@ -1,5 +1,15 @@
+// HOW TO ADD UNIQUE DB experiences
+// 1.user signs in/up with email pass, create new uid
+// 2. user at home page can select img for avatar
+// 3.users avatar matches the uid of the avatar
+
 //imports
+import { getStorage, ref, uploadBytesResumable, getDownloadURL ,uploadBytes,uploadString} from "firebase/storage";
+
 import React from 'react'
+import {db} from './firebase'
+import { collection } from 'firebase/firestore';
+import { doc,setDoc,updateDoc } from 'firebase/firestore';
 import { StyleSheet, Text, View, SafeAreaView , Image, TextInput, Button,StatusBar,Modal,Pressable,Switch} from 'react-native';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
@@ -17,10 +27,11 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons'; 
 import { useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons'; 
-import {  deleteUser } from "firebase/auth";
+import {  deleteUser, onAuthStateChanged } from "firebase/auth";
 import { useEffect ,useRef} from 'react';
 import { Appearance, useColorScheme } from 'react-native';
 import Forums from "./components/Forums"
+import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 
 //tabs
 const Tab = createMaterialBottomTabNavigator();
@@ -28,10 +39,16 @@ const Tab = createMaterialBottomTabNavigator();
 
 export const Login = ({setLoggedIn}) => {
   //state
+ 
+  const currentUser = auth.currentUser;
+  const uid = currentUser.uid
+
+  const avatar = currentUser.photoURL  
   const [image, setImage] = useState("");
   //functions
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
+    try {
+ // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -39,13 +56,59 @@ export const Login = ({setLoggedIn}) => {
       quality: 1,
     });
 
-    console.log(result);
+   console.log(result);
 
     if (!result.canceled) {
+      auth.currentUser.photoURL = result.uri
       setImage(result.uri);
+      console.log(result.uri)
+      imgFirebase()
     }
-  };
+  {/**
+  await updateDoc(doc(db, "users", uid, {
+      photoURL: result.uri.toString()
+    }))
+*/}
+    }
+    catch(E) {
+      alert(E)
+    }
 
+  };
+  async function imgFirebase () {
+   const d = await fetch(image)
+   const dd = await d.blob()
+   const fileName = image.substring(image.lastIndexOf("/")+1)
+   console.log(fileName)
+   const storage = getStorage();
+  const storageRef = ref(storage, fileName);
+  uploadBytes(storageRef,dd).then((snapshot) => {
+    console.log('Uploaded a blob or file!');
+  });
+
+   try {
+    getDownloadURL(ref(storage, storageRef))
+    .then((url) => {
+      // `url` is the download URL for 'images/stars.jpg'
+  
+      // This can be downloaded directly:
+      const xhr = new XMLHttpRequest();
+      xhr.responseType = 'blob';
+      xhr.onload = (event) => {
+        const blob = xhr.response;
+      };
+      xhr.open('GET', url);
+      xhr.send();
+  
+      setImage(url)
+      console.log(url)
+    })
+    .catch((error) => {
+      // Handle any errors
+    });
+   }
+   catch(E) {alert(E)}
+  }
   const username = auth.currentUser.email.replace(/@gmail.com/, '').replace(/@yahoo.com/, '').replace(/@aol.com/, '').toUpperCase()
   const [modalVisible, setModalVisible] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
@@ -108,7 +171,7 @@ useEffect(()=>{
             <Text style={styles3.hi}>Hello,  <Text style={styles3.helloUsername}>{username}</Text></Text>
             <View style={styles3.imagemocont}>
             <Button title="Pick an image from camera roll" onPress={pickImage} />
-    <Image source={{ uri: `${image ? image : "https://media.istockphoto.com/id/1248723171/vector/camera-photo-upload-icon-on-isolated-white-background-eps-10-vector.jpg?s=612x612&w=0&k=20&c=e-OBJ2jbB-W_vfEwNCip4PW4DqhHGXYMtC3K_mzOac0="}` }} style={{ width: 200, height: 200,borderRadius:500 }} />
+    <Image source={{ uri: `${currentUser.photoURL ? currentUser.photoURL : "https://media.istockphoto.com/id/1248723171/vector/camera-photo-upload-icon-on-isolated-white-background-eps-10-vector.jpg?s=612x612&w=0&k=20&c=e-OBJ2jbB-W_vfEwNCip4PW4DqhHGXYMtC3K_mzOac0="}` }} style={{ width: 200, height: 200,borderRadius:500 }} />
             </View>
             </View>
            <View style={{flexDirection:"row", alignItems:"center",marginBottom:15}}>
@@ -167,7 +230,7 @@ useEffect(()=>{
          <View style={styles3.bottomcont}>
          <View>
               <Image source={{
-                uri:image
+                uri:`${auth.currentUser.photoURL}`
               }} style={{width:48,height:48,borderRadius:500,marginRight:10,borderColor:"#3A84EC",borderWidth:3}}/>
             </View>
          <Text style={styles3.username}>{username}</Text>

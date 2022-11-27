@@ -1,9 +1,12 @@
+
 import React from 'react'
 import { StyleSheet, Text, View, SafeAreaView , Image, TextInput, Button, Modal, Pressable, StatusBar,Alert,ScrollView} from 'react-native';
 import { useState, useEffect } from 'react';
 import {auth} from "./firebase"
+import { db } from './firebase';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,sendPasswordResetEmail} from "firebase/auth";
 import Onboarding from 'react-native-onboarding-swiper';
+import { doc,setDoc,updateDoc } from 'firebase/firestore';
 import { Dimensions } from 'react-native';
 import { Appearance, useColorScheme } from 'react-native';
 import {
@@ -13,6 +16,7 @@ import {
   useAuthRequest,
 } from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
+import { addDoc, collection } from 'firebase/firestore';
 
 export const Main = ({setLoggedIn}) => {
   // state 
@@ -23,41 +27,47 @@ export const Main = ({setLoggedIn}) => {
   const [passwordlo,setPasswordlo] = useState("")
   const [spim,setSpIm] = useState("")
   const [modalVisible, setModalVisible] = useState(false);
+
+
 // functions for auth
   const handleForm = () => {
     createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-       const user = userCredential.user;
-      const displayName = user.displayName;
-      const email = user.email;
-      const photoURL = user.photoURL;
-      const emailVerified = user.emailVerified;
-      // ...
+    .then(async (userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+
+      try {
+        const docRef = await addDoc(collection(db, "users"), {
+          email:email,
+          password:password,
+          uid: auth.currentUser.uid,
+          photoUrl: ""
+        });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+
+      //=================
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       alert(`a error occured ${errorCode}`)
     });
-    setEmail("")
-    setPassword("")
   }
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      // ...
-      setModalVisible(false)
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert(`a error occured ${errorCode}`)
-    });
-    setEmail("")
-    setPassword("")
+  .then((userCredential) => {
+    console.log(auth.settings)
+    // Signed in 
+    const user = userCredential.user;
+  // ...
+  })
+  .catch((error) => {
+    alert(error)
+  });
+
   }
   const forgotPassword = async (email) => {
     return sendPasswordResetEmail(auth, email).then((a) => {
