@@ -44,7 +44,7 @@ export const Login = ({setLoggedIn}) => {
   const uid = currentUser.uid
 
   const avatar = currentUser.photoURL  
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState("");  
   //functions
   const pickImage = async () => {
     try {
@@ -61,7 +61,6 @@ export const Login = ({setLoggedIn}) => {
     if (!result.canceled) {
       auth.currentUser.photoURL = result.uri
       setImage(result.uri);
-      console.log(result.uri)
       imgFirebase()
     }
   {/**
@@ -79,35 +78,15 @@ export const Login = ({setLoggedIn}) => {
    const d = await fetch(image)
    const dd = await d.blob()
    const fileName = image.substring(image.lastIndexOf("/")+1)
-   console.log(fileName)
    const storage = getStorage();
   const storageRef = ref(storage, fileName);
   uploadBytes(storageRef,dd).then((snapshot) => {
-    console.log('Uploaded a blob or file!');
-  });
-
-   try {
-    getDownloadURL(ref(storage, storageRef))
-    .then((url) => {
-      // `url` is the download URL for 'images/stars.jpg'
-  
-      // This can be downloaded directly:
-      const xhr = new XMLHttpRequest();
-      xhr.responseType = 'blob';
-      xhr.onload = (event) => {
-        const blob = xhr.response;
-      };
-      xhr.open('GET', url);
-      xhr.send();
-  
-      setImage(url)
-      console.log(url)
-    })
-    .catch((error) => {
-      // Handle any errors
-    });
-   }
-   catch(E) {alert(E)}
+    getDownloadURL(snapshot.ref).then(async (url) => {
+     console.log(url)
+}).catch(e=>{
+  alert(e)
+}) 
+  }); 
   }
   const username = auth.currentUser.email.replace(/@gmail.com/, '').replace(/@yahoo.com/, '').replace(/@aol.com/, '').toUpperCase()
   const [modalVisible, setModalVisible] = useState(false);
