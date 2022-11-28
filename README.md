@@ -1,5 +1,5 @@
 # EVENNTII_WEB3APP 📈
-***This mobile app is currently in the process of being on the ios and android app store
+***This mobile app is currently in the process of being developed  even further...it may take a bit longer to be on the app store...adding features such as forums, dark mode, share mode, and ability to connect crpyto wallets
 ***This app allows people to search for trending crypto,nft and anythign web3 news wise. In addition, one can see popular crypto market data with cryptocurrency’s like bitcoin and ethereum.  And you can even search for Nfts through keywords on the nft section of this app 
 
 ![coverphoto](https://user-images.githubusercontent.com/73265655/198903951-093611a3-a145-4680-b9d7-e5150b253870.png)
