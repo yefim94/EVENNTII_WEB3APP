@@ -8,7 +8,7 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL ,uploadBytes,uplo
 
 import React from 'react'
 import {db} from './firebase'
-import { collection } from 'firebase/firestore';
+import { collection,query, where, getDocs,onSnapshot ,getDoc} from 'firebase/firestore';
 import { doc,setDoc,updateDoc } from 'firebase/firestore';
 import { StyleSheet, Text, View, SafeAreaView , Image, TextInput, Button,StatusBar,Modal,Pressable,Switch} from 'react-native';
 import * as Device from 'expo-device';
@@ -45,6 +45,7 @@ export const Login = ({setLoggedIn}) => {
 
   const avatar = currentUser.photoURL  
   const [image, setImage] = useState("");  
+  const [url, setUrl] = useState("")
   //functions
   const pickImage = async () => {
     try {
@@ -56,7 +57,6 @@ export const Login = ({setLoggedIn}) => {
       quality: 1,
     });
 
-   console.log(result);
 
     if (!result.canceled) {
       auth.currentUser.photoURL = result.uri
@@ -82,12 +82,37 @@ export const Login = ({setLoggedIn}) => {
   const storageRef = ref(storage, fileName);
   uploadBytes(storageRef,dd).then((snapshot) => {
     getDownloadURL(snapshot.ref).then(async (url) => {
-     console.log(url)
+
+      // Create a query against the collection.
+      setUrl(url)
+      
+      const citiesRef = collection(db, "users");
+
+      // Create a query against the collection.
+      const q = query(citiesRef, where("uid", "==", uid));
+      const querySnapshot = await getDocs(q);
+querySnapshot.forEach((doc) => {
+  async function upadad() {
+    try {
+      updateDoc(q, {
+        photoUrl: url
+     })
+     console.log(doc.data())
+    }
+    catch(e) {
+      alert(e)
+    }
+  }
+
+  
+});
+      
 }).catch(e=>{
   alert(e)
 }) 
   }); 
   }
+  const [black,seblac] = useState("#fff")
   const username = auth.currentUser.email.replace(/@gmail.com/, '').replace(/@yahoo.com/, '').replace(/@aol.com/, '').toUpperCase()
   const [modalVisible, setModalVisible] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
@@ -106,30 +131,32 @@ function deleteACC () {
 }
 const colorScheme = useColorScheme();
 useEffect(()=>{
-  const colorScheme = Appearance.getColorScheme();
     if (colorScheme === 'dark') {
+      alert("darkkkk")
+      seblac("#000")
        setIsEnabled(true); // true means dark
-    }else{
-       setIsEnabled(false); // false means light
     }
-    registerForPushNotificationsAsync()
-},[])
-  if (colorScheme === 'dark') {
-  } else {
-    // render some light thing
+    if(colorScheme === 'light'){
+      seblac("#fff")
+       setIsEnabled(false); 
+       alert("lighttttt")
+       // false means light
+    } else {
+       null
+    }
+},[colorScheme])
+registerForPushNotificationsAsync = async () => {
+  
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
   }
-    registerForPushNotificationsAsync = async () => {
-      
-    
-      if (Platform.OS === 'android') {
-        Notifications.setNotificationChannelAsync('default', {
-          name: 'default',
-          importance: Notifications.AndroidImportance.MAX,
-          vibrationPattern: [0, 250, 250, 250],
-          lightColor: '#FF231F7C',
-        });
-      }
-    };
+};
   
   
   return (
@@ -208,9 +235,12 @@ useEffect(()=>{
  */}
          <View style={styles3.bottomcont}>
          <View>
-              <Image source={{
+          <Text style={{
+            color: black
+          }}>jisd</Text>
+           {currentUser.photoURL ?    <Image source={{
                 uri:`${auth.currentUser.photoURL}`
-              }} style={{width:48,height:48,borderRadius:500,marginRight:10,borderColor:"#3A84EC",borderWidth:3}}/>
+              }} style={{width:48,height:48,borderRadius:500,marginRight:10,borderColor:"#3A84EC",borderWidth:3}}/> : null}
             </View>
          <Text style={styles3.username}>{username}</Text>
          </View>
@@ -278,6 +308,7 @@ const styles3 = StyleSheet.create({
   logoCont : {
     alignItems: 'center',
     padding: 10,
+    backgroundColor:"white",
     flexDirection: "row",
     justifyContent: "space-between"
   },
