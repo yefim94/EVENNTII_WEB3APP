@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { StyleSheet, Text, View, SafeAreaView , Image, TextInput, Button, Modal, Pressable, StatusBar,Alert,ScrollView} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView , Image, TextInput, Button, Modal, Pressable, StatusBar,Alert,ScrollView,KeyboardAvoidingView,TouchableWithoutFeedback,Keyboard} from 'react-native';
 import { useState, useEffect } from 'react';
 import {auth} from "./firebase"
 import { db } from './firebase';
@@ -59,8 +59,8 @@ export const Main = ({setLoggedIn}) => {
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
-    console.log(auth.settings)
     // Signed in 
+    
     const user = userCredential.user;
   // ...
   })
@@ -69,11 +69,11 @@ export const Main = ({setLoggedIn}) => {
   });
 
   }
-  const forgotPassword = async (email) => {
-    return sendPasswordResetEmail(auth, email).then((a) => {
-      alert("Password reset email sent")
+  {/**
+const forgotPassword =  (email) => {
+     sendPasswordResetEmail(auth, email).then((a) => {
     }).catch(e => alert(e))
-  }
+  } */}
 
   // coinbase open code
   const [request, response, promptAsync] = useAuthRequest(
@@ -100,7 +100,7 @@ export const Main = ({setLoggedIn}) => {
   const { width, height } = Dimensions.get('window');
 
   return (
-    <View style={styles2.overallCont}>
+    <ScrollView style={styles2.overallCont}>
       <StatusBar hidden />
         {/** */}
         {/**
@@ -135,9 +135,10 @@ export const Main = ({setLoggedIn}) => {
           <Text style={styles2.maindesc}>NFTs and Crypto have exciting new properties: they’re unique, provably scarce, and usable across multiple applications.</Text>
           </View>
           <View style={styles2.teinpuco}>
+          <KeyboardAvoidingView enabled behavior="padding">
             <TextInput value={email} onChangeText={value => {setEmail(value)}} color="#fff" style={styles2.textinpu} placeholder="Enter your email..."         autoCapitalize='none' placeholderTextColor="#EDEDED"/>
             <TextInput value={password} onChangeText={value => {setPassword(value)}}  placeholderTextColor="#EDEDED" color="#fff" style={styles2.textinpu} secureTextEntry autoCapitalize="none"
-        placeholder="Enter your password..."/>
+            placeholder="Enter your password..."/>
             <View style={styles2.buttonco}>
             <Button  onPress={handleLogin} color="white"  title="Sign In"  style={styles2.buttonsi} />
             </View>
@@ -177,7 +178,8 @@ export const Main = ({setLoggedIn}) => {
                       <Text style={styles2.teinhe}>Password</Text>
                       <TextInput value={password} onChangeText={value => {setPassword(value)}} color="#fff" style={styles2.textinpu} secureTextEntry autoCapitalize="none"
                         placeholder="Enter your password..."/>
-                        <Text onPress={(email) => forgotPassword(email)} style={{textDecorationLine:"underline",color:"#fff",marginBottom:10}}>Forgot Password?</Text>
+                         {/**onPress={forgotPassword(email) */}
+                        <Text style={{textDecorationLine:"underline",color:"#fff",marginBottom:10}}>Forgot Password?</Text>
                    <View style={{
                         backgroundColor: "#4D76D8",
                         borderRadius: 10,
@@ -203,12 +205,13 @@ export const Main = ({setLoggedIn}) => {
             >
              <Text style={styles2.donthaveAcc}>Dont Have An Account?</Text>
             </Pressable>
+            </KeyboardAvoidingView>
           </View>
         </View>
         </View>
 
    
-      </View> 
+      </ScrollView> 
   )
 }
 const styles2 = StyleSheet.create({

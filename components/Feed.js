@@ -225,8 +225,19 @@ export const Feed = () => {
         <View  key={key} style={{
           backgroundColor: "#fff",
             borderRadius: 20,
+            margin:5,
             marginBottom: 30,
-            flex:1
+            flex:1,
+            shadowColor: '#3A84EC',
+            shadowOffset: {
+              width: 0,
+              height: 3
+            },
+            shadowRadius: 2,
+            shadowOpacity: 1.0
+        
+
+
         }}>
          <View style={{
           flexDirection: "row",

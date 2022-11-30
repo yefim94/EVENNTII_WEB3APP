@@ -32,6 +32,7 @@ import { useEffect ,useRef} from 'react';
 import { Appearance, useColorScheme } from 'react-native';
 import Forums from "./components/Forums"
 import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
+import Learn from "./components/Learn";
 
 //tabs
 const Tab = createMaterialBottomTabNavigator();
@@ -74,6 +75,8 @@ export const Login = ({setLoggedIn}) => {
     }
 
   };
+  const [t,setT] = useState(false)
+  const [url1,setUrl1]=useState()
   async function imgFirebase () {
    const d = await fetch(image)
    const dd = await d.blob()
@@ -85,25 +88,22 @@ export const Login = ({setLoggedIn}) => {
 
       // Create a query against the collection.
       setUrl(url)
-      
+      console.log(url)
       const citiesRef = collection(db, "users");
 
       // Create a query against the collection.
       const q = query(citiesRef, where("uid", "==", uid));
       const querySnapshot = await getDocs(q);
 querySnapshot.forEach((doc) => {
-  async function upadad() {
-    try {
-      updateDoc(q, {
-        photoUrl: url
+  try {
+    updateDoc(doc.ref, { // 👈
+      photoUrl: url
      })
-     console.log(doc.data())
-    }
-    catch(e) {
-      alert(e)
-    }
   }
-
+  catch(e) {
+    alert(e)
+  }
+alert("might take a few minutes to change...")
   
 });
       
@@ -111,7 +111,26 @@ querySnapshot.forEach((doc) => {
   alert(e)
 }) 
   }); 
+  setImage("")
   }
+  useEffect(() => {
+    async function url() {
+      try {
+        const url = collection(db, "users");
+      const q = query(url, where("uid", "==", uid));
+      const querySnapshot = await getDocs(q);
+      let todos = []
+      querySnapshot.forEach((doc) => {todos.push(doc.data())})
+      setUrl1(todos)
+      }
+      catch(e) {
+        alert(e)
+      }
+
+    }
+    url()
+  }, [url])
+  
   const [black,seblac] = useState("#fff")
   const username = auth.currentUser.email.replace(/@gmail.com/, '').replace(/@yahoo.com/, '').replace(/@aol.com/, '').toUpperCase()
   const [modalVisible, setModalVisible] = useState(false);
@@ -132,14 +151,12 @@ function deleteACC () {
 const colorScheme = useColorScheme();
 useEffect(()=>{
     if (colorScheme === 'dark') {
-      alert("darkkkk")
       seblac("#000")
        setIsEnabled(true); // true means dark
     }
     if(colorScheme === 'light'){
       seblac("#fff")
        setIsEnabled(false); 
-       alert("lighttttt")
        // false means light
     } else {
        null
@@ -177,7 +194,15 @@ registerForPushNotificationsAsync = async () => {
             <Text style={styles3.hi}>Hello,  <Text style={styles3.helloUsername}>{username}</Text></Text>
             <View style={styles3.imagemocont}>
             <Button title="Pick an image from camera roll" onPress={pickImage} />
-    <Image source={{ uri: `${currentUser.photoURL ? currentUser.photoURL : "https://media.istockphoto.com/id/1248723171/vector/camera-photo-upload-icon-on-isolated-white-background-eps-10-vector.jpg?s=612x612&w=0&k=20&c=e-OBJ2jbB-W_vfEwNCip4PW4DqhHGXYMtC3K_mzOac0="}` }} style={{ width: 200, height: 200,borderRadius:500 }} />
+            {url1 && url1.map((doc) => (
+              <Image source={{uri: doc.photoUrl}} style={{
+                width:200,
+                height:200,
+                borderColor:"#3A84EC",
+                borderWidth:5,
+                borderRadius:"100"
+              }} />
+            ))}
             </View>
             </View>
            <View style={{flexDirection:"row", alignItems:"center",marginBottom:15}}>
@@ -235,12 +260,22 @@ registerForPushNotificationsAsync = async () => {
  */}
          <View style={styles3.bottomcont}>
          <View>
-          <Text style={{
+          {/**
+           * FOR FUTURE DARK MODE
+           * <Text style={{
             color: black
           }}>jisd</Text>
-           {currentUser.photoURL ?    <Image source={{
-                uri:`${auth.currentUser.photoURL}`
-              }} style={{width:48,height:48,borderRadius:500,marginRight:10,borderColor:"#3A84EC",borderWidth:3}}/> : null}
+           */}
+            {url1 && url1.map((doc) => (
+              <Image source={{uri: doc.photoUrl}} style={{
+                width:48,
+                height:48,
+                borderColor:"#3A84EC",
+                borderWidth:5,
+                marginRight:10,
+                borderRadius:"100"
+              }} />
+            ))}
             </View>
          <Text style={styles3.username}>{username}</Text>
          </View>
@@ -296,6 +331,17 @@ registerForPushNotificationsAsync = async () => {
           tabBarLabel: `NFT's`,
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
+          ),
+        }}
+      />
+       <Tab.Screen
+        name="Learn"
+        setParams={setLoggedIn}
+        component={Learn}
+        options={{
+          tabBarLabel: `Learn`,
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="school" size={26} color={color} />
           ),
         }}
       />
@@ -423,7 +469,9 @@ const styles3 = StyleSheet.create({
     alignItems:"center"
   },
   bottomcont:{
-    flexDirection:"row",alignItems:"center",justifyContent:"center"
+    flexDirection:"row",
+    alignItems:"center",
+    justifyContent:"center"
   }
 });
 
