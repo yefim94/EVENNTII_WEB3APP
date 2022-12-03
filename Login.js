@@ -76,7 +76,7 @@ export const Login = ({setLoggedIn}) => {
 
   };
   const [t,setT] = useState(false)
-  const [url1,setUrl1]=useState()
+  const [url1,setUrl1]=useState([])
   async function imgFirebase () {
    const d = await fetch(image)
    const dd = await d.blob()
@@ -117,11 +117,12 @@ alert("might take a few minutes to change...")
     async function url() {
       try {
         const url = collection(db, "users");
-      const q = query(url, where("uid", "==", uid));
-      const querySnapshot = await getDocs(q);
-      let todos = []
-      querySnapshot.forEach((doc) => {todos.push(doc.data())})
-      setUrl1(todos)
+        const q = query(url, where("uid", "==", uid));
+        const querySnapshot = await getDocs(q);
+        let todos = []
+        querySnapshot.forEach((doc) => {todos.push(doc.data())})
+        setUrl1(todos)
+        url1.map((d) => console.log(d.photoUrl))
       }
       catch(e) {
         alert(e)
@@ -129,6 +130,7 @@ alert("might take a few minutes to change...")
 
     }
     url()
+    
   }, [url])
   
   const [black,seblac] = useState("#fff")
@@ -194,15 +196,16 @@ registerForPushNotificationsAsync = async () => {
             <Text style={styles3.hi}>Hello,  <Text style={styles3.helloUsername}>{username}</Text></Text>
             <View style={styles3.imagemocont}>
             <Button title="Pick an image from camera roll" onPress={pickImage} />
-            {url1 && url1.map((doc) => (
-              <Image source={{uri: doc.photoUrl}} style={{
-                width:200,
-                height:200,
-                borderColor:"#3A84EC",
-                borderWidth:5,
-                borderRadius:"100"
-              }} />
-            ))}
+            {url1 == undefined ? null
+           : url1.map((doc) => (
+            <Image source={{uri: doc.photoUrl}} style={{
+              width:200,
+              height:200,
+              borderColor:"#3A84EC",
+              borderWidth:5,
+              borderRadius:"100"
+            }} />
+          ))}
             </View>
             </View>
            <View style={{flexDirection:"row", alignItems:"center",marginBottom:15}}>
@@ -266,16 +269,17 @@ registerForPushNotificationsAsync = async () => {
             color: black
           }}>jisd</Text>
            */}
-            {url1 && url1.map((doc) => (
-              <Image source={{uri: doc.photoUrl}} style={{
-                width:48,
-                height:48,
-                borderColor:"#3A84EC",
-                borderWidth:5,
-                marginRight:10,
-                borderRadius:"100"
-              }} />
-            ))}
+          {url1.length != 0  ? url1.map((doc) => (
+            <Image source={{uri: doc.photoUrl}} style={{
+              width:50,
+              height:50,
+              borderColor:"#3A84EC",
+              borderWidth:5,
+              marginRight:14,
+              borderRadius:"100"
+            }} />
+          ))
+           : null}
             </View>
          <Text style={styles3.username}>{username}</Text>
          </View>

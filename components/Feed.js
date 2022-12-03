@@ -105,9 +105,16 @@ export const Feed = () => {
 <AntDesign name="rightcircle" size={30} color="#3A84EC"  onPress={handleFeedIn}/>
      </View>
      </View>
+     <View style={{backgroundColor:"#000",padding:20,borderRadius:20,marginBottom:20}}> 
+      <Text style={{color:"grey",fontSize:20}}>Current Volume, </Text>
+      <Text style={{color:"#fff",fontSize:27,fontWeight:"700"}}>1,129,012,345</Text>
+     </View>
+   {apiqu ?  <View style={{backgroundColor:"#fff",padding:10,borderRadius:20,marginBottom:6}}>
+    <Text style={feedS.apikey}>News for <Text style={feedS.apikey2}>{apiqu}</Text></Text>
+    </View> : null}
       <ScrollView  showsHorizontalScrollIndicator={false}>
       {apiqu ? <>
-        <Text style={feedS.apikey}>News for <Text style={feedS.apikey2}>{apiqu}</Text></Text>
+
 
         {feedData.map((element, key) => (
          
@@ -319,7 +326,7 @@ borderRadius: 20,
 padding: 10,
 fontSize: 16,
 width: "60%"},
-apikey:{fontSize:27, marginLeft:15,marginBottom:15},
+apikey:{fontSize:27},
 apikey2:{color:"#3A84EC",fontWeight:"700"},
 newscard:{ backgroundColor: "#fff",
 borderRadius: 20,

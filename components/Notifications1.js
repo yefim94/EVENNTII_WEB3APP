@@ -138,6 +138,13 @@ async function cardPrice1 (cardano){
       />
 <AntDesign name="rightcircle" size={30} color="#3A84EC" />
      </View>
+     <View style={{padding:20,backgroundColor:"black",margin:20,borderRadius:20}}>
+      <Text style={{color:"grey",fontSize:20}}>Profile Balance: </Text>
+      <Text style={{color:"white",fontSize:30,fontWeight:"700"}}>$45,000</Text>
+     </View>
+     <View style={{marginLeft:20}}>
+      <Text style={{color:"grey",textDecorationLine:"underline"}}>Tap to connect wallet.</Text>
+     </View>
       <ScrollView style={{
         padding: 0, margin: 30
       }}>

@@ -76,27 +76,7 @@ const forgotPassword =  (email) => {
   } */}
 
   // coinbase open code
-  const [request, response, promptAsync] = useAuthRequest(
-    {
-      clientId: CLIENT_ID,
-      scopes: ["wallet:accounts:read"],
-      redirectUri,
-    },
-    discovery
-  );
-  const {
-    // The token will be auto exchanged after auth completes.
-    token,
-    exchangeError,
-  } = useAutoExchange(
-    response?.type === "success" ? response.params.code  : null
-  );
 
-  React.useEffect(() => {
-    if (token) {
-      console.log("My Token:", token.accessToken);
-    }
-  }, [token]);
   const { width, height } = Dimensions.get('window');
 
   return (
@@ -141,12 +121,6 @@ const forgotPassword =  (email) => {
             placeholder="Enter your password..."/>
             <View style={styles2.buttonco}>
             <Button  onPress={handleLogin} color="white"  title="Sign In"  style={styles2.buttonsi} />
-            </View>
-            <View style={styles2.coinbasec}>
-            <Button title="Coinbase Connect"color="white"  disabled={!request}
-      onPress={() => {
-        promptAsync();
-      }}/>
             </View>
          {/**
           *    <View style={{flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
@@ -411,69 +385,3 @@ const styles2 = StyleSheet.create({
     textAlign: "center"
   }
 });
-
-// COINBASE CODE //
-type State = {
-  token: TokenResponse | null;
-  exchangeError: Error | null;
-};
-
-// A hook to automatically exchange the auth token for an access token.
-// this should be performed in a server and not here in the application.
-// For educational purposes only:
-function useAutoExchange(code?: string): State {
-  const [state, setState] = React.useReducer(
-    (state: State, action: Partial<State>) => ({ ...state, ...action }),
-    { token: null, exchangeError: null }
-  );
-  const isMounted = useMounted();
-
-  React.useEffect(() => {
-    if (!code) {
-      setState({ token: null, exchangeError: null });
-      return;
-    }
-
-    exchangeCodeAsync(
-      {
-        clientId: CLIENT_ID,
-        clientSecret: "b2106d0e380eba882cae2e6a8ead932a635896827d87b9929ed3c70fa34e4552",
-        code,
-        redirectUri,
-      },
-      discovery
-    )
-      .then((token) => {
-        if (isMounted.current) {
-          setState({ token, exchangeError: null });
-        }
-      })
-      .catch((exchangeError) => {
-        if (isMounted.current) {
-          setState({ exchangeError, token: null });
-        }
-      });
-  }, [code]);
-
-  return state;
-}
-
-function useMounted() {
-  const isMounted = React.useRef(true);
-  React.useEffect(() => {
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
-  return isMounted;
-}
-// Endpoint
-const discovery = {
-  authorizationEndpoint: "https://www.coinbase.com/oauth/authorize",
-  tokenEndpoint: "https://api.coinbase.com/oauth/token",
-  revocationEndpoint: "https://api.coinbase.com/oauth/revoke",
-};
-
-const redirectUri = "exp://localhost:19000/--/"
-const CLIENT_ID = "00cdc90882780c73673a820f2a7db09f6de8f9ec4c522be7c7a306485b0ca487";
-WebBrowser.maybeCompleteAuthSession();
