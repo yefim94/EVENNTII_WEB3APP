@@ -1,9 +1,32 @@
-import { View, Text,Image,StyleSheet } from 'react-native'
+import { View, Text,Image,StyleSheet,Modal } from 'react-native'
 import React from 'react'
 import { AntDesign } from '@expo/vector-icons'; 
 import { Pressable } from 'react-native';
-export default function LessonCard({img1,title,desc,setModalVisible}) {
+export default function LessonCard({img1,title,desc,setModalVisible,modalVisible,key}) {
   return (
+    <>
+    <Modal key={key}
+    animationType="slide"
+    transparent={true}
+    visible={modalVisible}
+    onRequestClose={() => {
+      Alert.alert("Modal has been closed.");
+      setModalVisible(!modalVisible);
+    }}
+  >
+    <View style={styles.centeredView}>
+      <View style={styles.modalView}>
+<Text style={{fontSize:20,fontWeight:"700"}}>{title}</Text>
+<Text style={{fontSize:20,fontWeight:"700"}}>{desc}</Text>
+        <Pressable
+          style={[styles.button, styles.buttonClose]}
+          onPress={() => setModalVisible(!modalVisible)}
+        >
+          <Text style={styles.textStyle}>Hide Modal</Text>
+        </Pressable>
+      </View>
+    </View>
+  </Modal>
     <Pressable
         style={[styles.button, styles.buttonOpen]}
         onPress={() => setModalVisible(true)}
@@ -25,6 +48,7 @@ export default function LessonCard({img1,title,desc,setModalVisible}) {
      </View>
     </View>
       </Pressable>
+    </>
 
   )
 }

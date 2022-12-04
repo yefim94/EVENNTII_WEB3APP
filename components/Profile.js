@@ -48,7 +48,7 @@ setProfileData(ddata.result)
   }
   return (
     <View style={profileStyles.overallcont}>
-    <Text style={profileStyles.mainheading}>NFTS</Text>
+    <Text style={profileStyles.mainheading}>NFT'S</Text>
     <View style={profileStyles.lowerarea}>
     <Text style={profileStyles.lowerheading}>What kind of NFT?</Text>
    <View style={profileStyles.bottom}>
