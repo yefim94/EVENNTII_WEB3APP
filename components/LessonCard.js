@@ -1,12 +1,12 @@
-import { View, Text,Image,StyleSheet,Modal } from 'react-native'
+import { View, Text,Image,StyleSheet,Modal, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { AntDesign } from '@expo/vector-icons'; 
 import { Pressable } from 'react-native';
 import { useEffect } from 'react';
-export default function LessonCard({img1,title,desc,key}) {
+export default function LessonCard({img1,title,desc,key,fulldesc}) {
   const [modalVisible, setModalVisible] = useState(false);
   return (
-    <>
+    <View key={key}>
     <Modal 
     animationType="slide"
     transparent={true}
@@ -18,14 +18,21 @@ export default function LessonCard({img1,title,desc,key}) {
   >
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
-<Text style={{fontSize:20,fontWeight:"700"}}>{title}</Text>
-<Text style={{fontSize:20,fontWeight:"700"}}>{desc}</Text>
-        <Pressable
-          style={[styles.button, styles.buttonClose]}
-          onPress={() => setModalVisible(!modalVisible)}
-        >
-          <Text style={styles.textStyle}>Hide Modal</Text>
+      <Image source={{
+        uri:img1
+      }} style={{height:400,width:"100%"}}/>
+<View style={{paddingLeft:30,paddingRight:30,paddingTop:30}}>
+    <Text style={{fontSize:34,fontWeight:"700",color:"#3A84EC"}}>{title}</Text>
+    <Text style={{fontSize:19,fontWeight:"650",marginTop:7,color:"grey",marginBottom:10}}>{desc}</Text>
+<ScrollView>
+<Text style={{fontSize:20,fontWeight:"700"}}>{fulldesc}</Text>
+<Pressable
+      style={[styles.button, styles.buttonClose]}
+      onPress={() => setModalVisible(!modalVisible)}>
+          <Text style={styles.textStyle}>Go Back to Lessons</Text>
         </Pressable>
+</ScrollView>
+</View>
       </View>
     </View>
   </Modal>
@@ -50,7 +57,7 @@ export default function LessonCard({img1,title,desc,key}) {
      </View>
     </View>
       </Pressable>
-    </>
+    </View>
 
   )
 }
@@ -59,13 +66,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    height:"100%"
   },
   modalView: {
-    margin: 20,
+    height:"100%",
+    width:"100%",
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -79,15 +86,18 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
+    color:"black",
+    marginTop:10,
   },
   buttonClose: {
     backgroundColor: "#2196F3",
+    color:"black",
     padding:10,
     borderRadius:10
   },
   textStyle: {
-    color: "white",
+    color: "#fff",
     fontWeight: "bold",
     textAlign: "center"
   },

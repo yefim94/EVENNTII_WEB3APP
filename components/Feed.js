@@ -11,7 +11,7 @@ import { func } from 'prop-types';
 import { NavigationContainer } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons'; 
-
+import FeedCard from "./FeedCard"
 export const Feed = () => {
   //state
   const [feedData, setFeedData] = useState([]);
@@ -19,7 +19,6 @@ export const Feed = () => {
   const [feedInput, setFeedInput] = useState("");
   const [apiqu, setApiqu] =  useState("");
   const [title2,setTitle2] = useState("")
-  const [modalVisible, setModalVisible] = useState(false);
 
   //functions
   async function handleFeedIn () {
@@ -28,33 +27,32 @@ export const Feed = () => {
   }
   
   useEffect(() => {
-
     getData();
   }, [apiqu]);
   async function getData() {
   try {
-      // you may want to change your api key
-      const API_URL = `https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=${apiqu}&language=en&category=business,technology`
-      {/**
-    https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=web3&language=en&category=business,technology 
-      https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=${apiqu}&country=us&language=en  */}
-      const response = await fetch(
-        API_URL
-      );
-      const data = await response.json();
-      const results = data.results;
-      setFeedData(results);
-  
-      const API_URL2 = `https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=web3&language=en&category=business,technology`
-      {/**
-    https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=web3&language=en&category=business,technology 
-      https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=${apiqu}&country=us&language=en  */}
-      const response2 = await fetch(
-        API_URL2
-      );
-      const data2 = await response2.json();
-      const results2 = data2.results;
-      setFeedData2(results2);
+   // you may want to change your api key
+   const API_URL = `https://newsdata.io/api/1/news?apikey=pub_131385ccf4bf639910bde200768145e5f2248&q=${apiqu}&language=en&category=business,technology`
+   {/**
+ https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=web3&language=en&category=business,technology 
+   https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=${apiqu}&country=us&language=en  */}
+   const response = await fetch(
+     API_URL
+   );
+   const data = await response.json();
+   const results = data.results;
+   setFeedData(results);
+
+   const API_URL2 = `https://newsdata.io/api/1/news?apikey=pub_131385ccf4bf639910bde200768145e5f2248&q=web3&language=en&category=business,technology`
+   {/**
+ https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=web3&language=en&category=business,technology 
+   https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=${apiqu}&country=us&language=en  */}
+   const response2 = await fetch(
+     API_URL2
+   );
+   const data2 = await response2.json();
+   const results2 = data2.results;
+   setFeedData2(results2);
   } catch(E) {
     alert(E)
   }
@@ -109,7 +107,7 @@ export const Feed = () => {
       <Text style={{color:"grey",fontSize:20}}>Current Volume, </Text>
       <Text style={{color:"#fff",fontSize:27,fontWeight:"700"}}>1,129,012,345</Text>
      </View>
-   {apiqu ?  <View style={{backgroundColor:"#fff",padding:10,borderRadius:20,marginBottom:6}}>
+   {apiqu ?  <View style={{backgroundColor:"#fff",padding:10,borderRadius:20,marginBottom:16}}>
     <Text style={feedS.apikey}>News for <Text style={feedS.apikey2}>{apiqu}</Text></Text>
     </View> : null}
       <ScrollView  showsHorizontalScrollIndicator={false}>
@@ -117,114 +115,8 @@ export const Feed = () => {
 
 
         {feedData.map((element, key) => (
-         
-            <View   key={key.id} style={feedS.newscard}>
-          <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={feedS.imcont}>
-         
-         {element.image_url ? <>
-          <Image souce={{
-            uri:`${element.image_url}`
-          }} style={{height:400,width:"100%"}}/>
-         </> : null}
-          <View style={{}}>
-            <Text style={feedS.title} >{element.title}</Text>
-            <Text  >{element.description}</Text>
-            <A style={feedS.linkss} href={element.link}>Link</A>
-            <Pressable
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={{}}>Hide Modal</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
-      <Pressable
-            onPress={() => setModalVisible(true)}
-          >
-         <View style={{
-          flexDirection: "row",
-          alignItems: "center",
-          marginBottom: 20, 
-          flexWrap: "wrap",
-         }}>
-         {element.image_url ? <Image
-            source={{
-              uri: `${element.image_url}`,
-            }}
-            // provide width to element or it wont render
-            style={{width:"100%",height:200, marginRight: 20,borderTopLeftRadius:20,borderTopRightRadius:20}}
-
-          /> : null }
-         <View style={{
-           alignItems: 'baseline',
-           padding:20
-         }}>
-         <View style={{
-           alignItems: 'baseline'
-         }}>
-         <Text style={{
-            fontSize: 20,
-            fontWeight: "700",
-          }}>{element.title}</Text>
-         </View>
-           <View style={{}}>
-           <View style={{
-            backgroundColor: "#3A84EC",
-            padding: 5,
-            borderRadius: 10,
-            marginTop:20
-          }}>
-          <Text style={{color: "#fff"}}>{apiqu}</Text>
-          </View>
-          <A style={{color:"grey",textDecorationLine: "underline",marginTop:10}} href={element.link}>Link</A>
-          
-           </View>
-         </View>
-         </View>
-          </Pressable>
-         <View style={{paddingBottom:20,paddingLeft:20,paddingRight:20}}>
-          <Text>{element.description}</Text>
-          <View style={{width:"100%",height:1,backgroundColor:"#000", borderRadius:20,marginTop:10}}></View>
-
-          <Text style={{marginTop: 20, color: "grey"}}>{element.creator}</Text>
-         <View style={{flexDirection: "row",alignItems: "center",marginTop:10}}>
-          <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between",width:"100%"}}>
-          <View style={{flexDirection:"row",alignItems:"center"}}>
-          <View style={{
-            backgroundColor:"#000",
-            width:10,
-            height:10,
-            borderRadius:100,
-            marginRight: 10
-          }}></View>
-          <Text style={{color: "#000"}}>{element.language}</Text>
-          </View>
-          <View style={{backgroundColor:"#3A84EC",padding:5,borderRadius:16,flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
-         <View style={{flexDirection:"row",alignItems:"center"}}>
-         <Entypo name="arrow-bold-up" size={24} color="white" onPress={upvote}/>
-            <Text style={{color:"#fff"}}>3</Text>
-            <Entypo name="arrow-bold-down" size={24} color="white" onPress={downvote}/>
-         </View>
-         <View style={{flexDirection:"row",alignItems:"center",marginLeft:20}}>
-         <FontAwesome name="share" size={24} color="white" onPress={() => onShare(element.title,element.link)} />
-                   <Text style={{color:"#fff",marginLeft:10}}>Share</Text>
-         </View>
-          </View>
-         </View>
-         </View>
-         </View>
-        </View>
-  
-      )
+          <FeedCard key={key} apiqu={apiqu} image_url={element.image_url} title={element.title} description={element.description} link={element.link} creator={element.creator} language={element.language}/>
+        )
       )} 
       </>: <>
       <Text style={{fontSize:27, marginLeft:15,marginBottom:15}}>Trending Topics:</Text>

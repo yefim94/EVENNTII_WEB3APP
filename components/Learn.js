@@ -62,7 +62,7 @@ console.log(lessons)
          {
   searchinput === "" ?  
     lessons.map((lesson, key) => 
-      <LessonCard key={key} title={lesson.title} desc={lesson.desc} img1={lesson.imgURL} />
+      <LessonCard key={key} title={lesson.title} desc={lesson.desc} img1={lesson.imgURL} fulldesc={lesson.fulldesc}/>
     )
   : 
     lessons.filter((lesson) => searchinput.toLocaleLowerCase().includes(lesson.title) ? 1 : -1).map((lesson) => {
