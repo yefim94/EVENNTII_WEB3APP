@@ -8,7 +8,6 @@ import { Feather } from '@expo/vector-icons';
 import LessonCard from './LessonCard';
 import { useState ,useEffect} from 'react';
 export default function Learn() {
-  const [modalVisible, setModalVisible] = useState(false);
   const [lessons,setLessons] = useState([])
   useEffect(() => {
     async function data() {
@@ -60,11 +59,20 @@ console.log(lessons)
           <View>
           <Text style={{fontSize:28,marginTop:20}}>Courses</Text>
          <ScrollView style={{paddingBottom:200}}>
-          {lessons && lessons.map((doc,key) => 
-          <>
-      <LessonCard key={key} setModalVisible={setModalVisible} title={doc.title} desc={doc.desc} img1={doc.imgURL} modalVisible={modalVisible} />
-          </>
-          )}
+         {
+  searchinput === "" ?  
+    lessons.map((lesson, key) => 
+      <LessonCard key={key} title={lesson.title} desc={lesson.desc} img1={lesson.imgURL} />
+    )
+  : 
+    lessons.filter((lesson) => searchinput.toLocaleLowerCase().includes(lesson.title) ? 1 : -1).map((lesson) => {
+      if(searchinput.toLocaleLowerCase().includes(lesson.title)) {
+        return <LessonCard key={key} title={lesson.title} desc={lesson.desc} img1={lesson.imgURL}  />;
+      } else {
+        return null;
+      }
+    })
+}
        {/**<LessonCard setModalVisible={setModalVisible} title={doc.title} desc={doc.desc} img1={doc.imgURL} /> */}
          <View style={{height:600,width:"100%"}}></View>
          </ScrollView>

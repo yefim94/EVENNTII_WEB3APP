@@ -14,7 +14,7 @@ import * as Linking from 'expo-linking';
 import { A } from '@expo/html-elements';
 import { Appearance, useColorScheme } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-
+import NotifcationCard from "./NotifcationCard"
 
 
 export const Notifications1 = () => {
@@ -52,6 +52,10 @@ const [adapostive,setAdaPositive] =useState("")
 const [adanegative,setAdaNegative] =useState("")
 const [adadesc,setAdaDesc] =useState("")
 const [adavolume,setAdaVolume] =useState()
+const [mainData,setMainData] = useState()
+const [chartData,setChartData] = useState([])
+const [moreData,setMoreData] = useState([])
+
   async function getBtcPrice (){   
       const data = await fetch("https://api.coingecko.com/api/v3/coins/bitcoin").then(e => e.json())
       const marketData = await data.market_data.current_price.usd
@@ -106,12 +110,20 @@ async function cardPrice1 (cardano){
       setAdaNegative(moreADA.sentiment_votes_down_percentage)
       setAdaPositive(moreADA.sentiment_votes_up_percentage)
 }
+
   useEffect(() => {
     getBtcPrice()
-    getEthPrice()
-    cardPrice1()
-    setLoader(false)
+    getData()
   }, [])
+  async function getData() {
+   try {
+  const d = await fetch("https://api.coingecko.com/api/v3/coins/list?include_platform=false").then((d) => d.json())
+ console.log(d)
+   }
+   catch(err) {
+    alert(err)
+   }
+  }
   const username = auth.currentUser.email.replace(/@gmail.com/, '').replace(/@yahoo.com/, '')
   
   const screenWidth = Dimensions.get("window").width;
@@ -149,7 +161,9 @@ async function cardPrice1 (cardano){
         padding: 0, margin: 30
       }}>
         <Text style={{textDecorationLine:"underline",color:"grey",fontSize:10,marginBottom:20}}>**Chart measured weekly</Text>
-      <View style={{flex:1,backgroundColor: "#fff",borderRadius: 10,padding:30,marginBottom:30}}>
+        <NotifcationCard  data1={data1} btcvolume={btcvolume} btcImage={btcImage} btcnegative={btcnegative} btcpostive={btcpostive} btcprice={btcprice} btclink={btclink} moreBtc={moreBtc}/>
+{/**
+ *       <View style={{flex:1,backgroundColor: "#fff",borderRadius: 10,padding:30,marginBottom:30}}>
         <View style={{flexDirection: "row",alignItems:"center",justifyContent:"space-between"}}>
        <View style={{flexDirection:"row",alignItems:"center"}}>
        <Image source={{uri: `${btcImage}`}} style={{width:40,height:40,marginRight:20}} />
@@ -296,6 +310,8 @@ async function cardPrice1 (cardano){
         </View>
         </View>
       </View>
+ * 
+ */}
       </ScrollView>
     </View>
   )

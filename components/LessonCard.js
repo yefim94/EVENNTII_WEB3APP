@@ -1,11 +1,13 @@
 import { View, Text,Image,StyleSheet,Modal } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { AntDesign } from '@expo/vector-icons'; 
 import { Pressable } from 'react-native';
-export default function LessonCard({img1,title,desc,setModalVisible,modalVisible,key}) {
+import { useEffect } from 'react';
+export default function LessonCard({img1,title,desc,key}) {
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <>
-    <Modal key={key}
+    <Modal 
     animationType="slide"
     transparent={true}
     visible={modalVisible}
