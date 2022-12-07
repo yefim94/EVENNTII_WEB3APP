@@ -21,7 +21,7 @@ export default function LessonCard({img1,title,desc,key,fulldesc}) {
       <Image source={{
         uri:img1
       }} style={{height:400,width:"100%"}}/>
-<View style={{paddingLeft:30,paddingRight:30,paddingTop:30}}>
+<View style={{paddingLeft:30,paddingRight:25,paddingTop:25}}>
     <Text style={{fontSize:34,fontWeight:"700",color:"#3A84EC"}}>{title}</Text>
     <Text style={{fontSize:19,fontWeight:"650",marginTop:7,color:"grey",marginBottom:10}}>{desc}</Text>
 <ScrollView>
@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
   textStyle: {
     color: "#fff",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
+    fontSize:20
   },
   modalText: {
     marginBottom: 15,

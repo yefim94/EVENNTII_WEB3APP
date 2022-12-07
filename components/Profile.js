@@ -10,7 +10,7 @@ import { AntDesign } from '@expo/vector-icons';
  import { A } from '@expo/html-elements';
  import { Appearance, useColorScheme } from 'react-native';
  import { NavigationContainer } from '@react-navigation/native';
-
+import ProfileCard from './ProfileCard';
 
 export const Profile = () => {
   //state
@@ -19,8 +19,6 @@ export const Profile = () => {
   const [nfttei,setNftTei] = useState("")
   const [comments,setComments] = useState([])
   const[commentText,setCommentText] = useState("")
-  const [modalVisible, setModalVisible] = useState(false);
-  const [pressed,setPressed] = useState(false)
  //functions 
  async  function getData () {
   try {
@@ -64,65 +62,7 @@ setProfileData(ddata.result)
     <ScrollView>
     {profileData ? <>
       {profileData.map((el, key,id) => 
-      <>
-             <Modal 
-       animationType="slide"
-       transparent={true}
-       visible={modalVisible}
-       onRequestClose={() => {
-         Alert.alert("Modal has been closed.");
-         setModalVisible(!modalVisible);
-       }}
-     >
-      <View>
-        <Image source={{
-          uri:`https://blockworks.co/wp-content/uploads/2022/01/Bored-Ape-Yacht-Club_Ape_wide.jpg`
-        }} style={{width:"100%",height:400}}></Image>
-      </View>
-       <View style={{backgroundColor:"#fff",height:"100%",padding:40}}>
-        
-        
-           <Pressable
-             onPress={() => setModalVisible(!modalVisible)} style={{backgroundColor:"#3A84EC",padding:20,borderRadius:20}}
-           >
-             <Text style={{color:"#fff"}}>Hide Modal</Text>
-           </Pressable>
-       </View>
-     </Modal>
-        <Pressable   onPress={() => setModalVisible(true)} key={key}>
-          <View style={{
-          backgroundColor: "#fff",
-          display: `${JSON.parse(el.metadata).image.includes("https") ? "block": "none"}`,
-          borderRadius: 20,
-          marginBottom: 20
-        }} key={key}>
-          <View style={{position: "relative"}}>
-            <View style={profileStyles.liikebtn}>
-            <AntDesign onPress={(id) => liked(id)} name="heart" size={24} color={pressed ? "#FF717B": "grey"} />
-            </View>
-          {JSON.parse(el.metadata).image.includes("https") ? <>
-              <Image source={{
-            uri: `${JSON.parse(el.metadata).image}`
-          }} style={{width: "1005", height: 200, width: "100%",borderTopLeftRadius:20,borderTopRightRadius:20}}/> 
-          </>: null}
-          </View>
-          <View style={profileStyles.lowercont}>
-            <View style={profileStyles.lower1}>
-              <Text style={profileStyles.lower2}>ID</Text>
-              <View style={profileStyles.line}></View>
-              <Text style={profileStyles.id}>{el.token_id}</Text>
-            </View>
-            <Text style={profileStyles.name} key={key}>{JSON.parse(el.metadata).name}</Text>
-          <Text>{JSON.parse(el.metadata).description}</Text>
-          <View style={profileStyles.lowerlowerco}>
-            {el.token_uri.includes("https") ? <>
-            <A style={profileStyles.link} href={el.token_uri}><Text>learn More</Text></A> 
-            </> : <Text>Learn More</Text>} 
-             </View>
-          </View>
-        </View>
-        </Pressable>
-      </>
+      <ProfileCard key={key} name={JSON.parse(el.metadata).name} description={JSON.parse(el.metadata).description} id={el.token_id} image={JSON.parse(el.metadata).image} link={el.token_uri}/>
       )} 
       
     </>: <>

@@ -35,8 +35,36 @@ console.log(lessons)
     setSearchInput(val)
    Sli(false)
   }
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={learnStyle.maincont}>
+       <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Image source={{
+              uri:"https://published-assets.coinbase.com/processed/84/b8/84b81925-b03e-4b4a-95e7-20301ec75f48"
+            }} style={{width:"100%",height:350}} />
+           <View style={{padding:20}}>
+           <Text style={{fontWeight:"700",fontSize:30,marginBottom:13}}>Learn Web 3 the Right Away</Text>
+            <Text style={{marginBottom:15}}>Lorem LOrem Lorem Lorem LOrem Lorem LOrem Lorem Lorem LOrem Lorem LOrem Lorem Lorem LOrem Lorem LOrem Lorem Lorem LOrem</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Go back</Text>
+            </Pressable>
+           </View>
+          </View>
+        </View>
+      </Modal>
       <View style={learnStyle.learncont}>
       <Text style={learnStyle.even}>EVVENNTI</Text>
       <Text style={learnStyle.learn}>Learn</Text>
@@ -48,9 +76,12 @@ console.log(lessons)
 {li ?       <View style={{width:"100%",flexDirection:"row",marginTop:30,borderRadius:20,backgroundColor:"#CFECFE"}}>
       <View style={{flex:0.5,padding:20}}>
         <Text style={{fontSize:20,fontWeight:"700",marginBottom:20}}>What do you want to learn Today?</Text>
-        <View style={{backgroundColor:"#FF7F2D",padding:8,borderRadius:20}}>
+        <Pressable
+        style={{backgroundColor:"#FF7F2D",padding:8,borderRadius:20}}
+        onPress={() => setModalVisible(true)}
+      >
           <Button title='Get Started' color="#fff"/>
-        </View>
+      </Pressable>
       </View>
       <View style={{flex:0.5,marginLeft:10}}>
         <Image source={{uri:"https://cdn.discordapp.com/attachments/783336191529320498/1048439876741251072/Screen_Shot_2022-12-02_at_10.25.38_PM.png"}}  style={{width:"100%",height:200,borderRadius:20}}/>
@@ -118,7 +149,6 @@ const styles = StyleSheet.create({
   },
   modalView: {
     height:"100%",
-    paddingTop:40,
     width:"100%",
     backgroundColor: "white",
     borderRadius: 20,
@@ -133,7 +163,9 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "#FF802C",
+    padding:10,
+    borderRadius:15
   },
   textStyle: {
     color: "white",

@@ -46,7 +46,7 @@ export const Login = ({setLoggedIn}) => {
 
   const avatar = currentUser.photoURL  
   const [image, setImage] = useState("");  
-  const [url, setUrl] = useState("")
+  const [url, setUrl] = useState(null)
   //functions
   const pickImage = async () => {
     try {
@@ -176,8 +176,20 @@ registerForPushNotificationsAsync = async () => {
     });
   }
 };
-  
-  
+useEffect(() => {
+  if(url !== "") {
+    setBorder(5)
+    setWidth(50)
+    return true 
+  } else {
+    setWidth(0)
+    setBorder(0)
+  }
+
+}, [])
+const [border,setBorder] = useState(5)
+  const [width,setWidth] = useState(50)
+
   return (
     <View style={styles3.maincont}>
             <StatusBar hidden />
@@ -261,7 +273,7 @@ registerForPushNotificationsAsync = async () => {
          </View>
         </View>
  */}
-         <View style={styles3.bottomcont}>
+         <View style={styles3.bottomcont} >
          <View>
           {/**
            * FOR FUTURE DARK MODE
@@ -269,7 +281,16 @@ registerForPushNotificationsAsync = async () => {
             color: black
           }}>jisd</Text>
            */}
-          {url1.length != 0  ? url1.map((doc) => (
+           {/**
+            *  <Image source={{uri: "https://imebehavioralhealth.com/wp-content/uploads/2021/10/user-icon-placeholder-1.png"}} style={{
+            width:50,
+            height:50,
+            borderColor:"#3A84EC",
+            borderWidth:5,
+            marginRight:14,
+            borderRadius:"100"
+          }} />
+          url1.map((doc) => (
             <Image source={{uri: doc.photoUrl}} style={{
               width:50,
               height:50,
@@ -279,7 +300,26 @@ registerForPushNotificationsAsync = async () => {
               borderRadius:"100"
             }} />
           ))
-           : null}
+          url1.length != 0
+            */}
+          {url1 !== "" ? url1.map((doc) => (
+            <Image source={{uri: doc.photoUrl}} style={{
+              width: width,
+              height: width,
+              borderColor:"#3A84EC",
+              borderWidth:border,
+              marginRight:14,
+              borderRadius:"100"
+            }} />
+          ))
+           : <Image source={{uri: "https://imebehavioralhealth.com/wp-content/uploads/2021/10/user-icon-placeholder-1.png"}} style={{
+            width:50,
+            height:50,
+            borderColor:"#3A84EC",
+            borderWidth:5,
+            marginRight:14,
+            borderRadius:"100"
+          }} />}
             </View>
          <Text style={styles3.username}>{username}</Text>
          </View>
