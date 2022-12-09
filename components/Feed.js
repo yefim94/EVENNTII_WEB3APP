@@ -32,7 +32,7 @@ export const Feed = () => {
   async function getData() {
   try {
    // you may want to change your api key
-   const API_URL = `https://newsdata.io/api/1/news?apikey=pub_131385ccf4bf639910bde200768145e5f2248&q=${apiqu}&language=en&category=business,technology`
+   const API_URL = `https://newsdata.io/api/1/news?apikey=pub_13280f1809c94d7b0f780691e151f809dbcd4&q=${apiqu}&language=en&category=business,technology`
    {/**
  https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=web3&language=en&category=business,technology 
    https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=${apiqu}&country=us&language=en  */}
@@ -43,7 +43,7 @@ export const Feed = () => {
    const results = data.results;
    setFeedData(results);
 
-   const API_URL2 = `https://newsdata.io/api/1/news?apikey=pub_131385ccf4bf639910bde200768145e5f2248&q=web3&language=en&category=business,technology`
+   const API_URL2 = `https://newsdata.io/api/1/news?apikey=pub_13280f1809c94d7b0f780691e151f809dbcd4&q=web3&language=en&category=business,technology`
    {/**
  https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=web3&language=en&category=business,technology 
    https://newsdata.io/api/1/news?apikey=pub_11306c8c5e2932eab7155edacbc6339247174&q=${apiqu}&country=us&language=en  */}

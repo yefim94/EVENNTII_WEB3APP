@@ -41,7 +41,8 @@ export const Main = ({setLoggedIn}) => {
           email:email,
           password:password,
           uid: auth.currentUser.uid,
-          photoUrl: ""
+          photoUrl: "",
+          intro: true
         });
         console.log("Document written with ID: ", docRef.id);
       } catch (e) {

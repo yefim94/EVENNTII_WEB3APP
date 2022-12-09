@@ -33,17 +33,13 @@ import { Appearance, useColorScheme } from 'react-native';
 import Forums from "./components/Forums"
 import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 import Learn from "./components/Learn";
-
+import SliderIntro from 'react-native-slider-intro';
 //tabs
 const Tab = createMaterialBottomTabNavigator();
-
-
 export const Login = ({setLoggedIn}) => {
   //state
- 
   const currentUser = auth.currentUser;
   const uid = currentUser.uid
-
   const avatar = currentUser.photoURL  
   const [image, setImage] = useState("");  
   const [url, setUrl] = useState(null)
@@ -132,7 +128,6 @@ alert("might take a few minutes to change...")
     url()
     
   }, [url])
-  
   const [black,seblac] = useState("#fff")
   const username = auth.currentUser.email.replace(/@gmail.com/, '').replace(/@yahoo.com/, '').replace(/@aol.com/, '').toUpperCase()
   const [modalVisible, setModalVisible] = useState(false);
@@ -148,7 +143,6 @@ function deleteACC () {
   }).catch((error) => {
    alert(error)
   });
-  
 }
 const colorScheme = useColorScheme();
 useEffect(()=>{
@@ -176,23 +170,87 @@ registerForPushNotificationsAsync = async () => {
     });
   }
 };
-useEffect(() => {
-  if(url !== "") {
-    setBorder(5)
-    setWidth(50)
-    return true 
-  } else {
-    setWidth(0)
-    setBorder(0)
-  }
+const [introData,setIntroData] = useState([])
 
+useEffect(() => {
+  async function getintro() {
+    try {
+      const url = collection(db, "users");
+      const q = query(url, where("uid", "==", uid));
+      const querySnapshot = await getDocs(q);
+      let todos = []
+      querySnapshot.forEach((doc) => {
+        todos.push(doc.data())
+        setIntroData(todos)
+      })
+    }
+    catch(e) {
+      alert(e)
+    }
+
+  }
+  getintro()
 }, [])
+
+const slides = [
+  {
+    index: 1,
+    text: <View style={{}}>
+    <Text style={{color:"#ffff",fontWeight:"700",fontSize:35}}>Discover Web 3 News</Text><Image source={{uri:"https://cdn.discordapp.com/attachments/783336191529320498/1050567497067266068/Screen_Shot_2022-12-08_at_7.17.44_PM-removebg-preview.png"}} style={{width:"100%",height:600,borderRadius:20,marginTop:25}}/>
+    </View>,
+    backgroundColor: '#A1C2F0',
+  },
+  {
+    index: 2,
+    text: <View style={{width:"100%"}}>
+    <Text style={{color:"#ffff",fontWeight:"700",fontSize:35}}>Learn About Different Topics</Text><Image source={{uri:"https://cdn.discordapp.com/attachments/783336191529320498/1050568013268660234/Screen_Shot_2022-12-08_at_7.18.06_PM-removebg-preview.png"}} style={{width:"100%",height:700,borderRadius:20,marginTop:25}}/>
+    </View>,
+    backgroundColor: '#A1C2F0',
+  },
+  {
+    index: 3,
+    text:<View style={{backgroundColor:"red",width:300}}>
+    <Text style={{color:"#ffff",fontWeight:"700",fontSize:35}}>Look at  Cryptocurrency </Text><Image source={{uri:"https://cdn.discordapp.com/attachments/783336191529320498/1050567497423802458/Screen_Shot_2022-12-08_at_7.17.56_PM-removebg-preview.png"}} style={{width:"100%",height:600,borderRadius:20,marginTop:25}}/>
+    </View>,
+    backgroundColor: '#A1C2F0',
+  },
+  {
+    index: 4,
+    text:<View style={{}}>
+    <Text style={{color:"#ffff",fontWeight:"700",fontSize:35}}>Search Popular Nft's</Text><Image source={{uri:"https://cdn.discordapp.com/attachments/783336191529320498/1050567496605900940/Screen_Shot_2022-12-08_at_7.18.17_PM-removebg-preview.png"}} style={{width:"100%",height:600,borderRadius:20,marginTop:25}}/><Text onPress={() => setIntroFunc()} style={{backgroundColor:"",fontSize:20}}>set back</Text>
+    </View>,
+    backgroundColor: '#A1C2F0',
+  },
+];
+async function setIntroFunc() {
+  try {
+    const url = collection(db, "users");
+    const q = query(url, where("uid", "==", uid));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      try {
+        updateDoc(doc.ref, { // 👈
+          intro: false
+         })
+      }
+      catch(e) {
+        alert(e)
+      }
+    })
+  }
+  catch(e) {
+    alert(e)
+  }
+}
 const [border,setBorder] = useState(5)
-  const [width,setWidth] = useState(50)
+const [width,setWidth] = useState(50)
+const [intro,setIntro ]=useState(true)
+
 
   return (
     <View style={styles3.maincont}>
             <StatusBar hidden />
+            {introData.map((d) => d.intro === true ? <View style={{height:"100%",width:"100%"}}><SliderIntro data={slides}  style={{width:"100%",height:"100%"}}/></View>: <View style={{display:"none",backgroundColor:"transparent"}}></View>)}
             <Modal
         animationType="slide"
         transparent={true}
@@ -498,7 +556,7 @@ const styles3 = StyleSheet.create({
     fontWeight:"700"
   },
   maincont:{
-    marginTop: 30, flex: 1, borderRadius: 20
+    marginTop: 30, flex: 1, borderRadius: 20,width:"100%",height:"100%"
   },
   modalview2:{
     alignItems:"center"

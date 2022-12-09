@@ -117,6 +117,12 @@ async function cardPrice1 (cardano){
   }, [])
   async function getData() {
    try {
+    {/**
+  https://api.coingecko.com/api/v3/search/trending
+https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
+https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false
+
+  */}
   const d = await fetch("https://api.coingecko.com/api/v3/coins/list?include_platform=false").then((d) => d.json())
  console.log(d)
    }
