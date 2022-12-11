@@ -4,9 +4,10 @@ import {db} from "../firebase"
 import { collection, query, where, getDocs,addDoc,onSnapshot } from "firebase/firestore";
 import { AntDesign } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
-import { func } from 'prop-types';
-import { NavigationContainer } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons'; 
+import {auth} from "../firebase.js"
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,sendPasswordResetEmail} from "firebase/auth";
+import ForumCard from './ForumCard';
 import { FontAwesome } from '@expo/vector-icons'; 
 
 export default function Forums() {
@@ -17,19 +18,6 @@ export default function Forums() {
   async function handleFeedIn () {
     setApiqu( feedInput )
     setFeedInput("")
-  }
-  const handleNewComment = async() =>{
-    try {
-      const docRef = await addDoc(collection(db, "comments"), {
-        description: commentText
-      });
-    
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      alert(e)
-    }
-    
-    setCommentText("")
   }
   const onShare = async (name,current_price) => {
     try {
@@ -50,6 +38,23 @@ export default function Forums() {
       alert(error.message);
     }
   };
+  useEffect(() => {
+async function ddd() {
+try {
+  const querySnapshot = await getDocs(collection(db, "forums"));
+  let todos = []
+querySnapshot.forEach((doc) => {
+  todos.push(doc.data())
+})
+setForumData(todos)
+}
+catch(E) {
+  console.log(E)
+}
+}
+ddd()
+  }, [])
+  const [forumData,setForumData] = useState()
   return (
     <View style={{}}>
     <View style={{marginBottom: 4,padding:20}}>
@@ -88,91 +93,9 @@ export default function Forums() {
    </View>
 </ScrollView>
    <ScrollView style={{marginBottom:100}}>
-   <View style={{borderRadius:20,margin:20,backgroundColor:"#fff",justifyContent:"flex-start"}}>
-    <View style={{paddingLeft:20,paddingRight:20,paddingTop:20}}>
-     <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
-     <View style={{flexDirection:"row"}}>
-        <Text style={{color:"#000",fontSize:20,marginRight:10}}>By</Text>
-        <Text style={{color:"#3A84EC",fontWeight:"700",fontSize:20}}>yefim94</Text>
-      </View>
-      <View>
-      <FontAwesome name="share" size={24} color="#3A84EC" onPress={() => onShare(name,current_price)} />
-      </View>
-     </View>
-    </View>
-    <View style={{padding:20}}>
-      <Text style={{fontWeight:"700",fontSize:24}}>Will crypto and Nft's ever go back up - my analysis</Text>
-    </View>
-    <Image source={{uri:"https://images.ctfassets.net/q5ulk4bp65r7/4sZT4Y1rKxu07bFTxvt6EF/f3de7aeda6e217cf6acebd2541ef3067/Learn_Illustration_Ultimate_Guide_Essential_Reading.png?fit=thumb&f=faces&w=369&h=271"}} style={{width:"100%",height:300,borderBottomLeftRadius:20,borderBottomRightRadius:20}}/>
-   </View>
-   <View style={{borderRadius:20,margin:20,backgroundColor:"#fff",justifyContent:"flex-start"}}>
-    <View style={{paddingLeft:20,paddingRight:20,paddingTop:20}}>
-     <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
-     <View style={{flexDirection:"row"}}>
-        <Text style={{color:"#000",fontSize:20,marginRight:10}}>By</Text>
-        <Text style={{color:"#3A84EC",fontWeight:"700",fontSize:20}}>yefim94</Text>
-      </View>
-      <View>
-      <FontAwesome name="share" size={24} color="#3A84EC" onPress={() => onShare(name,current_price)} />
-      </View>
-     </View>
-    </View>
-    <View style={{padding:20}}>
-      <Text style={{fontWeight:"700",fontSize:24}}>Will crypto and Nft's ever go back up - my analysis</Text>
-    </View>
-    <Image source={{uri:"https://images.ctfassets.net/q5ulk4bp65r7/4sZT4Y1rKxu07bFTxvt6EF/f3de7aeda6e217cf6acebd2541ef3067/Learn_Illustration_Ultimate_Guide_Essential_Reading.png?fit=thumb&f=faces&w=369&h=271"}} style={{width:"100%",height:300,borderBottomLeftRadius:20,borderBottomRightRadius:20}}/>
-   </View>
-   <View style={{borderRadius:20,margin:20,backgroundColor:"#fff",justifyContent:"flex-start"}}>
-    <View style={{paddingLeft:20,paddingRight:20,paddingTop:20}}>
-     <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
-     <View style={{flexDirection:"row"}}>
-        <Text style={{color:"#000",fontSize:20,marginRight:10}}>By</Text>
-        <Text style={{color:"#3A84EC",fontWeight:"700",fontSize:20}}>yefim94</Text>
-      </View>
-      <View>
-      <FontAwesome name="share" size={24} color="#3A84EC" onPress={() => onShare(name,current_price)} />
-      </View>
-     </View>
-    </View>
-    <View style={{padding:20}}>
-      <Text style={{fontWeight:"700",fontSize:24}}>Will crypto and Nft's ever go back up - my analysis</Text>
-    </View>
-    <Image source={{uri:"https://images.ctfassets.net/q5ulk4bp65r7/4sZT4Y1rKxu07bFTxvt6EF/f3de7aeda6e217cf6acebd2541ef3067/Learn_Illustration_Ultimate_Guide_Essential_Reading.png?fit=thumb&f=faces&w=369&h=271"}} style={{width:"100%",height:300,borderBottomLeftRadius:20,borderBottomRightRadius:20}}/>
-   </View>
-   <View style={{borderRadius:20,margin:20,backgroundColor:"#fff",justifyContent:"flex-start"}}>
-    <View style={{paddingLeft:20,paddingRight:20,paddingTop:20}}>
-     <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
-     <View style={{flexDirection:"row"}}>
-        <Text style={{color:"#000",fontSize:20,marginRight:10}}>By</Text>
-        <Text style={{color:"#3A84EC",fontWeight:"700",fontSize:20}}>yefim94</Text>
-      </View>
-      <View>
-      <FontAwesome name="share" size={24} color="#3A84EC" onPress={() => onShare(name,current_price)} />
-      </View>
-     </View>
-    </View>
-    <View style={{padding:20}}>
-      <Text style={{fontWeight:"700",fontSize:24}}>Will crypto and Nft's ever go back up - my analysis</Text>
-    </View>
-    <Image source={{uri:"https://images.ctfassets.net/q5ulk4bp65r7/4sZT4Y1rKxu07bFTxvt6EF/f3de7aeda6e217cf6acebd2541ef3067/Learn_Illustration_Ultimate_Guide_Essential_Reading.png?fit=thumb&f=faces&w=369&h=271"}} style={{width:"100%",height:300,borderBottomLeftRadius:20,borderBottomRightRadius:20}}/>
-   </View>
-   <View style={{borderRadius:20,margin:20,backgroundColor:"#fff",justifyContent:"flex-start"}}>
-    <View style={{paddingLeft:20,paddingRight:20,paddingTop:20}}>
-     <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
-     <View style={{flexDirection:"row"}}>
-        <Text style={{color:"#000",fontSize:20,marginRight:10}}>By</Text>
-        <Text style={{color:"#3A84EC",fontWeight:"700",fontSize:20}}>yefim94</Text>
-      </View>
-      <View>
-      <FontAwesome name="share" size={24} color="#3A84EC" onPress={() => onShare(name,current_price)} />
-      </View>
-     </View>
-    </View>
-    <View style={{padding:20}}>
-      <Text style={{fontWeight:"700",fontSize:24}}>Will crypto and Nft's ever go back up - my analysis</Text>
-    </View>
-    <Image source={{uri:"https://images.ctfassets.net/q5ulk4bp65r7/4sZT4Y1rKxu07bFTxvt6EF/f3de7aeda6e217cf6acebd2541ef3067/Learn_Illustration_Ultimate_Guide_Essential_Reading.png?fit=thumb&f=faces&w=369&h=271"}} style={{width:"100%",height:300,borderBottomLeftRadius:20,borderBottomRightRadius:20}}/>
-   </View>
+    {forumData && forumData.map((doc,key) => 
+ <ForumCard title={doc.title} key={key} />)}
+
    </ScrollView>
     </View>
   )
