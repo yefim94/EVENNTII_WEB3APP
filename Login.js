@@ -191,7 +191,26 @@ useEffect(() => {
   }
   getintro()
 }, [])
-
+async function setIntroFunc() {
+  try {
+    const url = collection(db, "users");
+    const q = query(url, where("uid", "==", uid));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      try {
+        updateDoc(doc.ref, { // 👈
+          intro: false
+         })
+      }
+      catch(e) {
+        alert(e)
+      }
+    })
+  }
+  catch(e) {
+    alert(e)
+  }
+}
 const slides = [
   {
     index: 1,
@@ -217,31 +236,11 @@ const slides = [
   {
     index: 4,
     text:<View style={{}}>
-    <Text style={{color:"#ffff",fontWeight:"700",fontSize:35}}>Search Popular Nft's</Text><Image source={{uri:"https://cdn.discordapp.com/attachments/783336191529320498/1050567496605900940/Screen_Shot_2022-12-08_at_7.18.17_PM-removebg-preview.png"}} style={{width:"100%",height:600,borderRadius:20,marginTop:25}}/><Text onPress={() => setIntroFunc()} style={{backgroundColor:"",fontSize:20}}>set back</Text>
+    <Text style={{color:"#ffff",fontWeight:"700",fontSize:35}}>Search Popular Nft's</Text><Image source={{uri:"https://cdn.discordapp.com/attachments/783336191529320498/1050567496605900940/Screen_Shot_2022-12-08_at_7.18.17_PM-removebg-preview.png"}} style={{width:"100%",height:600,borderRadius:20,marginTop:25,backgroundColor:"red"}}/><Text  style={{backgroundColor:"red",fontSize:20}}>set back</Text>
     </View>,
     backgroundColor: '#A1C2F0',
   },
 ];
-async function setIntroFunc() {
-  try {
-    const url = collection(db, "users");
-    const q = query(url, where("uid", "==", uid));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      try {
-        updateDoc(doc.ref, { // 👈
-          intro: false
-         })
-      }
-      catch(e) {
-        alert(e)
-      }
-    })
-  }
-  catch(e) {
-    alert(e)
-  }
-}
 const [border,setBorder] = useState(5)
 const [width,setWidth] = useState(50)
 const [intro,setIntro ]=useState(true)
@@ -250,7 +249,7 @@ const [intro,setIntro ]=useState(true)
   return (
     <View style={styles3.maincont}>
             <StatusBar hidden />
-            {introData.map((d) => d.intro === true ? <View style={{height:"100%",width:"100%"}}><SliderIntro data={slides}  style={{width:"100%",height:"100%"}}/></View>: <View style={{display:"none",backgroundColor:"transparent"}}></View>)}
+            {introData.map((d) => d.intro === true ? <View style={{height:"100%",width:"100%"}}><SliderIntro data={slides}  style={{width:"100%",height:"100%"}} onDone={alert(d.intro)}/></View>: <View style={{display:"none",backgroundColor:"transparent"}}></View>)}
             <Modal
         animationType="slide"
         transparent={true}
@@ -268,7 +267,7 @@ const [intro,setIntro ]=useState(true)
             <Button title="Pick an image from camera roll" onPress={pickImage} />
             {url1 == undefined ? null
            : url1.map((doc) => (
-            <Image source={{uri: doc.photoUrl}} style={{
+            <Image source={{uri: `${doc.photoUrl.includes("https") ? doc.photoUrl :"https://imebehavioralhealth.com/wp-content/uploads/2021/10/user-icon-placeholder-1.png"}`}} style={{
               width:200,
               height:200,
               borderColor:"#3A84EC",
@@ -361,7 +360,7 @@ const [intro,setIntro ]=useState(true)
           url1.length != 0
             */}
           {url1 !== "" ? url1.map((doc) => (
-            <Image source={{uri: doc.photoUrl}} style={{
+            <Image source={{uri: `${doc.photoUrl.includes("https") ? doc.photoUrl :"https://imebehavioralhealth.com/wp-content/uploads/2021/10/user-icon-placeholder-1.png"}`}} style={{
               width: width,
               height: width,
               borderColor:"#3A84EC",

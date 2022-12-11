@@ -3,6 +3,11 @@ import React,{useState, useEffect} from 'react'
 import {db} from "../firebase"
 import { collection, query, where, getDocs,addDoc,onSnapshot } from "firebase/firestore";
 import { AntDesign } from '@expo/vector-icons';
+import * as Linking from 'expo-linking';
+import { func } from 'prop-types';
+import { NavigationContainer } from '@react-navigation/native';
+import { Entypo } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons'; 
 
 export default function Forums() {
   const [comments,setComments] = useState([])
@@ -26,7 +31,25 @@ export default function Forums() {
     
     setCommentText("")
   }
-
+  const onShare = async (name,current_price) => {
+    try {
+      const result = await Share.share({
+        message:
+          `EVENNTII MARKET DATA :  The popular cryptocoin ${name} current price is ${current_price}`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
   return (
     <View style={{}}>
     <View style={{marginBottom: 4,padding:20}}>
@@ -65,22 +88,90 @@ export default function Forums() {
    </View>
 </ScrollView>
    <ScrollView style={{marginBottom:100}}>
-   <View style={{borderRadius:20,margin:20,backgroundColor:"#fff",padding:10,justifyContent:"flex-start"}}>
-    <View>
-     <View style={{flexDirection:"row",alignItems:"center",marginBottom:10}}>
-     <View style={{}}>
+   <View style={{borderRadius:20,margin:20,backgroundColor:"#fff",justifyContent:"flex-start"}}>
+    <View style={{paddingLeft:20,paddingRight:20,paddingTop:20}}>
+     <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+     <View style={{flexDirection:"row"}}>
         <Text style={{color:"#000",fontSize:20,marginRight:10}}>By</Text>
+        <Text style={{color:"#3A84EC",fontWeight:"700",fontSize:20}}>yefim94</Text>
       </View>
-      <Text style={{color:"#3A84EC",fontWeight:"700",fontSize:20}}>yefim94</Text>
       <View>
-
+      <FontAwesome name="share" size={24} color="#3A84EC" onPress={() => onShare(name,current_price)} />
       </View>
      </View>
     </View>
-    <View>
-      <Text style={{fontWeight:"700",fontSize:24,marginBottom:14}}>Will crypto and Nft's ever go back up - my analysis</Text>
+    <View style={{padding:20}}>
+      <Text style={{fontWeight:"700",fontSize:24}}>Will crypto and Nft's ever go back up - my analysis</Text>
     </View>
-    <Image source={{uri:"https://images.ctfassets.net/q5ulk4bp65r7/image-fb02e59b-3f25-509a-96b8-d73c8bd1a7c9/108ac3303cdeca4b4c2d04e3b1351457/news_article_image_despite_strong_on_chain_metrics_macro_headwinds_remain_image?fit=thumb&f=faces&w=369&h=271"}} style={{width:"100%",height:400,borderRadius:20}}/>
+    <Image source={{uri:"https://images.ctfassets.net/q5ulk4bp65r7/4sZT4Y1rKxu07bFTxvt6EF/f3de7aeda6e217cf6acebd2541ef3067/Learn_Illustration_Ultimate_Guide_Essential_Reading.png?fit=thumb&f=faces&w=369&h=271"}} style={{width:"100%",height:300,borderBottomLeftRadius:20,borderBottomRightRadius:20}}/>
+   </View>
+   <View style={{borderRadius:20,margin:20,backgroundColor:"#fff",justifyContent:"flex-start"}}>
+    <View style={{paddingLeft:20,paddingRight:20,paddingTop:20}}>
+     <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+     <View style={{flexDirection:"row"}}>
+        <Text style={{color:"#000",fontSize:20,marginRight:10}}>By</Text>
+        <Text style={{color:"#3A84EC",fontWeight:"700",fontSize:20}}>yefim94</Text>
+      </View>
+      <View>
+      <FontAwesome name="share" size={24} color="#3A84EC" onPress={() => onShare(name,current_price)} />
+      </View>
+     </View>
+    </View>
+    <View style={{padding:20}}>
+      <Text style={{fontWeight:"700",fontSize:24}}>Will crypto and Nft's ever go back up - my analysis</Text>
+    </View>
+    <Image source={{uri:"https://images.ctfassets.net/q5ulk4bp65r7/4sZT4Y1rKxu07bFTxvt6EF/f3de7aeda6e217cf6acebd2541ef3067/Learn_Illustration_Ultimate_Guide_Essential_Reading.png?fit=thumb&f=faces&w=369&h=271"}} style={{width:"100%",height:300,borderBottomLeftRadius:20,borderBottomRightRadius:20}}/>
+   </View>
+   <View style={{borderRadius:20,margin:20,backgroundColor:"#fff",justifyContent:"flex-start"}}>
+    <View style={{paddingLeft:20,paddingRight:20,paddingTop:20}}>
+     <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+     <View style={{flexDirection:"row"}}>
+        <Text style={{color:"#000",fontSize:20,marginRight:10}}>By</Text>
+        <Text style={{color:"#3A84EC",fontWeight:"700",fontSize:20}}>yefim94</Text>
+      </View>
+      <View>
+      <FontAwesome name="share" size={24} color="#3A84EC" onPress={() => onShare(name,current_price)} />
+      </View>
+     </View>
+    </View>
+    <View style={{padding:20}}>
+      <Text style={{fontWeight:"700",fontSize:24}}>Will crypto and Nft's ever go back up - my analysis</Text>
+    </View>
+    <Image source={{uri:"https://images.ctfassets.net/q5ulk4bp65r7/4sZT4Y1rKxu07bFTxvt6EF/f3de7aeda6e217cf6acebd2541ef3067/Learn_Illustration_Ultimate_Guide_Essential_Reading.png?fit=thumb&f=faces&w=369&h=271"}} style={{width:"100%",height:300,borderBottomLeftRadius:20,borderBottomRightRadius:20}}/>
+   </View>
+   <View style={{borderRadius:20,margin:20,backgroundColor:"#fff",justifyContent:"flex-start"}}>
+    <View style={{paddingLeft:20,paddingRight:20,paddingTop:20}}>
+     <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+     <View style={{flexDirection:"row"}}>
+        <Text style={{color:"#000",fontSize:20,marginRight:10}}>By</Text>
+        <Text style={{color:"#3A84EC",fontWeight:"700",fontSize:20}}>yefim94</Text>
+      </View>
+      <View>
+      <FontAwesome name="share" size={24} color="#3A84EC" onPress={() => onShare(name,current_price)} />
+      </View>
+     </View>
+    </View>
+    <View style={{padding:20}}>
+      <Text style={{fontWeight:"700",fontSize:24}}>Will crypto and Nft's ever go back up - my analysis</Text>
+    </View>
+    <Image source={{uri:"https://images.ctfassets.net/q5ulk4bp65r7/4sZT4Y1rKxu07bFTxvt6EF/f3de7aeda6e217cf6acebd2541ef3067/Learn_Illustration_Ultimate_Guide_Essential_Reading.png?fit=thumb&f=faces&w=369&h=271"}} style={{width:"100%",height:300,borderBottomLeftRadius:20,borderBottomRightRadius:20}}/>
+   </View>
+   <View style={{borderRadius:20,margin:20,backgroundColor:"#fff",justifyContent:"flex-start"}}>
+    <View style={{paddingLeft:20,paddingRight:20,paddingTop:20}}>
+     <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+     <View style={{flexDirection:"row"}}>
+        <Text style={{color:"#000",fontSize:20,marginRight:10}}>By</Text>
+        <Text style={{color:"#3A84EC",fontWeight:"700",fontSize:20}}>yefim94</Text>
+      </View>
+      <View>
+      <FontAwesome name="share" size={24} color="#3A84EC" onPress={() => onShare(name,current_price)} />
+      </View>
+     </View>
+    </View>
+    <View style={{padding:20}}>
+      <Text style={{fontWeight:"700",fontSize:24}}>Will crypto and Nft's ever go back up - my analysis</Text>
+    </View>
+    <Image source={{uri:"https://images.ctfassets.net/q5ulk4bp65r7/4sZT4Y1rKxu07bFTxvt6EF/f3de7aeda6e217cf6acebd2541ef3067/Learn_Illustration_Ultimate_Guide_Essential_Reading.png?fit=thumb&f=faces&w=369&h=271"}} style={{width:"100%",height:300,borderBottomLeftRadius:20,borderBottomRightRadius:20}}/>
    </View>
    </ScrollView>
     </View>

@@ -13,7 +13,8 @@ import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons'; 
 
 export default function FeedCard({apiqu,image_url,title,description,link,language,creator}) {
-  const [modalVisible, setModalVisible] = useState(false);    const onShare = async (title,link) => {
+  const [modalVisible, setModalVisible] = useState(false);   
+   const onShare = async (title,link) => {
       try {
         const result = await Share.share({
           message:

@@ -115,16 +115,21 @@ async function cardPrice1 (cardano){
     getBtcPrice()
     getData()
   }, [])
+  const [data,setData] = useState()
+  const [historical,setHistorical] = useState()
   async function getData() {
    try {
     {/**
   https://api.coingecko.com/api/v3/search/trending
 https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
-https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false
 
   */}
-  const d = await fetch("https://api.coingecko.com/api/v3/coins/list?include_platform=false").then((d) => d.json())
- console.log(d)
+  const rawData = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false")
+  const d = await rawData.json()
+  setData(d)
+  const rawData1 = await fetch("https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true")
+  const d1 = await rawData1.json()
+  setHistorical(d1)
    }
    catch(err) {
     alert(err)
@@ -167,8 +172,12 @@ https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_
         padding: 0, margin: 30
       }}>
         <Text style={{textDecorationLine:"underline",color:"grey",fontSize:10,marginBottom:20}}>**Chart measured weekly</Text>
-        <NotifcationCard  data1={data1} btcvolume={btcvolume} btcImage={btcImage} btcnegative={btcnegative} btcpostive={btcpostive} btcprice={btcprice} btclink={btclink} moreBtc={moreBtc}/>
+        {data && data.map((doc) => <>
+       <NotifcationCard name={doc.name} image={doc.image} symbol={doc.symbol} price_change_24h={doc.price_change_24h} current_price={doc.current_price} />
+        </>)}
+  
 {/**
+ *       <NotifcationCard  data1={data1} btcvolume={btcvolume} btcImage={btcImage} btcnegative={btcnegative} btcpostive={btcpostive} btcprice={btcprice} btclink={btclink} moreBtc={moreBtc}/>
  *       <View style={{flex:1,backgroundColor: "#fff",borderRadius: 10,padding:30,marginBottom:30}}>
         <View style={{flexDirection: "row",alignItems:"center",justifyContent:"space-between"}}>
        <View style={{flexDirection:"row",alignItems:"center"}}>
