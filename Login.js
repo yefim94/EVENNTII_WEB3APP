@@ -236,7 +236,7 @@ const slides = [
   {
     index: 4,
     text:<View style={{}}>
-    <Text style={{color:"#ffff",fontWeight:"700",fontSize:35}}>Search Popular Nft's</Text><Image source={{uri:"https://cdn.discordapp.com/attachments/783336191529320498/1050567496605900940/Screen_Shot_2022-12-08_at_7.18.17_PM-removebg-preview.png"}} style={{width:"100%",height:600,borderRadius:20,marginTop:25,backgroundColor:"red"}}/><Text  style={{backgroundColor:"red",fontSize:20}}>set back</Text>
+    <Text style={{color:"#ffff",fontWeight:"700",fontSize:35}}>Search Popular Nft's</Text><Image source={{uri:"https://cdn.discordapp.com/attachments/783336191529320498/1050567496605900940/Screen_Shot_2022-12-08_at_7.18.17_PM-removebg-preview.png"}} style={{width:"100%",height:600,borderRadius:20,marginTop:25,backgroundColor:"red"}}/><Text  style={{backgroundColor:"red",fontSize:20}} onPress={setIntroFunc()}>set back</Text>
     </View>,
     backgroundColor: '#A1C2F0',
   },

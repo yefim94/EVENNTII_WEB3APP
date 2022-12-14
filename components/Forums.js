@@ -44,13 +44,16 @@ try {
   const querySnapshot = await getDocs(collection(db, "forums"));
   let todos = []
 querySnapshot.forEach((doc) => {
-  todos.push(doc.data())
+  todos.push({...doc.data(), id: doc.id })
 })
 setForumData(todos)
 }
 catch(E) {
   console.log(E)
 }
+
+
+
 }
 ddd()
   }, [])
@@ -94,8 +97,7 @@ ddd()
 </ScrollView>
    <ScrollView style={{marginBottom:100}}>
     {forumData && forumData.map((doc,key) => 
- <ForumCard title={doc.title} key={key} />)}
-
+ <ForumCard title={doc.title} key={key} uid={doc.uid} id={doc.id} />)}
    </ScrollView>
     </View>
   )

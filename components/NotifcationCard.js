@@ -14,19 +14,16 @@ import { FontAwesome } from '@expo/vector-icons';
 export default function NotifcationCard({name,image,symbol,price_change_24h,current_price}) {
   useEffect(() => {
     getData()
+    console.log(historical)
   }, [])
   const [historical,setHistorical] = useState()
   async function getData() {
    try {
-    {/**
-  https://api.coingecko.com/api/v3/search/trending
-https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
+    const hissda = fetch(`https://api.coingecko.com/api/v3/coins/${name}?market_data=true`).then(response => response.json())
+  .then(response => setHistorical(response))
+  .catch(err => console.error(err));
 
-  */}
-  const rawData1 = await fetch("https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true")
-  consonle.log(rawData1)
-  const d1 = await rawData1.json()
-  setHistorical(d1)
+
 
    }
    catch(err) {
@@ -80,6 +77,7 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
     </View>
     <View>
       <Text></Text>
+      <Text style={{backgroundColor:"red"}}>{historical && historical.name}</Text>
     </View>
       <Pressable
         onPress={() => setModalVisible(!modalVisible)} style={{backgroundColor:"#fff",borderRadius:20,padding:15,marginTop:20}}
