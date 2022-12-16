@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, SafeAreaView , Image, TextInput, Button, Modal,
 import { useState, useEffect } from 'react';
 import {auth} from "./firebase"
 import { db } from './firebase';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,sendPasswordResetEmail} from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,sendPasswordResetEmail,signInWithCredential} from "firebase/auth";
 import Onboarding from 'react-native-onboarding-swiper';
 import { doc,setDoc,updateDoc } from 'firebase/firestore';
 import { Dimensions } from 'react-native';
@@ -17,6 +17,11 @@ import {
 } from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
 import { addDoc, collection } from 'firebase/firestore';
+import * as Google from 'expo-auth-session/providers/google';
+import { ResponseType } from 'expo-auth-session';
+import { GoogleAuthProvider } from 'firebase/auth';
+
+WebBrowser.maybeCompleteAuthSession();
 
 export const Main = ({setLoggedIn}) => {
   // state 
@@ -80,6 +85,35 @@ const forgotPassword =  (email) => {
 
   const { width, height } = Dimensions.get('window');
 
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest(
+    {
+      clientId: '145110946260-atk0rdrfk6e5gsg5p4lpic89i7kahlbe.apps.googleusercontent.com',
+    },
+  );
+
+  React.useEffect(() => {
+    if (response?.type === 'success') {
+      const { id_token } = response.params;
+      const auth = getAuth();
+      const credential = GoogleAuthProvider.credential(id_token);
+     async function dd() {
+      try {
+        const docRef = await addDoc(collection(db, "users"), {
+          email:auth.currentUser.email,
+          uid: auth.currentUser.uid,
+          photoUrl: auth.currentUser.photoURL,
+          intro: true
+        })
+        signInWithCredential(auth, credential);
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+     }
+     dd()
+    }
+  }, [response]);
+
   return (
     <ScrollView style={styles2.overallCont}>
       <StatusBar hidden />
@@ -120,7 +154,20 @@ const forgotPassword =  (email) => {
             <TextInput value={email} onChangeText={value => {setEmail(value)}} color="#fff" style={styles2.textinpu} placeholder="Enter your email..."         autoCapitalize='none' placeholderTextColor="#EDEDED"/>
             <TextInput value={password} onChangeText={value => {setPassword(value)}}  placeholderTextColor="#EDEDED" color="#fff" style={styles2.textinpu} secureTextEntry autoCapitalize="none"
             placeholder="Enter your password..."/>
+            <View style={{flexDirection:"row",alignItems:"center",width:"100%",justifyContent:"center",paddingTop:9,paddingBottom:9,borderRadius:20,backgroundColor:"#E3E3E3",marginBottom:7}}>
+              <Image source={{
+                uri:"https://assets.stickpng.com/thumbs/5847f9cbcef1014c0b5e48c8.png"
+              }} style={{height:30,width:30}}/>
+            <Button color="grey"
+            disabled={!request}
+            title="Google Login"
+            onPress={() => {
+              promptAsync();
+            }}
+          />
+            </View>
             <View style={styles2.buttonco}>
+            
             <Button  onPress={handleLogin} color="white"  title="Sign In"  style={styles2.buttonsi} />
             </View>
          {/**

@@ -19,11 +19,11 @@ export default function NotifcationCard({name,image,symbol,price_change_24h,curr
   const [historical,setHistorical] = useState()
   async function getData() {
    try {
+{/**
     const hissda = fetch(`https://api.coingecko.com/api/v3/coins/${name}?market_data=true`).then(response => response.json())
   .then(response => setHistorical(response))
   .catch(err => console.error(err));
-
-
+*/}
 
    }
    catch(err) {
@@ -76,7 +76,7 @@ export default function NotifcationCard({name,image,symbol,price_change_24h,curr
       </View>
     </View>
     <View>
-      <Text></Text>
+      <Text>{historical && historical.id}</Text>
       <Text style={{backgroundColor:"red"}}>{historical && historical.name}</Text>
     </View>
       <Pressable

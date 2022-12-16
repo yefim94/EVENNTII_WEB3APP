@@ -1,4 +1,4 @@
-import { View, Text,StyleSheet,Modal,Image } from 'react-native'
+import { View, Text,StyleSheet,Modal,Image, ScrollView } from 'react-native'
 import React from 'react'
 import { useState,useEffect } from 'react';
 import { AntDesign } from '@expo/vector-icons';
@@ -58,19 +58,19 @@ export default function FeedCard({apiqu,image_url,title,description,link,languag
 >
   <View style={feedS.imcont}>
    
-<View style={{width:"100%"}}>
+{image_url ? <View style={{width:"100%"}}>
     <Image source={{uri:image_url}} style={{height:400,width:"100%"}}/>
-</View>
-    <View style={{padding:30}}>
+</View> : null}
+    <ScrollView style={{padding:30}}>
       <Text style={feedS.title} >{title}</Text>
       <Text  style={{marginTop:10}}>{description}</Text>
       <A style={feedS.linkss} href={link}>Link</A>
       <Pressable
-        onPress={() => setModalVisible(!modalVisible)} style={{backgroundColor:"#3A84EC",borderRadius:20,padding:15,marginTop:20}}
+        onPress={() => setModalVisible(!modalVisible)} style={{backgroundColor:"#3A84EC",borderRadius:20,padding:15,marginTop:20,marginBottom:50}}
       >
         <Text style={{color:"#fff",fontSize:17,textAlign:"center"}}>Back to News Articles</Text>
       </Pressable>
-    </View>
+    </ScrollView>
   </View>
 </Modal>
 <Pressable
@@ -79,7 +79,7 @@ export default function FeedCard({apiqu,image_url,title,description,link,languag
    <View style={{
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 20, 
+    paddingBottom: 20, 
     flexWrap: "wrap",
    }}>
    {image_url ? <Image
@@ -173,7 +173,7 @@ const feedS = StyleSheet.create({
   borderRadius: 20,
   marginBottom: 30,
   flex:1},
-  imcont:{backgroundColor:"#fff",height:"100%",width:"100%"},
+  imcont:{backgroundColor:"#fff",height:"100%",width:"100%",paddingBottom:60},
   title:{color:"#000",fontSize:26,fontWeight:"700"},
   linkss:{
     color:"grey",textDecorationLine: "underline",marginTop:10

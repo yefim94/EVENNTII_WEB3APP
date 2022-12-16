@@ -123,6 +123,7 @@ const learnStyle = StyleSheet.create({
   learncont: {
     flexDirection:"row",
     width:"100%",
+    overflow:"scroll"
   },
   even: {
     color:"#000",

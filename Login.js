@@ -10,7 +10,7 @@ import React from 'react'
 import {db} from './firebase'
 import { collection,query, where, getDocs,onSnapshot ,getDoc} from 'firebase/firestore';
 import { doc,setDoc,updateDoc } from 'firebase/firestore';
-import { StyleSheet, Text, View, SafeAreaView , Image, TextInput, Button,StatusBar,Modal,Pressable,Switch} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView , Image, TextInput, Button,StatusBar,Modal,Pressable,Switch, ScrollView} from 'react-native';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import * as ImagePicker from 'expo-image-picker';
@@ -56,7 +56,6 @@ export const Login = ({setLoggedIn}) => {
 
 
     if (!result.canceled) {
-      auth.currentUser.photoURL = result.uri
       setImage(result.uri);
       imgFirebase()
     }
@@ -74,7 +73,8 @@ export const Login = ({setLoggedIn}) => {
   const [t,setT] = useState(false)
   const [url1,setUrl1]=useState([])
   async function imgFirebase () {
-   const d = await fetch(image)
+   try {
+    const d = await fetch(image)
    const dd = await d.blob()
    const fileName = image.substring(image.lastIndexOf("/")+1)
    const storage = getStorage();
@@ -108,6 +108,10 @@ alert("might take a few minutes to change...")
 }) 
   }); 
   setImage("")
+   }
+   catch(e) {
+    alert(e)
+   }
   }
   useEffect(() => {
     async function url() {
@@ -129,7 +133,7 @@ alert("might take a few minutes to change...")
     
   }, [url])
   const [black,seblac] = useState("#fff")
-  const username = auth.currentUser.email.replace(/@gmail.com/, '').replace(/@yahoo.com/, '').replace(/@aol.com/, '').toUpperCase()
+  const username = auth.currentUser.email.substring(0, auth.currentUser.email.indexOf('@')).toUpperCase()
   const [modalVisible, setModalVisible] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
@@ -181,8 +185,9 @@ useEffect(() => {
       let todos = []
       querySnapshot.forEach((doc) => {
         todos.push(doc.data())
-        setIntroData(todos)
       })
+      setIntroData(todos)
+      console.log(introData)
     }
     catch(e) {
       alert(e)
@@ -193,6 +198,8 @@ useEffect(() => {
 }, [])
 async function setIntroFunc() {
   try {
+    alert("pressed")
+    
     const url = collection(db, "users");
     const q = query(url, where("uid", "==", uid));
     const querySnapshot = await getDocs(q);
@@ -236,7 +243,7 @@ const slides = [
   {
     index: 4,
     text:<View style={{}}>
-    <Text style={{color:"#ffff",fontWeight:"700",fontSize:35}}>Search Popular Nft's</Text><Image source={{uri:"https://cdn.discordapp.com/attachments/783336191529320498/1050567496605900940/Screen_Shot_2022-12-08_at_7.18.17_PM-removebg-preview.png"}} style={{width:"100%",height:600,borderRadius:20,marginTop:25,backgroundColor:"red"}}/><Text  style={{backgroundColor:"red",fontSize:20}} onPress={setIntroFunc()}>set back</Text>
+    <Text style={{color:"#ffff",fontWeight:"700",fontSize:35}}>Search Popular Nft's</Text><Image source={{uri:"https://cdn.discordapp.com/attachments/783336191529320498/1050567496605900940/Screen_Shot_2022-12-08_at_7.18.17_PM-removebg-preview.png"}} style={{width:"100%",height:600,borderRadius:20,marginTop:25,backgroundColor:"red"}}/><View><Button title="got it: proccced" onPress={setIntroFunc}/></View>
     </View>,
     backgroundColor: '#A1C2F0',
   },
@@ -249,7 +256,7 @@ const [intro,setIntro ]=useState(true)
   return (
     <View style={styles3.maincont}>
             <StatusBar hidden />
-            {introData.map((d) => d.intro === true ? <View style={{height:"100%",width:"100%"}}><SliderIntro data={slides}  style={{width:"100%",height:"100%"}} onDone={alert(d.intro)}/></View>: <View style={{display:"none",backgroundColor:"transparent"}}></View>)}
+            {introData.map((d) => d.intro === true ? <View style={{height:"100%",width:"100%"}}><SliderIntro data={slides}  style={{width:"100%",height:"100%"}} onDone={setIntroFunc}/></View>: <View style={{display:"none",backgroundColor:"transparent"}}></View>)}
             <Modal
         animationType="slide"
         transparent={true}
@@ -301,7 +308,7 @@ const [intro,setIntro ]=useState(true)
             <Text style={{color:"#3A84EC",fontWeight:"700",textDecorationLine:"underline"}}>About us</Text>
             </View> 
            </View>
-          <View style={{width:"100%"}}>
+          <ScrollView style={{width:"100%"}}>
           <View style={styles3.deleteacc}>
         <Button onPress={(e) => deleteACC()} color="#fff" title="delete account" />
         </View>
@@ -313,7 +320,7 @@ const [intro,setIntro ]=useState(true)
               onPress={() => setModalVisible(!modalVisible)}>
               <Text style={styles3.textStyle}>Cancel</Text>
             </Pressable>
-          </View>
+          </ScrollView>
           </View>
         </View>
       </Modal>
@@ -377,6 +384,7 @@ const [intro,setIntro ]=useState(true)
             marginRight:14,
             borderRadius:"100"
           }} />}
+       
             </View>
          <Text style={styles3.username}>{username}</Text>
          </View>
@@ -508,18 +516,20 @@ const styles3 = StyleSheet.create({
   },
   centeredView: {
     flex:1,
+    height:"100%",
+    width:"100%",
     alignItems:"center",
     justifyContent:"center",
   },
   modalView: {
     height:"100%",
     backgroundColor: "white",
-    paddingTop:90,
+    flex:1,
     alignItems:"",
     justifyContent:'space-between',    
     width:"100%",
     borderRadius: 20,
-    paddingTop:60,
+    paddingTop:30,
     paddingLeft: 20,
     paddingRight:20,
     paddingBottom:20,

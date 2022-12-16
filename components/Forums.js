@@ -81,8 +81,8 @@ ddd()
    </View>
 <ScrollView horizontal={true} style={{marginBottom:20,marginLeft:20}}>
 <View style={{flexDirection:"row",width:"100%",justifyContent:"space-around",alignItems:"center"}}>
-    <View style={{backgroundColor:"#3A84EC",borderRadius:20,marginRight:15}}>
-      <Text style={{color:"#fff",padding:10,fontWeight:"700",borderRadius:20}}>Bitcoin</Text>
+    <View style={{backgroundColor:"#3A84EC",borderRadius:20,marginRight:15,alignItems:"center",height:"100%",alignItems:"center",padding:7}}>
+      <Text style={{color:"#fff",fontWeight:"700",borderRadius:20}}>Bitcoin</Text>
     </View>
     <View style={{backgroundColor:"#fff",borderRadius:20,marginRight:15}}>
       <Text style={{color:"#000",padding:10,fontWeight:"700",borderRadius:20}}>ETH</Text>
