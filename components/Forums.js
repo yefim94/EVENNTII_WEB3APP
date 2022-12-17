@@ -1,4 +1,4 @@
-import { View, Text, Image,TextInput,ScrollView } from 'react-native'
+import { View, Text, Image,TextInput,ScrollView,Pressable } from 'react-native'
 import React,{useState, useEffect} from 'react'
 import {db} from "../firebase"
 import { collection, query, where, getDocs,addDoc,onSnapshot } from "firebase/firestore";
@@ -9,6 +9,7 @@ import {auth} from "../firebase.js"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,sendPasswordResetEmail} from "firebase/auth";
 import ForumCard from './ForumCard';
 import { FontAwesome } from '@expo/vector-icons'; 
+import { Button } from 'react-native-paper';
 
 export default function Forums() {
   const [comments,setComments] = useState([])
@@ -57,7 +58,24 @@ catch(E) {
 }
 ddd()
   }, [])
+  const [forumText,setForumText] = useState("")
+  const [desc,setDesc] = useState("")
   const [forumData,setForumData] = useState()
+  async function submitPost () {
+      try {
+        const docRef = await addDoc(collection(db, "forums"), {
+          title: forumText,
+          desc: desc,
+          by: auth.currentUser.email.substring(0, auth.currentUser.email.indexOf('@'))
+        });
+        setForumText("")
+        setDesc("")
+      }
+      catch(e){
+        alert(e)
+      }
+    
+  }
   return (
     <View style={{}}>
     <View style={{marginBottom: 4,padding:20}}>
@@ -95,9 +113,18 @@ ddd()
     </View>
    </View>
 </ScrollView>
+<View style={{backgroundColor:"#3A84EC",padding:20,borderRadius:20,margin:20}}>
+  <TextInput style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:10,fontSize:26,marginBottom:20}} placeholder="type post title..." placeholderTextColor="#000" value={forumText}    onChangeText={(val) => setForumText(val)}
+ />
+  <TextInput style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:10}} placeholder="type post description..." placeholderTextColor="#000" value={desc}    onChangeText={(val) => setDesc(val)}
+ />
+  <Pressable style={{marginTop:20}} onPress={submitPost}>
+      <Text style={{color:"#fff"}}>Submit Post</Text>
+    </Pressable>
+</View>
    <ScrollView style={{marginBottom:100}}>
     {forumData && forumData.map((doc,key) => 
- <ForumCard title={doc.title} key={key} uid={doc.uid} id={doc.id} />)}
+ <ForumCard title={doc.title} key={key} uid={doc.uid} id={doc.id} by={doc.by} desc={doc.desc}/>)}
    </ScrollView>
     </View>
   )

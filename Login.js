@@ -102,12 +102,11 @@ querySnapshot.forEach((doc) => {
 alert("might take a few minutes to change...")
   
 });
-      
+setImage("")    
 }).catch(e=>{
   alert(e)
 }) 
   }); 
-  setImage("")
    }
    catch(e) {
     alert(e)

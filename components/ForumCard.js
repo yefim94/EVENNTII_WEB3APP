@@ -1,11 +1,12 @@
 import { Image,ScrollView,Share } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'; 
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
+import { Alert, Modal, StyleSheet, Text, Pressable, View,TextInput } from "react-native";
 import { doc } from 'firebase/firestore';
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs,addDoc } from "firebase/firestore";
 import { useState,useEffect } from 'react';
+import {auth} from "../firebase.js"
 import { db } from '../firebase';
-export default function ForumCard({title,uid,id}) {
+export default function ForumCard({title,uid,id,by,desc}) {
   const onShare = async (name) => {
     try {
       const result = await Share.share({
@@ -45,6 +46,19 @@ export default function ForumCard({title,uid,id}) {
    ddd()
   }, [])
   const [data1, setData1] = useState()
+  const [desc1,setDesc1] = useState("")
+  async function submitComment () {
+    try {
+      const docRef = await addDoc(collection(db, "forums",id,"comments"), {
+        desc: desc1,
+        by: auth.currentUser.email.substring(0, auth.currentUser.email.indexOf('@'))
+      });
+      setDesc1("")
+    }
+    catch(e){
+      alert(e)
+    }
+  }
   return (
     <>
      <Modal
@@ -62,14 +76,24 @@ export default function ForumCard({title,uid,id}) {
           <View style={styles.modalView}>
           
             <Text style={{fontWeight:"700",fontSize:30}}>{title}</Text>
-            <Text style={{marginTop:20}}>LOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREMLOREM</Text>
+            <Text style={{marginTop:20}}>{desc}</Text>
           <ScrollView style={{paddingBottom:600}}>
           <View style={{width:"100%",padding:15,backgroundColor:"#fff",borderRadius:20}}>
               <Text style={{color:"#3A84EC",fontSize
             :20,fontWeight:"700"}}>Comments: </Text>
+            <View style={{backgroundColor:"#3A84EC",padding:20,borderRadius:20,margin:20}}>
+          <TextInput style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:10}} placeholder="type post description..." placeholderTextColor="#000" value={desc1}    onChangeText={(val) => setDesc1(val)}
+        />
+          <Pressable style={{marginTop:20}} onPress={submitComment}>
+              <Text style={{color:"#fff"}}>Submit Comment</Text>
+            </Pressable>
+        </View>
               <ScrollView style={{flexDirection:"column",flexWrap:"wrap"}}>
-              {data1 && data1.map((doc) => <View style={{backgroundColor:"#000",padding:10,borderRadius:14,flex:"auto",marginTop:14,alignItems:"flex-start"}}>
-                <Text style={{color:"#fff"}}>{doc.text}</Text>
+              {data1 && data1.map((doc) => <View style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:14,flex:"auto",marginTop:14,alignItems:"flex-start",flexDirection:"column"}}>
+               <View style={{flexDirection:"row"}}>
+               <Text>by: </Text><Text style={{color:"#3A84EC"}}>{doc.by}</Text>
+               </View>
+                <Text style={{color:"#fff",fontSize:20}}>{doc.desc}</Text>
               </View>)}
               </ScrollView>
             </View>
@@ -89,7 +113,7 @@ export default function ForumCard({title,uid,id}) {
      <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
      <View style={{flexDirection:"row"}}>
         <Text style={{color:"#000",fontSize:20,marginRight:10}}>By</Text>
-        <Text style={{color:"#3A84EC",fontWeight:"700",fontSize:20}}>yefim94</Text>
+        <Text style={{color:"#3A84EC",fontWeight:"700",fontSize:20}}>{by}</Text>
       </View>
       <View>
       <FontAwesome name="share" size={24} color="#3A84EC" onPress={() => onShare(title)} />
