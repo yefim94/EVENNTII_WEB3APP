@@ -281,6 +281,13 @@ const [intro,setIntro ]=useState(true)
               borderRadius:"100"
             }} />
           ))}
+          {currentUser.photoURL &&  <Image source={{uri: currentUser.photoURL}} style={{
+              width:200,
+              height:200,
+              borderColor:"#3A84EC",
+              borderWidth:5,
+              borderRadius:"100"
+            }} />}
             </View>
             </View>
            <View style={{flexDirection:"row", alignItems:"center",marginBottom:15}}>
@@ -376,6 +383,14 @@ const [intro,setIntro ]=useState(true)
             }} />
           ))
            : <Image source={{uri: "https://imebehavioralhealth.com/wp-content/uploads/2021/10/user-icon-placeholder-1.png"}} style={{
+            width:50,
+            height:50,
+            borderColor:"#3A84EC",
+            borderWidth:5,
+            marginRight:14,
+            borderRadius:"100"
+          }} />}
+          {auth.currentUser.photoURL && <Image source={{uri: currentUser.photoURL}} style={{
             width:50,
             height:50,
             borderColor:"#3A84EC",

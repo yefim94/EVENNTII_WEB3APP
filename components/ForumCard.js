@@ -6,7 +6,7 @@ import { collection, query, where, getDocs,addDoc } from "firebase/firestore";
 import { useState,useEffect } from 'react';
 import {auth} from "../firebase.js"
 import { db } from '../firebase';
-export default function ForumCard({title,uid,id,by,desc}) {
+export default function ForumCard({title,uid,id,by,desc,photo}) {
   const onShare = async (name) => {
     try {
       const result = await Share.share({
@@ -74,11 +74,18 @@ export default function ForumCard({title,uid,id,by,desc}) {
           uri:`https://images.ctfassets.net/q5ulk4bp65r7/4sZT4Y1rKxu07bFTxvt6EF/f3de7aeda6e217cf6acebd2541ef3067/Learn_Illustration_Ultimate_Guide_Essential_Reading.png?fit=thumb&f=faces&w=369&h=271`
         }} style={{width:"100%",height:300}}/>
           <View style={styles.modalView}>
-          
+          <View style={{flexDirection:"row",alignItems:"center",marginBottom:20}}>
+            <Image source={{
+              uri:photo
+            }} style={{width:25,height:25,borderRadius:500}} />
+            <Text style={{fontWeight:"700",fontSize:19,marginLeft:10}}>{by}</Text>
+          </View>
+          <View style={{backgroundColor:"grey",width:"100%",height:2,marginBottom:10}}></View>
             <Text style={{fontWeight:"700",fontSize:30}}>{title}</Text>
             <Text style={{marginTop:20}}>{desc}</Text>
           <ScrollView style={{paddingBottom:600}}>
-          <View style={{width:"100%",padding:15,backgroundColor:"#fff",borderRadius:20}}>
+          <View style={{backgroundColor:"grey",width:"100%",height:2,marginBottom:10,marginTop:15}}></View>
+          <View style={{width:"100%",padding:10,backgroundColor:"#fff",borderRadius:20}}>
               <Text style={{color:"#3A84EC",fontSize
             :20,fontWeight:"700"}}>Comments: </Text>
             <View style={{backgroundColor:"#3A84EC",padding:20,borderRadius:20,margin:20}}>
@@ -89,7 +96,7 @@ export default function ForumCard({title,uid,id,by,desc}) {
             </Pressable>
         </View>
               <ScrollView style={{flexDirection:"column",flexWrap:"wrap"}}>
-              {data1 && data1.map((doc) => <View style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:14,flex:"auto",marginTop:14,alignItems:"flex-start",flexDirection:"column"}}>
+              {data1 && data1.map((doc,key) => <View key={key} style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:14,flex:"auto",marginTop:14,alignItems:"flex-start",flexDirection:"column"}}>
                <View style={{flexDirection:"row"}}>
                <Text>by: </Text><Text style={{color:"#3A84EC"}}>{doc.by}</Text>
                </View>
@@ -100,7 +107,7 @@ export default function ForumCard({title,uid,id,by,desc}) {
             <Pressable
               onPress={() => setModalVisible(!modalVisible)} style={{backgroundColor:"#3A84EC",borderRadius:20,padding:15,alignItems:"center",marginTop:15}}
             >
-              <Text style={{color:"#fff",fontSize:20}} >Hide Modal</Text>
+              <Text style={{color:"#fff",fontSize:20}} >Hide Post</Text>
             </Pressable>
           </ScrollView>
           </View>

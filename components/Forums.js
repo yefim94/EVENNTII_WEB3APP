@@ -1,4 +1,4 @@
-import { View, Text, Image,TextInput,ScrollView,Pressable } from 'react-native'
+import { View, Text, Image,TextInput,ScrollView,Pressable,Modal } from 'react-native'
 import React,{useState, useEffect} from 'react'
 import {db} from "../firebase"
 import { collection, query, where, getDocs,addDoc,onSnapshot } from "firebase/firestore";
@@ -10,6 +10,9 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,sen
 import ForumCard from './ForumCard';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { Button } from 'react-native-paper';
+import Luna from "./Luna"
+import Crypto from "./Crypto"
+import { Ionicons } from '@expo/vector-icons'; 
 
 export default function Forums() {
   const [comments,setComments] = useState([])
@@ -66,31 +69,75 @@ ddd()
         const docRef = await addDoc(collection(db, "forums"), {
           title: forumText,
           desc: desc,
+          photo: auth.currentUser.photoURL,
           by: auth.currentUser.email.substring(0, auth.currentUser.email.indexOf('@'))
         });
         setForumText("")
         setDesc("")
+        setModalVisible(false)
       }
       catch(e){
         alert(e)
       }
     
   }
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
-    <View style={{}}>
-    <View style={{marginBottom: 4,padding:20}}>
+    <View >
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+          <View style={{backgroundColor:"#fff",height:"100%",paddingTop:70,paddingRight:30,paddingLeft:30}}>
+            <Text style={{fontSize:40,fontWeight:"700"}}>Make a Post</Text>
+          <View style={{borderRadius:20,margin:20}}>
+            <Text style={{fontWeight:"700",fontSize:25}}>Post title</Text>
+  <TextInput style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:10,fontSize:26,marginBottom:20}} placeholder="type post title..." placeholderTextColor="#000" value={forumText}    onChangeText={(val) => setForumText(val)}
+ />
+     <Text style={{fontWeight:"700",fontSize:25}}>Post Description</Text>
+  <TextInput style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:10}} placeholder="type post description..." placeholderTextColor="#000" value={desc}    onChangeText={(val) => setDesc(val)}
+ />
+  <Pressable style={{marginTop:20,backgroundColor:"#3A84EC",padding:10,borderRadius:11}} onPress={submitPost}>
+      <Text style={{color:"#fff",textAlign:"center"}}>Submit Post</Text>
+    </Pressable>
+</View>
+            <Pressable
+              onPress={() => setModalVisible(!modalVisible)}
+              style={{backgroundColor:"#3A84EC",padding:10,borderRadius:15,width:"auto",marginLeft:85,marginRight:85}}
+            >
+              <Text style={{color:"#fff",textAlign:"center"}}>Cancel</Text>
+            </Pressable>
+          </View>
+      </Modal>
+    <View style={{marginBottom: 4,padding:20,zIndex:100}}>
+    <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",marginBottom:15}}>
     <Text style={{fontSize: 40, fontWeight: "700"}}>Forums</Text>
-      <Text style={{fontSize: 25, fontWeight: "650", marginBottom: 10}}>Which Forum do You want to see?</Text>
+    <Pressable
+       
+       onPress={() => setModalVisible(true)}
+     >
+  <View style={{borderRadius:16,backgroundColor:"#Fff"}}>
+  <Ionicons name="ios-add-circle" size={47} color="#CF4361"  style={{padding:9}}/>
+  </View>
+        </Pressable>
+    </View>
+      <Text style={{fontSize: 25, fontWeight: "650", marginBottom: 10}}>Forums and posts related to web 3</Text>
      <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
      <TextInput
      placeholder='type news keyword'
-        style={{
-          backgroundColor: "#D1D1D1",
-          borderRadius: 20,
-          padding: 10,
-          fontSize: 16,
-          width: "60%"
-        }}
+      style={{
+        backgroundColor: "#D1D1D1",
+        borderRadius: 20,
+        padding: 10,
+        fontSize: 16,
+        width: "60%"
+      }}
         onChangeText={(val) => setFeedInput(val)}
         value={feedInput}
       />
@@ -98,34 +145,12 @@ ddd()
      </View>
    </View>
 <ScrollView horizontal={true} style={{marginBottom:20,marginLeft:20}}>
-<View style={{flexDirection:"row",width:"100%",justifyContent:"space-around",alignItems:"center"}}>
-    <View style={{backgroundColor:"#3A84EC",borderRadius:20,marginRight:15,alignItems:"center",height:"100%",alignItems:"center",padding:7}}>
-      <Text style={{color:"#fff",fontWeight:"700",borderRadius:20}}>Bitcoin</Text>
-    </View>
-    <View style={{backgroundColor:"#fff",borderRadius:20,marginRight:15}}>
-      <Text style={{color:"#000",padding:10,fontWeight:"700",borderRadius:20}}>ETH</Text>
-    </View>
-    <View style={{backgroundColor:"#fff",borderRadius:20,marginRight:15}}>
-      <Text style={{color:"#000",padding:10,fontWeight:"700",borderRadius:20}}>LUNA</Text>
-    </View>
-    <View style={{backgroundColor:"#fff",borderRadius:20}}>
-      <Text style={{color:"#000",padding:10,fontWeight:"700",borderRadius:20}}>CAD</Text>
-    </View>
-   </View>
 </ScrollView>
-<View style={{backgroundColor:"#3A84EC",padding:20,borderRadius:20,margin:20}}>
-  <TextInput style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:10,fontSize:26,marginBottom:20}} placeholder="type post title..." placeholderTextColor="#000" value={forumText}    onChangeText={(val) => setForumText(val)}
- />
-  <TextInput style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:10}} placeholder="type post description..." placeholderTextColor="#000" value={desc}    onChangeText={(val) => setDesc(val)}
- />
-  <Pressable style={{marginTop:20}} onPress={submitPost}>
-      <Text style={{color:"#fff"}}>Submit Post</Text>
-    </Pressable>
-</View>
    <ScrollView style={{marginBottom:100}}>
     {forumData && forumData.map((doc,key) => 
- <ForumCard title={doc.title} key={key} uid={doc.uid} id={doc.id} by={doc.by} desc={doc.desc}/>)}
+ <ForumCard photo={doc.photo} title={doc.title} key={key} uid={doc.uid} id={doc.id} by={doc.by} desc={doc.desc}/>)}
    </ScrollView>
     </View>
+
   )
 }

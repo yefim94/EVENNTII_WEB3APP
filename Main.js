@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, SafeAreaView , Image, TextInput, Button, Modal,
 import { useState, useEffect } from 'react';
 import {auth} from "./firebase"
 import { db } from './firebase';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,sendPasswordResetEmail,signInWithCredentialr} from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,sendPasswordResetEmail,signInWithCredential} from "firebase/auth";
 import Onboarding from 'react-native-onboarding-swiper';
 import { doc,setDoc,updateDoc } from 'firebase/firestore';
 import { Dimensions } from 'react-native';
@@ -96,20 +96,8 @@ const forgotPassword =  (email) => {
       const { id_token } = response.params;
       const auth = getAuth();
       const credential = GoogleAuthProvider.credential(id_token);
-     async function dd() {
-      try {
-        const docRef = await addDoc(collection(db, "users"), {
-          uid: auth.currentUser.uid,
-          photoUrl: auth.currentUser.photoURL,
-          intro: true
-        })
-        signInWithCredential(auth, credential);
-        console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-     }
-     dd()
+      signInWithCredential(auth, credential);
+      
     }
   }, [response]);
 
