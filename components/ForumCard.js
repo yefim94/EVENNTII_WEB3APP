@@ -1,6 +1,6 @@
 import { Image,ScrollView,Share } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'; 
-import { Alert, Modal, StyleSheet, Text, Pressable, View,TextInput } from "react-native";
+import { Alert, Modal, StyleSheet, Text, Pressable, View,TextInput,Button } from "react-native";
 import { doc } from 'firebase/firestore';
 import { collection, query, where, getDocs,addDoc } from "firebase/firestore";
 import { useState,useEffect } from 'react';
@@ -59,6 +59,9 @@ export default function ForumCard({title,uid,id,by,desc,photo}) {
       alert(e)
     }
   }
+  async function postImage() {
+    alert("image pcked")
+  }
   return (
     <>
      <Modal
@@ -80,12 +83,11 @@ export default function ForumCard({title,uid,id,by,desc,photo}) {
             }} style={{width:25,height:25,borderRadius:500}} />
             <Text style={{fontWeight:"700",fontSize:19,marginLeft:10}}>{by}</Text>
           </View>
-          <View style={{backgroundColor:"grey",width:"100%",height:2,marginBottom:10}}></View>
             <Text style={{fontWeight:"700",fontSize:30}}>{title}</Text>
             <Text style={{marginTop:20}}>{desc}</Text>
           <ScrollView style={{paddingBottom:600}}>
           <View style={{backgroundColor:"grey",width:"100%",height:2,marginBottom:10,marginTop:15}}></View>
-          <View style={{width:"100%",padding:10,backgroundColor:"#fff",borderRadius:20}}>
+          <View style={{width:"100%",backgroundColor:"#fff",borderRadius:20}}>
               <Text style={{color:"#3A84EC",fontSize
             :20,fontWeight:"700"}}>Comments: </Text>
             <View style={{backgroundColor:"#3A84EC",padding:20,borderRadius:20,margin:20}}>
@@ -119,7 +121,9 @@ export default function ForumCard({title,uid,id,by,desc,photo}) {
     <View style={{paddingLeft:20,paddingRight:20,paddingTop:20}}>
      <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
      <View style={{flexDirection:"row"}}>
-        <Text style={{color:"#000",fontSize:20,marginRight:10}}>By</Text>
+     <Image source={{
+              uri:photo
+            }} style={{width:30,height:30,marginRight:10,borderRadius:500}} />
         <Text style={{color:"#3A84EC",fontWeight:"700",fontSize:20}}>{by}</Text>
       </View>
       <View>
