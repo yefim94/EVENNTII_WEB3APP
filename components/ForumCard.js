@@ -6,7 +6,7 @@ import { collection, query, where, getDocs,addDoc } from "firebase/firestore";
 import { useState,useEffect } from 'react';
 import {auth} from "../firebase.js"
 import { db } from '../firebase';
-export default function ForumCard({title,uid,id,by,desc,photo}) {
+export default function ForumCard({title,uid,id,by,desc,photo,postImage}) {
   const onShare = async (name) => {
     try {
       const result = await Share.share({
@@ -73,8 +73,9 @@ export default function ForumCard({title,uid,id,by,desc,photo}) {
           setModalVisible(!modalVisible);
         }}
       >
+        <Text>{postImage}</Text>
         <Image source={{
-          uri:`https://images.ctfassets.net/q5ulk4bp65r7/4sZT4Y1rKxu07bFTxvt6EF/f3de7aeda6e217cf6acebd2541ef3067/Learn_Illustration_Ultimate_Guide_Essential_Reading.png?fit=thumb&f=faces&w=369&h=271`
+          uri:`${postImage}`
         }} style={{width:"100%",height:300}}/>
           <View style={styles.modalView}>
           <View style={{flexDirection:"row",alignItems:"center",marginBottom:20}}>
@@ -134,7 +135,7 @@ export default function ForumCard({title,uid,id,by,desc,photo}) {
     <View style={{padding:20}}>
       <Text style={{fontWeight:"700",fontSize:24}}>{title}</Text>
     </View>
-    <Image source={{uri:"https://images.ctfassets.net/q5ulk4bp65r7/4sZT4Y1rKxu07bFTxvt6EF/f3de7aeda6e217cf6acebd2541ef3067/Learn_Illustration_Ultimate_Guide_Essential_Reading.png?fit=thumb&f=faces&w=369&h=271"}} style={{width:"100%",height:300,borderBottomLeftRadius:20,borderBottomRightRadius:20}}/>
+    <Image source={{uri:postImage}} style={{width:"100%",height:300,borderBottomLeftRadius:20,borderBottomRightRadius:20}}/>
    </View>
       </Pressable>
     </>

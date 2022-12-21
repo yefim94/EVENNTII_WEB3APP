@@ -1,7 +1,7 @@
 import { View, Text, Image,TextInput,ScrollView,Pressable,Modal } from 'react-native'
 import React,{useState, useEffect} from 'react'
 import {db} from "../firebase"
-import { collection, query, where, getDocs,addDoc,onSnapshot } from "firebase/firestore";
+import { collection, query, where, getDocs,addDoc,onSnapshot,updateDoc } from "firebase/firestore";
 import { AntDesign } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
 import { Entypo } from '@expo/vector-icons'; 
@@ -53,6 +53,7 @@ try {
   let todos = []
 querySnapshot.forEach((doc) => {
   todos.push({...doc.data(), id: doc.id })
+  console.log(doc.data())
 })
 setForumData(todos)
 }
@@ -73,13 +74,15 @@ ddd()
         const docRef = await addDoc(collection(db, "forums"), {
           title: forumText,
           desc: desc,
-      
+          postImage: url,
+          uid:Date.now(),
           photo: auth.currentUser.photoURL,
           by: auth.currentUser.email.substring(0, auth.currentUser.email.indexOf('@'))
         });
         setForumText("")
         setDesc("")
         setModalVisible(false)
+        console.log(url)
       }
       catch(e){
         alert(e)
@@ -129,24 +132,6 @@ ddd()
        // Create a query against the collection.
        setUrl(url)
        console.log(url)
-       const citiesRef = collection(db, "forums")
- 
-       // Create a query against the collection.
-       const q = query(citiesRef);
-       const querySnapshot = await getDocs(q);
- querySnapshot.forEach((doc) => {
-   try {
-     updateDoc(doc.ref, { // 👈
-       image: url
-      })
-   }
-   catch(e) {
-     alert(e)
-   }
- alert("might take a few minutes to change...")
-   
- });
- setImage("")    
  }).catch(e=>{
    alert(e)
  }) 
@@ -222,7 +207,7 @@ ddd()
 </ScrollView>
    <ScrollView style={{marginBottom:100}}>
     {forumData && forumData.map((doc,key) => 
- <ForumCard photo={doc.photo} title={doc.title} key={key} uid={doc.uid} id={doc.id} by={doc.by} desc={doc.desc}/>)}
+ <ForumCard photo={doc.photo} title={doc.title} key={key} uid={doc.uid} id={doc.id} by={doc.by} desc={doc.desc} postImage={doc.postImage} /> )}
    </ScrollView>
     </View>
 

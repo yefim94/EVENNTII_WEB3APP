@@ -270,7 +270,6 @@ const [intro,setIntro ]=useState(true)
             <Text style={styles3.modalText}>Settings:</Text>
             <Text style={styles3.hi}>Hello,  <Text style={styles3.helloUsername}>{username}</Text></Text>
             <View style={styles3.imagemocont}>
-            <Button title="Pick an image from camera roll" onPress={pickImage} />
             {url1 == undefined ? null
            : url1.map((doc) => (
             <Image source={{uri: `${doc.photoUrl.includes("https") ? doc.photoUrl :"https://imebehavioralhealth.com/wp-content/uploads/2021/10/user-icon-placeholder-1.png"}`}} style={{
@@ -288,6 +287,7 @@ const [intro,setIntro ]=useState(true)
               borderWidth:5,
               borderRadius:"100"
             }} />}
+           {currentUser.photoURL.includes("http") ? <Text style={{color:"grey",marginTop:10,marginBottom:10,marginLeft:20,marginLeft:10,marginRight:10}}>**Updating your profile photo will not work with google accounts</Text> :     <Button title="Pick an image from camera roll" onPress={pickImage} />}
             </View>
             </View>
            <View style={{flexDirection:"row", alignItems:"center",marginBottom:15}}>
