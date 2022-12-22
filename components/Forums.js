@@ -53,7 +53,7 @@ try {
   let todos = []
 querySnapshot.forEach((doc) => {
   todos.push({...doc.data(), id: doc.id })
-  console.log(doc.data())
+  
 })
 setForumData(todos)
 }
@@ -62,10 +62,18 @@ catch(E) {
 }
 
 
-
 }
 ddd()
   }, [])
+  useEffect(() => {
+    if(forumData) {
+      console.log(forumData)
+    } else {
+      console.log("null");
+    }
+    
+  }, [])
+  
   const [forumText,setForumText] = useState("")
   const [desc,setDesc] = useState("")
   const [forumData,setForumData] = useState()
@@ -207,7 +215,7 @@ ddd()
 </ScrollView>
    <ScrollView style={{marginBottom:100}}>
     {forumData && forumData.map((doc,key) => 
- <ForumCard photo={doc.photo} title={doc.title} key={key} uid={doc.uid} id={doc.id} by={doc.by} desc={doc.desc} postImage={doc.postImage} /> )}
+ <ForumCard photo={doc.photo} title={doc.title} key={key} uid={doc.uid} id={doc.id} by={doc.by} desc={doc.desc} doc={doc} /> )}
    </ScrollView>
     </View>
 
