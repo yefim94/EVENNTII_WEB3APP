@@ -160,7 +160,7 @@ ddd()
           setModalVisible(!modalVisible);
         }}
       >
-          <View style={{backgroundColor:"#fff",height:"100%",paddingTop:70,paddingRight:30,paddingLeft:30}}>
+          <View style={{backgroundColor:"#fff",height:"100%",paddingTop:70,paddingRight:20,paddingLeft:20}}>
             <Text style={{fontSize:40,fontWeight:"700"}}>Make a Post</Text>
           <View style={{borderRadius:20,margin:20}}>
             <Text style={{fontWeight:"700",fontSize:25}}>Post title</Text>
@@ -169,22 +169,27 @@ ddd()
      <Text style={{fontWeight:"700",fontSize:25}}>Post Description</Text>
   <TextInput style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:10}} placeholder="type post description..." placeholderTextColor="#000" value={desc}    onChangeText={(val) => setDesc(val)}
  />
-   <Button title="Pick Image" onPress={postImage}/>
+ <Pressable color="#000" style={{marginTop:20,backgroundColor:"#FF35F0",padding:10,borderRadius:11,color:"#000"}} onPress={postImage}>
+      <Text style={{color:"#fff",textAlign:"center",fontSize:20}}>Pick Image</Text>
+    </Pressable>
   <Pressable color="#000" style={{marginTop:20,backgroundColor:"#3A84EC",padding:10,borderRadius:11,color:"#000"}} onPress={submitPost}>
-      <Text style={{color:"#fff",textAlign:"center"}}>Submit Post</Text>
+      <Text style={{color:"#fff",textAlign:"center",fontSize:20}}>Submit Post</Text>
     </Pressable>
 </View>
             <Pressable
               onPress={() => setModalVisible(!modalVisible)}
-              style={{backgroundColor:"#3A84EC",padding:10,borderRadius:15,width:"auto",marginLeft:85,marginRight:85}}
+              style={{padding:10,borderRadius:15,width:"auto",marginLeft:85,marginRight:85}}
             >
-              <Text style={{color:"#fff",textAlign:"center"}}>Cancel</Text>
+              <Text style={{color:"grey",textAlign:"center",textDecorationColor:"grey",textDecorationLine:"underline"}}>Cancel</Text>
             </Pressable>
+          <Image source={{
+            uri: "https://images.ctfassets.net/0idwgenf7ije/2orXzfWd0mvritHtAijvzr/ee56b7589d666d1cdc76632afdc04b76/How_a_Block_in_the_Bitcoin_Blockchain_Works_-100.jpg?fm=webp"
+          }} style={{height:200}}/>
           </View>
       </Modal>
     <View style={{marginBottom: 4,padding:20,zIndex:100}}>
     <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",marginBottom:15}}>
-    <Text style={{fontSize: 40, fontWeight: "700"}}>Forums</Text>
+    <Text style={{fontSize: 40, fontWeight: "700"}}>Forums 💬</Text>
     <Pressable
        
        onPress={() => setModalVisible(true)}

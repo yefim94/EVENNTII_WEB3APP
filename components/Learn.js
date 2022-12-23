@@ -28,6 +28,14 @@ console.log(lessons)
     data()
     
   }, [])
+  const [filteredLessons, setFilteredLessons] = useState([]);
+  useEffect(() => {
+    // when lessons or searchinput changes update filteredLessons
+    const newLessons = lessons.filter((lesson) =>
+      lesson.title.toLowerCase().includes(searchinput.toLowerCase())
+    );
+    setFilteredLessons(searchinput.length < 1 ? lessons : newLessons);
+  }, [lessons,searchinput]);
   const [searchinput,setSearchInput] = useState("")
   const [li,Sli] = useState(true)
   const [filterar,setFilterAr] = useState(lessons)
@@ -67,7 +75,7 @@ console.log(lessons)
       </Modal>
       <View style={learnStyle.learncont}>
       <Text style={learnStyle.even}>EVVENNTI</Text>
-      <Text style={learnStyle.learn}>Learn</Text>
+      <Text style={learnStyle.learn}>Learn 📚</Text>
       </View>
       <View style={{marginTop:20,flexDirection:"row", width:"100%",alignItems:"center",backgroundColor:"#F3F5F9",borderRadius:20,paddingLeft:15}}>
       <Feather name="search" size={24} color="#FF802C"style={{flex:0.1}} />
@@ -96,13 +104,13 @@ console.log(lessons)
       <LessonCard key={key} title={lesson.title} desc={lesson.desc} img1={lesson.imgURL} fulldesc={lesson.fulldesc}/>
     )
   : 
-    lessons.filter((lesson) => searchinput.toLocaleLowerCase().includes(lesson.title) ? 1 : -1).map((lesson) => {
-      if(searchinput.toLocaleLowerCase().includes(lesson.title)) {
-        return <LessonCard key={key} title={lesson.title} desc={lesson.desc} img1={lesson.imgURL}  />;
-      } else {
-        return null;
-      }
-    })
+  filteredLessons && filteredLessons.map((item,i)=>{
+    return (
+      <LessonCard key={i} title={item.title} desc={item.desc} img1={item.imgURL} fulldesc={item.fulldesc}/>
+
+    );
+  })
+
 }
        {/**<LessonCard setModalVisible={setModalVisible} title={doc.title} desc={doc.desc} img1={doc.imgURL} /> */}
          <View style={{height:600,width:"100%"}}></View>

@@ -44,9 +44,6 @@ export default function ProfileCard({name,description,id,image,link}) {
           marginBottom: 20
         }} >
           <View style={{position: "relative"}}>
-            <View style={profileStyles.liikebtn}>
-            <AntDesign onPress={(id) => liked(id)} name="heart" size={24} color={pressed ? "#FF717B": "grey"} />
-            </View>
           {image.includes("https") ? <>
               <Image source={{
             uri: `${image}`

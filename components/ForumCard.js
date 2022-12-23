@@ -117,7 +117,7 @@ export default function ForumCard({title,id,by,desc,photo,postImage,doc}) {
     <Pressable
         onPress={() => setModalVisible(true)}
       >
-         <View style={{borderRadius:20,margin:20,backgroundColor:"#fff",justifyContent:"flex-start"}}>
+         <View style={{marginBottom:20,backgroundColor:"#fff",justifyContent:"flex-start"}}>
     <View style={{paddingLeft:20,paddingRight:20,paddingTop:20}}>
      <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
      <View style={{flexDirection:"row"}}>
@@ -134,7 +134,7 @@ export default function ForumCard({title,id,by,desc,photo,postImage,doc}) {
     <View style={{padding:20}}>
       <Text style={{fontWeight:"700",fontSize:24}}>{title}</Text>
     </View>
-    <Image source={{uri:doc.postImage}} style={{width:"100%",height:300,borderBottomLeftRadius:20,borderBottomRightRadius:20}}/>
+    {doc.postImage && <Image source={{uri:doc.postImage}} style={{width:"100%",height:300}}/>}
    </View>
       </Pressable>
     </>

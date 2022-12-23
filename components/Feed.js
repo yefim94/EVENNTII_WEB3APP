@@ -90,7 +90,7 @@ export const Feed = () => {
   }
   return (
     <View style={feedS.maincont}>
-      <Text style={feedS.mainhead}>News Feed</Text>
+      <Text style={feedS.mainhead}>News Feed 📰</Text>
      <View style={feedS.lowermainc}>
       <Text style={feedS.smallhead}>What do you want to read?</Text>
      <View style={feedS.teco}>
@@ -105,7 +105,7 @@ export const Feed = () => {
      </View>
      <View style={{backgroundColor:"#000",padding:20,borderRadius:20,marginBottom:20}}> 
       <Text style={{color:"grey",fontSize:20}}>Current Volume, </Text>
-      <Text style={{color:"#fff",fontSize:27,fontWeight:"700"}}>1,129,012,345</Text>
+      <Text style={{color:"#fff",fontSize:27,fontWeight:"700"}}>$1,129,012,345</Text>
      </View>
    {apiqu ?  <View style={{backgroundColor:"#fff",padding:10,borderRadius:20,marginBottom:16}}>
     <Text style={feedS.apikey}>News for <Text style={feedS.apikey2}>{apiqu}</Text></Text>

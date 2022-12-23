@@ -46,7 +46,7 @@ setProfileData(ddata.result)
   }
   return (
     <View style={profileStyles.overallcont}>
-    <Text style={profileStyles.mainheading}>NFT'S</Text>
+    <Text style={profileStyles.mainheading}>NFT'S 🖼️</Text>
     <View style={profileStyles.lowerarea}>
     <Text style={profileStyles.lowerheading}>What kind of NFT?</Text>
    <View style={profileStyles.bottom}>
@@ -59,6 +59,7 @@ setProfileData(ddata.result)
 <AntDesign name="rightcircle" size={30} color="#3A84EC"  onPress={handleNftIn}/>
    </View>
    </View>
+   <Text style={{color:"grey",textDecorationLine:"underline",marginBottom:10}}>Data gathered from Morallis</Text>
     <ScrollView>
     {profileData ? <>
       {profileData.map((el, key,id) => 
@@ -79,6 +80,7 @@ setProfileData(ddata.result)
       borderRadius:20,
       height:500
     }}/>
+    <Text style={{color:"grey",textDecorationLine:"underline",marginTop:10}}>- Darth Vadar by Beeple</Text>
     </>}
       </ScrollView>
       </View>

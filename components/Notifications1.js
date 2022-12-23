@@ -141,7 +141,7 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
   return (
     <View style={{position: "relative",  flex: 1}}>
       
-      <Text style={{fontSize: 40, fontWeight: "700", marginTop: 20,paddingLeft:16}}>Market Data</Text>
+      <Text style={{fontSize: 40, fontWeight: "700", marginTop: 20,paddingLeft:16}}>Market Data 📈</Text>
       <Text style={{fontSize: 20,paddingLeft:16}}>Market data for crypto</Text>
       <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center",margin:20}}>
      <TextInput
@@ -160,7 +160,7 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
       <Text style={{color:"grey",fontSize:20}}>Profile Balance: </Text>
       <Text style={{color:"white",fontSize:30,fontWeight:"700"}}>$45,000</Text>
      </View>
-     <View style={{marginLeft:20}}>
+     <View style={{marginLeft:20}} onPress={alert("searching for local crypto wallet")}>
       <Text style={{color:"grey",textDecorationLine:"underline"}}>Tap to connect wallet.</Text>
      </View>
       <ScrollView style={{

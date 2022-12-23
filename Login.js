@@ -526,7 +526,7 @@ const styles3 = StyleSheet.create({
   username: {
     color: "#3A84EC",
     fontSize: 22,
-    fontWeight: "700"
+    fontWeight: "700",
   },
   centeredView: {
     flex:1,
@@ -543,7 +543,7 @@ const styles3 = StyleSheet.create({
     justifyContent:'space-between',    
     width:"100%",
     borderRadius: 20,
-    paddingTop:30,
+    paddingTop:60,
     paddingLeft: 20,
     paddingRight:20,
     paddingBottom:20,
@@ -588,7 +588,7 @@ const styles3 = StyleSheet.create({
     fontSize:30
   },
   helloUsername:{
-    color:"#3A84EC",fontWeight:"700"
+    color:"#3A84EC",fontWeight:"700",paddingBottom:100
   },
   imagemocont:{
     alignItems:"center"

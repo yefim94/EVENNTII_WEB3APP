@@ -61,7 +61,7 @@ export default function FeedCard({apiqu,image_url,title,description,link,languag
 {image_url ? <View style={{width:"100%"}}>
     <Image source={{uri:image_url}} style={{height:400,width:"100%"}}/>
 </View> : null}
-    <ScrollView style={{padding:30}}>
+    <ScrollView style={{padding:30,marginTop:30}}>
       <Text style={feedS.title} >{title}</Text>
       <Text  style={{marginTop:10}}>{description}</Text>
       <A style={feedS.linkss} href={link}>Link</A>
