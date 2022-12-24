@@ -8,7 +8,6 @@ import {
   StackedBarChart
 } from "react-native-chart-kit";
 import { Dimensions } from 'react-native';
-import { LineChart, Grid ,XAxis} from 'react-native-svg-charts'
 import {auth} from "../firebase"
 import * as Linking from 'expo-linking';
 import { A } from '@expo/html-elements';

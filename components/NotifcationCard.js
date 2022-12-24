@@ -1,12 +1,6 @@
 import { View, Text,Image ,Modal,StyleSheet,Pressable,Share} from 'react-native'
 import React from 'react'
-import { LineChart, Grid ,XAxis} from 'react-native-svg-charts'
-import { A } from '@expo/html-elements';
 import {useState,useEffect} from "react"
-import * as Linking from 'expo-linking';
-import { func } from 'prop-types';
-import { NavigationContainer } from '@react-navigation/native';
-import { Entypo } from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons'; 
 {/**
            {historical && <Text>{historical.description.en}</Text>}

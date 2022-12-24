@@ -9,17 +9,12 @@ import Onboarding from 'react-native-onboarding-swiper';
 import { doc,setDoc,updateDoc } from 'firebase/firestore';
 import { Dimensions } from 'react-native';
 import { Appearance, useColorScheme } from 'react-native';
-import {
-  exchangeCodeAsync,
-  makeRedirectUri,
-  TokenResponse,
-  useAuthRequest,
-} from "expo-auth-session";
-import * as WebBrowser from "expo-web-browser";
 import { addDoc, collection } from 'firebase/firestore';
-import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
 import { ResponseType } from 'expo-auth-session';
-import { GoogleAuthProvider } from 'firebase/auth';
+import * as Google from 'expo-auth-session/providers/google';
+import { initializeApp } from 'firebase/app';
+import {  GoogleAuthProvider } from 'firebase/auth';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -75,11 +70,18 @@ export const Main = ({setLoggedIn}) => {
   });
 
   }
-  {/**
+  
 const forgotPassword =  (email) => {
      sendPasswordResetEmail(auth, email).then((a) => {
+      Alert.alert(
+        "Email sent",
+        "Please check the inbox or spam folder for the password reset instructions",
+        [
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
     }).catch(e => alert(e))
-  } */}
+  } 
 
   // coinbase open code
 
@@ -141,21 +143,23 @@ const forgotPassword =  (email) => {
             <TextInput value={email} onChangeText={value => {setEmail(value)}} color="#fff" style={styles2.textinpu} placeholder="Enter your email..."         autoCapitalize='none' placeholderTextColor="#EDEDED"/>
             <TextInput value={password} onChangeText={value => {setPassword(value)}}  placeholderTextColor="#EDEDED" color="#fff" style={styles2.textinpu} secureTextEntry autoCapitalize="none"
             placeholder="Enter your password..."/>
-            <View style={{flexDirection:"row",alignItems:"center",width:"100%",justifyContent:"center",paddingTop:9,paddingBottom:9,borderRadius:20,backgroundColor:"#E3E3E3",marginBottom:7}}>
+                   <Text  onPress={() => forgotPassword(email)}
+                       style={{textDecorationLine:"underline",color:"grey",marginBottom:10,textAlign:"center"}}>Forgot Password?</Text>
+            <View style={styles2.buttonco}>
+            
+            <Button  onPress={handleLogin} color="white"  title="Sign In"  style={styles2.buttonsi} />
+            </View>
+            <View style={{flexDirection:"row",alignItems:"center",width:"100%",justifyContent:"center",paddingTop:9,paddingBottom:9,borderRadius:20,backgroundColor:"#E3E3E3",marginTop:10}}>
               <Image source={{
                 uri:"https://assets.stickpng.com/thumbs/5847f9cbcef1014c0b5e48c8.png"
               }} style={{height:30,width:30}}/>
             <Button color="grey"
             disabled={!request}
-            title="Google Login"
+            title="Google Connect"
             onPress={() => {
               promptAsync();
             }}
           />
-            </View>
-            <View style={styles2.buttonco}>
-            
-            <Button  onPress={handleLogin} color="white"  title="Sign In"  style={styles2.buttonsi} />
             </View>
          {/**
           *    <View style={{flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
@@ -187,8 +191,6 @@ const forgotPassword =  (email) => {
                       <Text style={styles2.teinhe}>Password</Text>
                       <TextInput value={password} onChangeText={value => {setPassword(value)}} color="#fff" style={styles2.textinpu} secureTextEntry autoCapitalize="none"
                         placeholder="Enter your password..."/>
-                         {/**onPress={forgotPassword(email) */}
-                        <Text style={{textDecorationLine:"underline",color:"#fff",marginBottom:10}}>Forgot Password?</Text>
                    <View style={{
                         backgroundColor: "#4D76D8",
                         borderRadius: 10,
@@ -244,7 +246,7 @@ const styles2 = StyleSheet.create({
     color: "rgba(0,0,0,0.5)",fontSize: 15, textAlign: "left"
   },
   mainImage:{
-    width:"100%",height:300
+    width:"100%",height:250
   },
   bottom1:{
     flex:2,

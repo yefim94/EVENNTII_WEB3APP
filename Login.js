@@ -137,7 +137,6 @@ setImage("")
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState)
-    colorScheme === "dark"
   };
   const user = auth.currentUser;
 function deleteACC () {
@@ -149,17 +148,7 @@ function deleteACC () {
 }
 const colorScheme = useColorScheme();
 useEffect(()=>{
-    if (colorScheme === 'dark') {
-      seblac("#000")
-       setIsEnabled(true); // true means dark
-    }
-    if(colorScheme === 'light'){
-      seblac("#fff")
-       setIsEnabled(false); 
-       // false means light
-    } else {
-       null
-    }
+    console.log(colorScheme)
 },[colorScheme])
 registerForPushNotificationsAsync = async () => {
   
@@ -250,7 +239,16 @@ const slides = [
 const [border,setBorder] = useState(5)
 const [width,setWidth] = useState(50)
 const [intro,setIntro ]=useState(true)
+const themeTextStyle = colorScheme === 'light' ? styles3.centeredView : styles3.centeredViewDark;
+const darktheme = colorScheme === 'light' ? styles3.centeredView : styles3.centeredViewDark;
 
+function theme(object) {
+if(colorScheme === "light") {
+  return styles3 + object
+} else {
+  return 
+}
+}
 
   return (
     <View style={styles3.maincont}>
@@ -264,8 +262,9 @@ const [intro,setIntro ]=useState(true)
           Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}>
-        <View style={styles3.centeredView}>
-          <View style={styles3.modalView}>
+        <View style={{}}>
+         <ScrollView style={{}}>
+         <View style={themeTextStyle}>
           <View style={styles3.modalview2}> 
             <Text style={styles3.modalText}>Settings:</Text>
             <Text style={styles3.hi}>Hello,  <Text style={styles3.helloUsername}>{username}</Text></Text>
@@ -328,6 +327,7 @@ const [intro,setIntro ]=useState(true)
             </Pressable>
           </ScrollView>
           </View>
+         </ScrollView>
         </View>
       </Modal>
            <View style={styles3.logoCont}>
@@ -344,7 +344,7 @@ const [intro,setIntro ]=useState(true)
         </View>
  */}
          <View style={styles3.bottomcont} >
-         <View>
+         <View style={{}}>
           {/**
            * FOR FUTURE DARK MODE
            * <Text style={{
@@ -473,7 +473,7 @@ const [intro,setIntro ]=useState(true)
     </View>
   )
 }
-const styles3 = StyleSheet.create({
+const styles3 = {
   logoCont : {
     alignItems: 'center',
     padding: 10,
@@ -532,10 +532,23 @@ const styles3 = StyleSheet.create({
     flex:1,
     height:"100%",
     width:"100%",
+    backgroundColor:"#fff",
     alignItems:"center",
     justifyContent:"center",
+    paddingTop:50
   },
-  modalView: {
+  centeredViewDark: {
+    flex:1,
+    height:"100%",
+    width:"100%",
+    backgroundColor:"#000",
+    alignItems:"center",
+    justifyContent:"center",
+    paddingTop:50,
+    paddingLeft:20,
+    paddingRight:20
+  },
+  View: {
     height:"100%",
     backgroundColor: "white",
     flex:1,
@@ -598,7 +611,7 @@ const styles3 = StyleSheet.create({
     alignItems:"center",
     justifyContent:"center"
   }
-});
+}
 
 //push notifcations
 
