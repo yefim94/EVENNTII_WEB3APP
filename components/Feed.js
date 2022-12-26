@@ -19,7 +19,6 @@ export const Feed = () => {
   const [feedInput, setFeedInput] = useState("");
   const [apiqu, setApiqu] =  useState("");
   const [title2,setTitle2] = useState("")
-
   //functions
   async function handleFeedIn () {
     setApiqu( feedInput )
@@ -102,10 +101,6 @@ export const Feed = () => {
       />
 <AntDesign name="rightcircle" size={30} color="#3A84EC"  onPress={handleFeedIn}/>
      </View>
-     </View>
-     <View style={{backgroundColor:"#000",padding:20,borderRadius:20,marginBottom:20}}> 
-      <Text style={{color:"grey",fontSize:20}}>Current Volume, </Text>
-      <Text style={{color:"#fff",fontSize:27,fontWeight:"700"}}>$1,129,012,345</Text>
      </View>
    {apiqu ?  <View style={{backgroundColor:"#fff",padding:10,borderRadius:20,marginBottom:16}}>
     <Text style={feedS.apikey}>News for <Text style={feedS.apikey2}>{apiqu}</Text></Text>

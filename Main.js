@@ -1,6 +1,7 @@
 
 import React from 'react'
 import { StyleSheet, Text, View, SafeAreaView , Image, TextInput, Button, Modal, Pressable, StatusBar,Alert,ScrollView,KeyboardAvoidingView,TouchableWithoutFeedback,Keyboard} from 'react-native';
+import { useHeaderHeight } from '@react-navigation/elements'
 import { useState, useEffect } from 'react';
 import {auth} from "./firebase"
 import { db } from './firebase';
@@ -19,6 +20,7 @@ import {  GoogleAuthProvider } from 'firebase/auth';
 WebBrowser.maybeCompleteAuthSession();
 
 export const Main = ({setLoggedIn}) => {
+
   // state 
   const [email, setEmail] = useState("")
   const [slideim, setslideIm] =useState([])
@@ -85,7 +87,6 @@ const forgotPassword =  (email) => {
 
   // coinbase open code
 
-  const { width, height } = Dimensions.get('window');
 
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest(
     {
@@ -104,6 +105,8 @@ const forgotPassword =  (email) => {
   }, [response]);
 
   return (
+    <KeyboardAvoidingView  
+    enabled behavior="padding" style={{flex:1}}>   
     <ScrollView style={styles2.overallCont}>
       <StatusBar hidden />
         {/** */}
@@ -139,7 +142,6 @@ const forgotPassword =  (email) => {
           <Text style={styles2.maindesc}>NFTs and Crypto have exciting new properties: they’re unique, provably scarce, and usable across multiple applications.</Text>
           </View>
           <View style={styles2.teinpuco}>
-          <KeyboardAvoidingView enabled behavior="padding">
             <TextInput value={email} onChangeText={value => {setEmail(value)}} color="#fff" style={styles2.textinpu} placeholder="Enter your email..."         autoCapitalize='none' placeholderTextColor="#EDEDED"/>
             <TextInput value={password} onChangeText={value => {setPassword(value)}}  placeholderTextColor="#EDEDED" color="#fff" style={styles2.textinpu} secureTextEntry autoCapitalize="none"
             placeholder="Enter your password..."/>
@@ -177,7 +179,8 @@ const forgotPassword =  (email) => {
                     setModalVisible(!modalVisible);
                   }}
                 >
-                    <View style={styles2.modalView}>
+                   <KeyboardAvoidingView style={{flex:1}} behavior="padding">
+                   <View style={styles2.modalView}>
                     <Image source={{
                         uri: "https://www.modernretail.co/wp-content/uploads/sites/5/2022/01/blockchain-explained-gif.gif"
                       }} style={{width: "100%",height: 380, position: "relative",bottom: 0,}}/>
@@ -209,6 +212,7 @@ const forgotPassword =  (email) => {
                       </Pressable>
                   
                   </View>
+                   </KeyboardAvoidingView>
            </Modal>
            <Pressable
               style={[styles2.button]}
@@ -216,18 +220,18 @@ const forgotPassword =  (email) => {
             >
              <Text style={styles2.donthaveAcc}>Dont Have An Account?</Text>
             </Pressable>
-            </KeyboardAvoidingView>
           </View>
         </View>
         </View>
 
    
       </ScrollView> 
+      </KeyboardAvoidingView>
   )
 }
 const styles2 = StyleSheet.create({
   overallCont : {
-    flex: 1, backgroundColor: "#F5F5F5", borderRadius: 20
+    flex: 1, backgroundColor: "#F5F5F5", borderRadius: 20,
   },
   logoCont : {
     alignItems: 'center',
@@ -236,6 +240,7 @@ const styles2 = StyleSheet.create({
   },
   donthaveAcc:{
     color: "grey",
+    paddingBottom:60,
     textAlign: "center",
     textDecorationLine: "underline"
   },

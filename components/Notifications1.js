@@ -15,107 +15,26 @@ import { Appearance, useColorScheme } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import NotifcationCard from "./NotifcationCard"
 
+/**
+ * const [search,setSearch] = useState = ()
+ *const [query,setQuery] = usesState("")
+ const ddata = await fetch(`https://api.coingecko.com/api/v3/search?query=${query}`).then((e) => e.json).then((e) => setSearch(e.coins))
+ */
 
 export const Notifications1 = () => {
-  
-
-  const [historicData, setHistoricData] = useState();
-  const [btcprice, setBtcPrice] = useState(null)
-  const [ethPrice, setEthPrice] = useState(null)
-  const [cardPrice, setCardPrice] = useState(null)
-  const [hisbtcprice, setHisBtcPrice] = useState()
-  const [hisethPrice, setHisEthPrice] = useState([])
-  const [hiscardPrice, setHisCardPrice] = useState([])
-  const [data1, setData1] = useState([])
-  const [data2, setData2] = useState([])
-  const [data3, setData3] = useState([])
-  const [loader, setLoader] = useState(false)
-  const[moreBtc,setBtcMore] = useState()
-  const [btcImage,setBtcImage] = useState("")
-  const[moreEth,setEthMore] = useState()
-  const [ethImage,setEthImage] = useState("")
-  const[moreADA,setADAMore] = useState()
-  const [adaImage,setADAImage] = useState("")
-const [btclink,setBtcLink] =useState("")
-const [btcpostive,setBtcPositive] =useState("")
-const [btcnegative,setBtcNegative] =useState("")
-const [btcdesc,setBtcDesc] =useState("")
-const [btcvolume,setBtcVolume] =useState()
-const [ethlink,setEthLink] =useState("")
-const [ethpostive,setEthPositive] =useState("")
-const [ethnegative,setEthNegative] =useState("")
-const [ethdesc,setEthDesc] =useState("")
-const [ethvolume,setEthVolume] =useState()
-const [adalink,setAdaLink] =useState("")
-const [adapostive,setAdaPositive] =useState("")
-const [adanegative,setAdaNegative] =useState("")
-const [adadesc,setAdaDesc] =useState("")
-const [adavolume,setAdaVolume] =useState()
-const [mainData,setMainData] = useState()
-const [chartData,setChartData] = useState([])
-const [moreData,setMoreData] = useState([])
-
-  async function getBtcPrice (){   
-      const data = await fetch("https://api.coingecko.com/api/v3/coins/bitcoin").then(e => e.json())
-      const marketData = await data.market_data.current_price.usd
-      setBtcPrice(marketData)
-
-      const hisdata = await fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=4&interval=daily`).then(e => e.json())
-      setData1(hisdata.prices)
-
-      const btcMoreData = await fetch("https://api.coingecko.com/api/v3/coins/bitcoin").then(e => e.json())
-      setBtcMore(btcMoreData.market_data.price_change_percentage_24h.toFixed(2))
-      setBtcImage(btcMoreData.image.small)
-      setBtcDesc(btcMoreData.description.en)
-      setBtcVolume(btcMoreData.market_data.total_volume.usd)
-      setBtcLink(btcMoreData.links.homepage[0])
-      setBtcNegative(btcMoreData.sentiment_votes_down_percentage)
-      setBtcPositive(btcMoreData.sentiment_votes_up_percentage)
-  }
-
-  async function getEthPrice (ethereum){   
-    const data = await fetch("https://api.coingecko.com/api/v3/coins/ethereum").then(e => e.json())
-    const marketData = await data.market_data.current_price.usd
-    setEthPrice(marketData)
-
-    const hisdata = await fetch(`https://api.coingecko.com/api/v3/coins/ethereum/market_chart?vs_currency=usd&days=5&interval=daily`).then(e => e.json())
-    setData2(hisdata.prices)
-
-    const moreEth = await fetch("https://api.coingecko.com/api/v3/coins/ethereum").then(e => e.json())
-    setEthMore(moreEth.market_data.price_change_percentage_24h.toFixed(2))
-      setEthImage(moreEth.image.small)
-
-      setEthImage(moreEth.image.small)
-      setEthDesc(moreEth.description.en)
-      setEthVolume(moreEth.market_data.total_volume.usd)
-      setEthLink(moreEth.links.homepage[0])
-      setEthNegative(moreEth.sentiment_votes_down_percentage)
-      setEthPositive(moreEth.sentiment_votes_up_percentage)
-}
-async function cardPrice1 (cardano){   
-  const data = await fetch("https://api.coingecko.com/api/v3/coins/cardano").then(e => e.json())
-  const marketData = await data.market_data.current_price.usd
-  setCardPrice(marketData)
-
-  const hisdata = await fetch(`https://api.coingecko.com/api/v3/coins/cardano/market_chart?vs_currency=usd&days=5&interval=daily`).then(e => e.json()) 
-  setData3(hisdata.prices)
-
-  const moreADA = await fetch("https://api.coingecko.com/api/v3/coins/cardano").then(e => e.json())
-      setADAMore(moreADA.market_data.price_change_percentage_24h.toFixed(2))
-      setADAImage(moreADA.image.small)
-      setAdaDesc(moreADA.description.en)
-      setAdaVolume(moreADA.market_data.total_volume.usd)
-      setAdaLink(moreADA.links.homepage[0])
-      setAdaNegative(moreADA.sentiment_votes_down_percentage)
-      setAdaPositive(moreADA.sentiment_votes_up_percentage)
-}
-
   useEffect(() => {
     getData()
   }, [])
   const [data,setData] = useState()
+  const [defi,setDefi] = useState()
+  const [company,setCompany] = useState()
+  const [trending,setTrending] = useState()
   async function getData() {
    try {
+    const dete = await fetch("https://api.coingecko.com/api/v3/search/trending").then((e) => e.json()).then((e) => setTrending(e.coins))
+    const we = await fetch("https://api.coingecko.com/api/v3/global/decentralized_finance_defi")
+    const se= await we.json()
+    setDefi(se.data)
     {/**
   https://api.coingecko.com/api/v3/search/trending
 https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
@@ -124,6 +43,10 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
   const rawData = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false")
   const d = await rawData.json()
   setData(d)
+
+  const rawCompany = await fetch("https://api.coingecko.com/api/v3/companies/public_treasury/bitcoin")
+  const e = await rawCompany.json()
+  setCompany(e.companies)
 }
    catch(err) {
     alert(err)
@@ -155,13 +78,49 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
       />
 <AntDesign name="rightcircle" size={30} color="#3A84EC" />
      </View>
-     <View style={{padding:20,backgroundColor:"black",margin:20,borderRadius:20}}>
+<ScrollView>
+<Text style={{marginLeft:20,fontWeight:"700",fontSize:30}}>Top Trending Coins</Text>
+{trending && trending.map((doc) => <View style={{flexDirection:"row",backgroundColor:"#fff",borderRadius:20,padding:10,margin:10,}}>
+<Image source={{
+    uri: doc.item.large
+  }} style={{width:50,height:50,flex:1}}/>
+  <View style={{flex:4,marginLeft:10}}>
+    <Text style={{fontWeight:"700",fontSize:20}}>{doc.item.name}</Text>
+    <Text style={{color:"#3A84EC"}}>{doc.item.market_cap_rank}</Text>
+    <Text>${doc.item.price_btc}</Text>
+  </View>
+  <View style={{flex:1}}>
+    <Text>{doc.item.score}</Text>
+  </View>
+</View>)}
+  <Text style={{marginLeft:20,fontWeight:"700",fontSize:30}}>Global defi</Text>
+       <View style={{padding:20}}>
+       {defi && <View>
+          <Text>{defi.defi_market_cap}</Text>
+          <Text>{defi.eth_market_cap}</Text>
+          <Text>{defi.defi_to_eth_ratio}</Text>
+          <Text>{defi.trading_volume_24h}</Text>
+          <Text>{defi.top_coin_name}</Text>
+
+          </View>}
+       </View>
+  <Text style={{marginLeft:20,fontWeight:"700",fontSize:30}}>Wallet</Text>
+<View style={{padding:20,backgroundColor:"black",margin:20,borderRadius:20}}>
       <Text style={{color:"grey",fontSize:20}}>Profile Balance: </Text>
       <Text style={{color:"white",fontSize:30,fontWeight:"700"}}>$45,000</Text>
      </View>
-     <View style={{marginLeft:20}} onPress={alert("searching for local crypto wallet")}>
+     <View style={{marginLeft:20}} >
       <Text style={{color:"grey",textDecorationLine:"underline"}}>Tap to connect wallet.</Text>
      </View>
+     <Text style={{fontSize:30,fontWeight:"700",color:"#000",marginBottom:10,marginLeft:20,marginTop:20}}>Top Companies</Text>
+     <ScrollView style={{margin:20,backgroundColor:"#3772FF",padding:10,borderRadius:20}}>
+<View style={{height:200}}>
+{company && company.map((doc) => <View style={{padding:10,borderRadius:10,backgroundColor:"#fff",color:"#3772FF",marginBottom:15}}>
+  <Text style={{fontWeight:"700"}}>{doc.name}</Text>
+</View>)}
+</View>
+     </ScrollView>
+     <Text style={{color:"#000",fontWeight:"700",fontSize:30,marginLeft:20}}>Currency Basic Data</Text>
       <ScrollView style={{
         padding: 0, margin: 30
       }}>
@@ -169,159 +128,8 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
         {data && data.map((doc) => <>
        <NotifcationCard name={doc.name} image={doc.image} symbol={doc.symbol} price_change_24h={doc.price_change_24h} current_price={doc.current_price} />
         </>)}
-  
-{/**
- *       <NotifcationCard  data1={data1} btcvolume={btcvolume} btcImage={btcImage} btcnegative={btcnegative} btcpostive={btcpostive} btcprice={btcprice} btclink={btclink} moreBtc={moreBtc}/>
- *       <View style={{flex:1,backgroundColor: "#fff",borderRadius: 10,padding:30,marginBottom:30}}>
-        <View style={{flexDirection: "row",alignItems:"center",justifyContent:"space-between"}}>
-       <View style={{flexDirection:"row",alignItems:"center"}}>
-       <Image source={{uri: `${btcImage}`}} style={{width:40,height:40,marginRight:20}} />
-        <Text style={{fontSize: 20, fontWeight: "700"}}>Bitcoin</Text>
-       </View>
-        <View>
-        <Text style={{color : `${moreBtc < 0 ? "red": "green"}`, fontSize: 20, fontWeight: "700"}}>$ {btcprice}</Text>
-        <Text>{moreBtc}%</Text>
-        </View>
-        </View>
-        <View>
-        <LineChart
-          style={{height:126,padding:10,borderRadius:20 }}
-          data={data1.map((coin) => coin[1])}
-          svg={{ stroke: '#3A84EC', strokeWidth: 3 }}
-          contentInset={{ top: 20, bottom: 20 }}
-          numberOfTicks={4}
-        
-      >
-        <Grid />
-            </LineChart>
-            <View style={{flexDirection:"row",justifyContent:"space-between",overflow:"hidden"}}> 
-              <Text style={{fontSize:10}}>Monday</Text>
-              <Text style={{fontSize:10}}>Tuesday</Text>
-              <Text style={{fontSize:10}}>Wensday</Text>
-              <Text style={{fontSize:10}}>Thursday</Text>
-              <Text style={{fontSize:10}}>Friday</Text>
-              <Text style={{fontSize:10}}>Saturady</Text>
-              <Text style={{fontSize:10}}>Sunday</Text>
-            </View>
-        </View>
-        <View>
-        <View style={{flexDirection:"row",alignItems:"center",marginTop:13}}>
-        <Text style={{color:"green",fontSize:20,alignItems:"center",marginRight:10}}>Postive Percentage:</Text><Text style={{fontWeight:"700"}}>{btcpostive}%</Text>
-          <Image source={{uri:"https://cdn.discordapp.com/attachments/783336191529320498/1036089849213620304/Screen_Shot_2022-10-29_at_9.31.07_PM.png"}} style={{width:23,height:23,marginLeft:20}}/>
-        </View>
-        <View style={{flexDirection:"row",alignItems:"center",marginTop:13}}>
-        <Text style={{color:"red",fontSize:20,marginRight:10}}>Negative Percentage:</Text><Text style={{fontWeight:"700"}}>{btcnegative}%</Text>
-          <Image source={{uri:"https://cdn.discordapp.com/attachments/783336191529320498/1036089917178138694/Screen_Shot_2022-10-29_at_9.31.22_PM.png"}} style={{width:23,height:23,marginLeft:20}}/>
-        </View>
-        <View style={{flexDirection:"row",alignItems:"center",marginTop:13}}>
-          <Text style={{fontSize:20}}>Volume: </Text><Text  style={{fontWeight:"700"}}>{btcvolume}</Text>
-        </View>
-        <View style={{backgroundColor:"#3A84EC",marginTop:10,padding:10,borderRadius:10,alignItems:"center"}}>
-        <A style={{color:"#fff",fontSize:20}} href={btclink}>Home Page</A>
-        </View>
-        </View>
-      </View>
-      <View style={{flex:1,backgroundColor: "#fff",borderRadius: 20,padding:30,marginBottom:30}}>
-        <View style={{flexDirection: "row",alignItems:"center",justifyContent:"space-between"}}>
-       <View style={{flexDirection:"row",alignItems:"center"}}>
-       <Image source={{uri: `${ethImage}`}} style={{width:40,height:40,marginRight:20}} />
-        <Text style={{fontSize: 20, fontWeight: "700"}}>Ethereum</Text>
-       </View>
-        <View>
-          <Text style={{color : `${moreBtc < 0 ? "red": "green"}`, fontSize: 20, fontWeight: "700"}}>$ {ethPrice}</Text>
-          <Text>{moreEth}%</Text>
-        </View>
-        </View>
-        <View>
-        <LineChart
-          style={{height:126,padding:10,borderRadius:20 }}
-          data={data2.map((coin) => coin[1])}
-          svg={{ stroke: '#3A84EC', strokeWidth: 3 }}
-          contentInset={{ top: 20, bottom: 20 }}
-          numberOfTicks={4}
-        
-      >
-        <Grid />
-            </LineChart>
-        </View>
-        <View style={{flexDirection:"row",justifyContent:"space-between",overflow:"hidden"}}> 
-              <Text style={{fontSize:10}}>Monday</Text>
-              <Text style={{fontSize:10}}>Tuesday</Text>
-              <Text style={{fontSize:10}}>Wensday</Text>
-              <Text style={{fontSize:10}}>Thursday</Text>
-              <Text style={{fontSize:10}}>Friday</Text>
-              <Text style={{fontSize:10}}>Saturady</Text>
-              <Text style={{fontSize:10}}>Sunday</Text>
-            </View>
-        <View>
-        <View style={{flexDirection:"row",alignItems:"center",marginTop:13}}>
-        <Text style={{color:"green",fontSize:20,alignItems:"center",marginRight:10}}>Postive Percentage:</Text><Text style={{fontWeight:"700"}}>{ethpostive}%</Text>
-          <Image source={{uri:"https://cdn.discordapp.com/attachments/783336191529320498/1036089849213620304/Screen_Shot_2022-10-29_at_9.31.07_PM.png"}} style={{width:23,height:23,marginLeft:20}}/>
-        </View>
-        <View style={{flexDirection:"row",alignItems:"center",marginTop:13}}>
-        <Text style={{color:"red",fontSize:20,marginRight:10}}>Negative Percentage:</Text><Text style={{fontWeight:"700"}}>{ethnegative}%</Text>
-          <Image source={{uri:"https://cdn.discordapp.com/attachments/783336191529320498/1036089917178138694/Screen_Shot_2022-10-29_at_9.31.22_PM.png"}} style={{width:23,height:23,marginLeft:20}}/>
-        </View>
-        <View style={{flexDirection:"row",alignItems:"center",marginTop:13}}>
-          <Text style={{fontSize:20}}>Volume: </Text><Text  style={{fontWeight:"700"}}>{ethvolume}</Text>
-        </View>
-        <View style={{backgroundColor:"#3A84EC",marginTop:10,padding:10,borderRadius:10,alignItems:"center"}}>
-        <A style={{color:"#fff",fontSize:20}} href={ethlink}>Home Page </A>
-        </View>
-        </View>
-      </View>
-      <View style={{flex:1,backgroundColor: "#fff",borderRadius: 20,padding:30,marginBottom:30}}>
-        <View style={{flexDirection: "row",alignItems:"center",justifyContent:"space-between"}}>
-       <View style={{flexDirection:"row",alignItems:"center"}}>
-       <Image source={{uri: `${adaImage}`}} style={{width:40,height:40,marginRight:20}} />
-        <Text style={{fontSize: 20, fontWeight: "700"}}>Cardano</Text>
-       </View>
-        <View>
-        <Text style={{color : `${moreADA < 0 ? "red": "green"}`, fontSize: 20, fontWeight: "700"}}>$ {cardPrice}</Text>
-        <Text>{moreADA > 0 ? <Text>+</Text> :  <Text></Text>}{moreADA}%</Text>
-        </View>
-        </View>
-        <View>
-        <LineChart
-          style={{height:126,padding:10,borderRadius:20 }}
-          data={data3.map((coin) => coin[1])}
-          svg={{ stroke: '#3A84EC', strokeWidth: 3 }}
-          contentInset={{ top: 20, bottom: 20 }}
-          numberOfTicks={4}
-        
-      >
-        <Grid />
-            </LineChart>
-            <View style={{flexDirection:"row",justifyContent:"space-between",overflow:"hidden"}}> 
-              <Text style={{fontSize:10}}>Monday</Text>
-              <Text style={{fontSize:10}}>Tuesday</Text>
-              <Text style={{fontSize:10}}>Wensday</Text>
-              <Text style={{fontSize:10}}>Thursday</Text>
-              <Text style={{fontSize:10}}>Friday</Text>
-              <Text style={{fontSize:10}}>Saturady</Text>
-              <Text style={{fontSize:10}}>Sunday</Text>
-            </View>
-        </View>
-        <View>
-        <View style={{flexDirection:"row",alignItems:"center",marginTop:13}}>
-        <Text style={{color:"green",fontSize:20,alignItems:"center",marginRight:10}}>Postive Percentage:</Text><Text style={{fontWeight:"700"}}>{adapostive}%</Text>
-          <Image source={{uri:"https://cdn.discordapp.com/attachments/783336191529320498/1036089849213620304/Screen_Shot_2022-10-29_at_9.31.07_PM.png"}} style={{width:23,height:23,marginLeft:20}}/>
-        </View>
-        <View style={{flexDirection:"row",alignItems:"center",marginTop:13}}>
-        <Text style={{color:"red",fontSize:20,marginRight:10}}>Negative Percentage:</Text><Text style={{fontWeight:"700"}}>{adanegative}%</Text>
-          <Image source={{uri:"https://cdn.discordapp.com/attachments/783336191529320498/1036089917178138694/Screen_Shot_2022-10-29_at_9.31.22_PM.png"}} style={{width:23,height:23,marginLeft:20}}/>
-        </View>
-        <View style={{flexDirection:"row",alignItems:"center",marginTop:13}}>
-          <Text style={{fontSize:20}}>Volume: </Text><Text  style={{fontWeight:"700"}}>{adavolume}</Text>
-        </View>
-        <View style={{backgroundColor:"#3A84EC",marginTop:10,padding:10,borderRadius:10,alignItems:"center"}}>
-        <A style={{color:"#fff",fontSize:20}} href={adalink}>Home Page</A>
-        </View>
-        </View>
-      </View>
- * 
- */}
       </ScrollView>
+</ScrollView>
     </View>
   )
 }

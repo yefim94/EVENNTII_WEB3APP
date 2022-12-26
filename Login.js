@@ -535,7 +535,8 @@ const styles3 = {
     backgroundColor:"#fff",
     alignItems:"center",
     justifyContent:"center",
-    paddingTop:50
+    paddingTop:50,
+    paddingLeft:20,paddingRight:20
   },
   centeredViewDark: {
     flex:1,
@@ -545,8 +546,7 @@ const styles3 = {
     alignItems:"center",
     justifyContent:"center",
     paddingTop:50,
-    paddingLeft:20,
-    paddingRight:20
+    paddingLeft:20,paddingRight:20
   },
   View: {
     height:"100%",
@@ -583,6 +583,7 @@ const styles3 = {
     color: 'grey',
     textDecorationLine:"underline",    
     textAlign: 'center',
+    marginBottom:25
   },
   modalText: {
     marginBottom: 15,

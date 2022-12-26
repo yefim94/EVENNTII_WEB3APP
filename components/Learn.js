@@ -29,13 +29,7 @@ console.log(lessons)
     
   }, [])
   const [filteredLessons, setFilteredLessons] = useState([]);
-  useEffect(() => {
-    // when lessons or searchinput changes update filteredLessons
-    const newLessons = lessons.filter((lesson) =>
-      lesson.title.toLowerCase().includes(searchinput.toLowerCase())
-    );
-    setFilteredLessons(searchinput.length < 1 ? lessons : newLessons);
-  }, [lessons,searchinput]);
+  
   const [searchinput,setSearchInput] = useState("")
   const [li,Sli] = useState(true)
   const [filterar,setFilterAr] = useState(lessons)
@@ -44,6 +38,12 @@ console.log(lessons)
    Sli(false)
   }
   const [modalVisible, setModalVisible] = useState(false);
+  async function LSLS() {
+    const newLessons = lessons.filter((lesson) =>
+    lesson.title.toLowerCase().includes(searchinput.toLowerCase())
+  );
+  setFilteredLessons(searchinput.length < 1 ? lessons : newLessons);
+  }
   return (
     <View style={learnStyle.maincont}>
        <Modal
@@ -78,17 +78,17 @@ console.log(lessons)
       <Text style={learnStyle.learn}>Learn 📚</Text>
       </View>
       <View style={{marginTop:20,flexDirection:"row", width:"100%",alignItems:"center",backgroundColor:"#F3F5F9",borderRadius:20,paddingLeft:15}}>
-      <Feather name="search" size={24} color="#FF802C"style={{flex:0.1}} />
+      <Feather name="search" size={24} color="#FF802C"style={{flex:0.1}} onPress={LSLS}/>
         <TextInput style={{padding:20,borderRadius:20,flex:0.9}} placeholder="type lesson keyword" placeholderTextColor="grey" color="#000"  value={searchinput} onChangeText={(val) => setSearchInput(val)}/>
       </View>
 {li ?       <View style={{width:"100%",flexDirection:"row",marginTop:30,borderRadius:20,backgroundColor:"#CFECFE"}}>
       <View style={{flex:0.5,padding:20}}>
-        <Text style={{fontSize:20,fontWeight:"700",marginBottom:20}}>What do you want to learn Today?</Text>
+        <Text style={{fontSize:20,fontWeight:"700",marginBottom:20}}>Having Trouble? Not Sure Where to Start?</Text>
         <Pressable
-        style={{backgroundColor:"#FF7F2D",padding:8,borderRadius:20}}
+        style={{backgroundColor:"#FF7F2D",padding:8,borderRadius:15}}
         onPress={() => setModalVisible(true)}
       >
-          <Button title='Get Started' color="#fff"/>
+          <Text  style={{color:"#fff",fontWeight:"650",textAlign:"center",fontSize:18}}>Get Started</Text>
       </Pressable>
       </View>
       <View style={{flex:0.5,marginLeft:10}}>
@@ -98,16 +98,19 @@ console.log(lessons)
           <View>
           <Text style={{fontSize:28,marginTop:20}}>Courses</Text>
          <ScrollView style={{paddingBottom:200}}>
+
+
+
+          
          {
   searchinput === "" ?  
     lessons.map((lesson, key) => 
       <LessonCard key={key} title={lesson.title} desc={lesson.desc} img1={lesson.imgURL} fulldesc={lesson.fulldesc}/>
     )
   : 
-  filteredLessons && filteredLessons.map((item,i)=>{
+  filteredLessons.map((lesson,key)=>{
     return (
-      <LessonCard key={i} title={item.title} desc={item.desc} img1={item.imgURL} fulldesc={item.fulldesc}/>
-
+      <LessonCard key={key} title={lesson.title} desc={lesson.desc} img1={lesson.imgURL} fulldesc={lesson.fulldesc}/>
     );
   })
 
@@ -179,7 +182,8 @@ const styles = StyleSheet.create({
   textStyle: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
+    fontSize:20
   },
   modalText: {
     marginBottom: 15,

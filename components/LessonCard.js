@@ -25,7 +25,7 @@ export default function LessonCard({img1,title,desc,key,fulldesc}) {
     <Text style={{fontSize:34,fontWeight:"700",color:"#3A84EC"}}>{title}</Text>
     <Text style={{fontSize:19,fontWeight:"650",marginTop:7,color:"grey",marginBottom:10}}>{desc}</Text>
 <ScrollView>
-<Text style={{fontSize:20,fontWeight:"700"}}>{fulldesc}</Text>
+<Text style={{fontSize:20,fontWeight:"700",marginBottom:10}}>{fulldesc}</Text>
 <Pressable
       style={[styles.button, styles.buttonClose]}
       onPress={() => setModalVisible(!modalVisible)}>
@@ -36,10 +36,7 @@ export default function LessonCard({img1,title,desc,key,fulldesc}) {
       </View>
     </View>
   </Modal>
-    <Pressable
-        style={[styles.button, styles.buttonOpen]}
-        onPress={() => setModalVisible(true)}
-      >
+  
          <View  style={{width:"100%",flexDirection:"row",backgroundColor:"#F5FAF4",padding:5,borderRadius:20,marginTop:20}}>
      <View style={{flex:0.2,alignItems:"center",justifyContent:"center"}}>
       <Image source={{
@@ -51,12 +48,16 @@ export default function LessonCard({img1,title,desc,key,fulldesc}) {
       <Text style={{fontSize:14,fontWeight:"600",color:"grey"}}>{desc}</Text>
      </View>
      <View style={{flex:0.2}}>
+     <Pressable
+        style={[styles.button, styles.buttonOpen]}
+        onPress={() => setModalVisible(true)}
+      >
     <View style={{alignItems:"center",justifyContent:"center",flex:1}}>
     <AntDesign name="play" size={30} color="#FF802C"  style={{}}/>
     </View>
+      </Pressable>
      </View>
     </View>
-      </Pressable>
     </View>
 
   )
