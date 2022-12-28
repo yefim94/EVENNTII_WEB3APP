@@ -189,4 +189,4 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center"
   }
-});
+}); 

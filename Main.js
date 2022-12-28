@@ -1,20 +1,14 @@
 
 import React from 'react'
-import { StyleSheet, Text, View, SafeAreaView , Image, TextInput, Button, Modal, Pressable, StatusBar,Alert,ScrollView,KeyboardAvoidingView,TouchableWithoutFeedback,Keyboard} from 'react-native';
-import { useHeaderHeight } from '@react-navigation/elements'
+import { StyleSheet, Text, View, SafeAreaView , Image, TextInput, Button, Modal, Pressable, StatusBar,Alert,ScrollView,KeyboardAvoidingView} from 'react-native';
 import { useState, useEffect } from 'react';
 import {auth} from "./firebase"
 import { db } from './firebase';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,sendPasswordResetEmail,signInWithCredential} from "firebase/auth";
-import Onboarding from 'react-native-onboarding-swiper';
-import { doc,setDoc,updateDoc } from 'firebase/firestore';
-import { Dimensions } from 'react-native';
-import { Appearance, useColorScheme } from 'react-native';
 import { addDoc, collection } from 'firebase/firestore';
 import * as WebBrowser from 'expo-web-browser';
 import { ResponseType } from 'expo-auth-session';
 import * as Google from 'expo-auth-session/providers/google';
-import { initializeApp } from 'firebase/app';
 import {  GoogleAuthProvider } from 'firebase/auth';
 
 WebBrowser.maybeCompleteAuthSession();
@@ -23,11 +17,7 @@ export const Main = ({setLoggedIn}) => {
 
   // state 
   const [email, setEmail] = useState("")
-  const [slideim, setslideIm] =useState([])
   const [password,setPassword] = useState("")
-  const [emaillo, setEmaillo] = useState("")
-  const [passwordlo,setPasswordlo] = useState("")
-  const [spim,setSpIm] = useState("")
   const [modalVisible, setModalVisible] = useState(false);
 
 
@@ -94,13 +84,21 @@ const forgotPassword =  (email) => {
     },
   );
 
-  React.useEffect(() => {
+useEffect(() => {
     if (response?.type === 'success') {
       const { id_token } = response.params;
       const auth = getAuth();
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential);
       
+    } else {
+      Alert.alert(
+        "Could Not Sign In",
+        "Please check your network or if your google account exists",
+        [
+          { text: "OK" }
+        ]
+      );
     }
   }, [response]);
 

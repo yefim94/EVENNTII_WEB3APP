@@ -12,7 +12,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons'; 
 
-export default function FeedCard({apiqu,image_url,title,description,link,language,creator}) {
+export default function FeedCard({apiqu,image_url,title,description,link,language,creator,element}) {
   const [modalVisible, setModalVisible] = useState(false);   
    const onShare = async (title,link) => {
       try {
@@ -34,6 +34,9 @@ export default function FeedCard({apiqu,image_url,title,description,link,languag
         alert(error.message);
       }
     };
+    useEffect(() => {
+    }, [])
+    
   const upvote = () => {
     alert("upvoted")
   }
@@ -109,7 +112,7 @@ export default function FeedCard({apiqu,image_url,title,description,link,languag
       borderRadius: 10,
       marginTop:20
     }}>
-    <Text style={{color: "#fff"}}>{apiqu}</Text>
+    <Text style={{color: "#fff"}}>{apiqu} {element.keywords ? `, ${element.keywords[0]}` : null}</Text>
     </View>
     <A style={{color:"grey",textDecorationLine: "underline",marginTop:10}} href={link}>Link</A>
     
@@ -135,12 +138,8 @@ export default function FeedCard({apiqu,image_url,title,description,link,languag
     <Text style={{color: "#000"}}>{language}</Text>
     </View>
     <View style={{backgroundColor:"#3A84EC",padding:5,borderRadius:16,flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
-   <View style={{flexDirection:"row",alignItems:"center"}}>
-   <Entypo name="arrow-bold-up" size={24} color="white" onPress={upvote}/>
-      <Text style={{color:"#fff"}}>3</Text>
-      <Entypo name="arrow-bold-down" size={24} color="white" onPress={downvote}/>
-   </View>
-   <View style={{flexDirection:"row",alignItems:"center",marginLeft:20}}>
+   
+   <View style={{flexDirection:"row",alignItems:"center",marginLeft:10,marginRight:10}}>
    <FontAwesome name="share" size={24} color="white" onPress={() => onShare(title,link)} />
              <Text style={{color:"#fff",marginLeft:10}}>Share</Text>
    </View>

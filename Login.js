@@ -1,16 +1,10 @@
-// HOW TO ADD UNIQUE DB experiences
-// 1.user signs in/up with email pass, create new uid
-// 2. user at home page can select img for avatar
-// 3.users avatar matches the uid of the avatar
-
-//imports
 import { getStorage, ref, uploadBytesResumable, getDownloadURL ,uploadBytes,uploadString} from "firebase/storage";
 
 import React from 'react'
 import {db} from './firebase'
 import { collection,query, where, getDocs,onSnapshot ,getDoc} from 'firebase/firestore';
 import { doc,setDoc,updateDoc } from 'firebase/firestore';
-import { StyleSheet, Text, View, SafeAreaView , Image, TextInput, Button,StatusBar,Modal,Pressable,Switch, ScrollView} from 'react-native';
+import { Text, View, SafeAreaView , Image, Button,StatusBar,Modal,Pressable,Switch, ScrollView} from 'react-native';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import * as ImagePicker from 'expo-image-picker';
@@ -40,13 +34,11 @@ export const Login = ({setLoggedIn}) => {
   //state
   const currentUser = auth.currentUser;
   const uid = currentUser.uid
-  const avatar = currentUser.photoURL  
   const [image, setImage] = useState("");  
   const [url, setUrl] = useState(null)
   //functions
   const pickImage = async () => {
     try {
- // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -70,7 +62,6 @@ export const Login = ({setLoggedIn}) => {
     }
 
   };
-  const [t,setT] = useState(false)
   const [url1,setUrl1]=useState([])
   async function imgFirebase () {
    try {
@@ -331,47 +322,8 @@ if(colorScheme === "light") {
         </View>
       </Modal>
            <View style={styles3.logoCont}>
-{/**
- *         <View style={{flexDirection: "row"}}>
-        <View style={styles3.logostco}>
-           <Image style={{height: 40,width:40}} source={{
-            uri: "https://cdn.discordapp.com/attachments/783336191529320498/1034953013695103017/Screen_Shot_2022-10-26_at_6.13.27_PM.png"
-           }}/>
-          </View>
-         <View style={styles3.eve2co}>
-         <Text style={styles3.logo}>EVENNTII</Text>
-         </View>
-        </View>
- */}
          <View style={styles3.bottomcont} >
          <View style={{}}>
-          {/**
-           * FOR FUTURE DARK MODE
-           * <Text style={{
-            color: black
-          }}>jisd</Text>
-           */}
-           {/**
-            *  <Image source={{uri: "https://imebehavioralhealth.com/wp-content/uploads/2021/10/user-icon-placeholder-1.png"}} style={{
-            width:50,
-            height:50,
-            borderColor:"#3A84EC",
-            borderWidth:5,
-            marginRight:14,
-            borderRadius:"100"
-          }} />
-          url1.map((doc) => (
-            <Image source={{uri: doc.photoUrl}} style={{
-              width:50,
-              height:50,
-              borderColor:"#3A84EC",
-              borderWidth:5,
-              marginRight:14,
-              borderRadius:"100"
-            }} />
-          ))
-          url1.length != 0
-            */}
           {url1 !== "" ? url1.map((doc) => (
             <Image source={{uri: `${doc.photoUrl.includes("https") ? doc.photoUrl :"https://imebehavioralhealth.com/wp-content/uploads/2021/10/user-icon-placeholder-1.png"}`}} style={{
               width: width,

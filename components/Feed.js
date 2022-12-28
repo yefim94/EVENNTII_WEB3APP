@@ -110,7 +110,7 @@ export const Feed = () => {
 
 
         {feedData.map((element, key) => (
-          <FeedCard key={key} apiqu={apiqu} image_url={element.image_url} title={element.title} description={element.description} link={element.link} creator={element.creator} language={element.language}/>
+          <FeedCard element={element} key={key} apiqu={apiqu} image_url={element.image_url} title={element.title} description={element.description} link={element.link} creator={element.creator} language={element.language}/>
         )
       )} 
       </>: <>
@@ -129,9 +129,6 @@ export const Feed = () => {
             },
             shadowRadius: 2,
             shadowOpacity: 1.0
-        
-
-
         }}>
          <View style={{
           flexDirection: "row",
@@ -214,7 +211,8 @@ padding: 10,
 fontSize: 16,
 width: "60%"},
 apikey:{fontSize:27},
-apikey2:{color:"#3A84EC",fontWeight:"700"},
+apikey2:{color:"#3A84EC",fontWeight:"700", textShadowColor: '#86B2F1', textShadowOffset: { width: 0, height: 4.5 }, textShadowRadius: 3,
+},
 newscard:{ backgroundColor: "#fff",
 borderRadius: 20,
 marginBottom: 30,
