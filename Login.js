@@ -30,7 +30,23 @@ import Learn from "./components/Learn";
 import SliderIntro from 'react-native-slider-intro';
 //tabs
 const Tab = createMaterialBottomTabNavigator();
-export const Login = ({setLoggedIn}) => {
+export const Login = ({setLoggedIn,colorScheme}) => {
+
+const themeTextStyle = colorScheme === 'light' ? styles3.centeredView : styles3.centeredViewDark;
+
+const setting = colorScheme === 'light' ? styles3.modalText : styles3.modalTextDark;
+
+
+const hi = colorScheme === 'light' ? styles3.hi : styles3.hiDark;
+
+const darkMode = colorScheme === 'light' ? styles3.hi : styles3.hiDark;
+
+const nav = colorScheme === 'light' ? "#fff" : "#000";
+
+const logoCont = colorScheme === 'light' ? styles3.logoCont : styles3.logoContDark;
+
+const dots = colorScheme === 'light' ? "black" : "white";
+
   //state
   const currentUser = auth.currentUser;
   const uid = currentUser.uid
@@ -128,6 +144,7 @@ setImage("")
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState)
+    colorScheme = "dark"
   };
   const user = auth.currentUser;
 function deleteACC () {
@@ -137,7 +154,6 @@ function deleteACC () {
    alert(error)
   });
 }
-const colorScheme = useColorScheme();
 useEffect(()=>{
     console.log(colorScheme)
 },[colorScheme])
@@ -230,8 +246,6 @@ const slides = [
 const [border,setBorder] = useState(5)
 const [width,setWidth] = useState(50)
 const [intro,setIntro ]=useState(true)
-const themeTextStyle = colorScheme === 'light' ? styles3.centeredView : styles3.centeredViewDark;
-const darktheme = colorScheme === 'light' ? styles3.centeredView : styles3.centeredViewDark;
 
 function theme(object) {
 if(colorScheme === "light") {
@@ -240,6 +254,7 @@ if(colorScheme === "light") {
   return 
 }
 }
+
 
   return (
     <View style={styles3.maincont}>
@@ -257,8 +272,8 @@ if(colorScheme === "light") {
          <ScrollView style={{}}>
          <View style={themeTextStyle}>
           <View style={styles3.modalview2}> 
-            <Text style={styles3.modalText}>Settings:</Text>
-            <Text style={styles3.hi}>Hello,  <Text style={styles3.helloUsername}>{username}</Text></Text>
+            <Text style={setting}>Settings:</Text>
+            <Text style={hi}>Hello,  <Text style={styles3.helloUsername}>{username}</Text></Text>
             <View style={styles3.imagemocont}>
             {url1 == undefined ? null
            : url1.map((doc) => (
@@ -281,7 +296,7 @@ if(colorScheme === "light") {
             </View>
             </View>
            <View style={{flexDirection:"row", alignItems:"center",marginBottom:15}}>
-           <Text style={{marginRight:20}}>Dark Mode:</Text>
+           <Text style={darkMode}>Dark Mode:</Text>
             <Switch
         trackColor={{ false: "#767577", true: "#81b0ff" }}
         thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
@@ -321,7 +336,7 @@ if(colorScheme === "light") {
          </ScrollView>
         </View>
       </Modal>
-           <View style={styles3.logoCont}>
+           <View style={logoCont}>
          <View style={styles3.bottomcont} >
          <View style={{}}>
           {url1 !== "" ? url1.map((doc) => (
@@ -355,21 +370,22 @@ if(colorScheme === "light") {
          <Text style={styles3.username}>{username}</Text>
          </View>
          <Pressable style={[styles3.button, styles3.buttonOpen]} onPress={() => setModalVisible(true)}>
-         <Entypo name="dots-three-vertical" size={24} color="black" />
+         <Entypo name="dots-three-vertical" size={24} color={dots} />
 
       </Pressable>
         </View>
+        <View style={{width:"100%",height:1,backgroundColor:"#fff"}}></View>
     <NavigationContainer 
 >
       <Tab.Navigator
       initialRouteName="Feed"
       activeColor="#8DB7F3"
       inactiveColor='#3A84EC'
-      barStyle={{ backgroundColor: '#fff' }}
+      barStyle={{ backgroundColor: nav }}
     >
      <Tab.Screen
         name="Feed"
-        component={Feed}
+        component={Feed }
         options={{
           tabBarLabel: 'News',
           tabBarIcon: ({ color }) => (
@@ -380,6 +396,7 @@ if(colorScheme === "light") {
      
            <Tab.Screen
         name="Forums"
+        setParams={colorScheme}
         component={Forums}
         options={{
           tabBarLabel: 'Forums',
@@ -390,6 +407,8 @@ if(colorScheme === "light") {
       />
       <Tab.Screen
         name="Notifications"
+        setParams={colorScheme}
+
         component={Notifications1}
         options={{
           tabBarLabel: 'Crypto',
@@ -400,7 +419,7 @@ if(colorScheme === "light") {
       />
       <Tab.Screen
         name="Profile"
-        setParams={setLoggedIn}
+        setParams={colorScheme}
         component={Profile}
         options={{
           tabBarLabel: `NFT's`,
@@ -411,7 +430,7 @@ if(colorScheme === "light") {
       />
        <Tab.Screen
         name="Learn"
-        setParams={setLoggedIn}
+        setParams={colorScheme}
         component={Learn}
         options={{
           tabBarLabel: `Learn`,
@@ -427,14 +446,20 @@ if(colorScheme === "light") {
 }
 const styles3 = {
   logoCont : {
+    paddingTop:40,
     alignItems: 'center',
     padding: 10,
-    backgroundColor:"white",
+    backgroundColor:"#fff",
     flexDirection: "row",
     justifyContent: "space-between"
   },
-  logostco: {
-   
+  logoContDark: {
+    paddingTop:40,
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor:"#000",
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   deleteacc:{
     backgroundColor:"#B01A1A",
@@ -531,6 +556,14 @@ const styles3 = {
   },
   buttonClose: {
   },
+  dark: {
+    color:"#000",
+    marginRight:10
+  },
+  darkDark:{
+    color:"#fff",
+    marginRight:20,
+  },
   textStyle: {
     color: 'grey',
     textDecorationLine:"underline",    
@@ -542,16 +575,30 @@ const styles3 = {
     textAlign: 'center',
     fontSize: 45,
     paddingLeft:16,
-    fontWeight:"700"
+    fontWeight:"700",
+    color:"#000"
+  },
+  modalTextDark: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontSize: 45,
+    paddingLeft:16,
+    fontWeight:"700",
+    color:"#fff"
   },
   maincont:{
-    marginTop: 30, flex: 1, borderRadius: 20,width:"100%",height:"100%"
+     flex: 1, borderRadius: 20,width:"100%",height:"100%"
   },
   modalview2:{
     alignItems:"center"
   },
   hi:{
-    fontSize:30
+    fontSize:30,
+    color:"#000"
+  },
+  hiDark:{
+    fontSize:30,
+    color:"#fff"
   },
   helloUsername:{
     color:"#3A84EC",fontWeight:"700",paddingBottom:100

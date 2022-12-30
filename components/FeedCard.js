@@ -48,8 +48,10 @@ export default function FeedCard({apiqu,image_url,title,description,link,languag
     setTitle2(title)
     setModalVisible(true) 
   }
+  const colorScheme = useColorScheme()
+  const newsCard = colorScheme ==="light"? feedS.newscard : feedS.newscardDark
   return (
-    <View   style={feedS.newscard}>
+    <View   style={newsCard}>
     <Modal
   animationType="slide"
   transparent={true}
@@ -90,7 +92,7 @@ export default function FeedCard({apiqu,image_url,title,description,link,languag
         uri: image_url,
       }}
       // provide width to element or it wont render
-      style={{width:"100%",height:200, marginRight: 20,borderTopLeftRadius:20,borderTopRightRadius:20}}
+      style={{width:"100%",height:200, marginRight: 20}}
 
     /> : null }
    <View style={{
@@ -103,6 +105,7 @@ export default function FeedCard({apiqu,image_url,title,description,link,languag
    <Text style={{
       fontSize: 20,
       fontWeight: "700",
+      color:`${colorScheme==="light"?"#000":"#fff"}`
     }}>{title}</Text>
    </View>
      <View style={{}}>
@@ -121,21 +124,23 @@ export default function FeedCard({apiqu,image_url,title,description,link,languag
    </View>
     </Pressable>
    <View style={{paddingBottom:20,paddingLeft:20,paddingRight:20}}>
-    <Text>{description}</Text>
-    <View style={{width:"100%",height:1,backgroundColor:"#000", borderRadius:20,marginTop:10}}></View>
+    <Text style={{
+       color:`${colorScheme==="light"?"#000":"#fff"}`
+    }}>{description}</Text>
+    <View style={{width:"100%",height:1,borderRadius:20,marginTop:10, backgroundColor:`${colorScheme==="light"?"#000":"#fff"}`,marginTop:20}}></View>
 
     <Text style={{marginTop: 20, color: "grey"}}>{creator}</Text>
    <View style={{flexDirection: "row",alignItems: "center",marginTop:10}}>
     <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between",width:"100%"}}>
     <View style={{flexDirection:"row",alignItems:"center"}}>
     <View style={{
-      backgroundColor:"#000",
+      backgroundColor:`${colorScheme==="light"?"#000":"#fff"}`,
       width:10,
       height:10,
       borderRadius:100,
       marginRight: 10
     }}></View>
-    <Text style={{color: "#000"}}>{language}</Text>
+    <Text style={{ color:`${colorScheme==="light"?"#000":"#fff"}`}}>{language}</Text>
     </View>
     <View style={{backgroundColor:"#3A84EC",padding:5,borderRadius:16,flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
    
@@ -169,7 +174,11 @@ const feedS = StyleSheet.create({
   apikey:{fontSize:27},
   apikey2:{color:"#3A84EC",fontWeight:"700"},
   newscard:{ backgroundColor: "#fff",
-  borderRadius: 20,
+  borderRadius: 0,
+  marginBottom: 30,
+  flex:1},
+  newscardDark:{ backgroundColor: "#052451",
+  borderRadius: 0,
   marginBottom: 30,
   flex:1},
   imcont:{backgroundColor:"#fff",height:"100%",width:"100%",paddingBottom:60},

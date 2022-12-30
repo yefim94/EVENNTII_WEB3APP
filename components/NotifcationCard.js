@@ -1,4 +1,4 @@
-import { View, Text,Image ,Modal,StyleSheet,Pressable,Share} from 'react-native'
+import { View, Text,Image ,Modal,StyleSheet,Pressable,Share, useColorScheme} from 'react-native'
 import React from 'react'
 import {useState,useEffect} from "react"
 import { FontAwesome } from '@expo/vector-icons'; 
@@ -44,6 +44,7 @@ export default function NotifcationCard({name,image,symbol,price_change_24h,curr
       alert(error.message);
     }
   };
+  const colorScheme = useColorScheme()
   return (
     <>
         <Modal
@@ -83,12 +84,12 @@ export default function NotifcationCard({name,image,symbol,price_change_24h,curr
 <Pressable
       onPress={() => setModalVisible(true)}>
 
-<View style={{width:"100%",height:80,marginBottom:20,flexDirection:"row",backgroundColor:"#fff",borderRadius:20,padding:15}}>
+<View style={{width:"100%",height:80,marginBottom:20,flexDirection:"row",backgroundColor: `${colorScheme==="light"?"#D1D1D1":"#052451"}`,borderRadius:20,padding:15}}>
           <View style={{flexDirection:"row",flex:2}}>
             <Image source={{uri:`${image}`}} style={{width:50,height:"100%",marginRight:20,borderRadius:50}}/>
             <View>
               <Text style={{fontWeight:"700",color:"#3A84EC",fontSize:20}}>{name}</Text>
-              <Text style={{fontSize:17}}>${symbol.toUpperCase()}</Text>
+              <Text style={{fontSize:17,color:`${colorScheme==="light"?"#000":"#fff"}`}}>${symbol.toUpperCase()}</Text>
             </View>
           </View>
           <View>

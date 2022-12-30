@@ -92,13 +92,14 @@ useEffect(() => {
       signInWithCredential(auth, credential);
       
     } else {
-      Alert.alert(
+     {/**
+     Alert.alert(
         "Could Not Sign In",
         "Please check your network or if your google account exists",
         [
           { text: "OK" }
         ]
-      );
+      ); */}
     }
   }, [response]);
 

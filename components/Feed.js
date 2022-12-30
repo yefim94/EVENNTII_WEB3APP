@@ -24,6 +24,9 @@ export const Feed = () => {
     setApiqu( feedInput )
     setFeedInput("")
   }
+  useEffect(() => {
+  console.log(colorScheme);
+  }, [])
   
   useEffect(() => {
     getData();
@@ -87,22 +90,31 @@ export const Feed = () => {
     setTitle2(title)
     setModalVisible(true) 
   }
+  const colorScheme = useColorScheme();
+  const mainhead = colorScheme === 'light' ? feedS.mainhead : feedS.mainheadDark;
+
   return (
-    <View style={feedS.maincont}>
-      <Text style={feedS.mainhead}>News Feed 📰</Text>
+    <View style={colorScheme === "light" ? {}:{backgroundColor:"#000"}}>
+ <View style={{padding:20}}>
+ <Text style={mainhead}>News Feed 📰</Text>
      <View style={feedS.lowermainc}>
-      <Text style={feedS.smallhead}>What do you want to read?</Text>
+      <Text style={{color:`${colorScheme==="light"?"#000":"#fff"}`,fontSize:20,marginBottom:10,marginTop:10}}>What do you want to read?</Text>
      <View style={feedS.teco}>
      <TextInput
      placeholder='type news keyword'
-        style={feedS.teinput}
+        style={{backgroundColor: `${colorScheme==="light"?"#D1D1D1":"#052451"}`,
+        borderRadius: 20,
+        padding: 10,
+        fontSize: 16,
+        width: "60%"}}
         onChangeText={(val) => setFeedInput(val)}
         value={feedInput}
       />
 <AntDesign name="rightcircle" size={30} color="#3A84EC"  onPress={handleFeedIn}/>
      </View>
      </View>
-   {apiqu ?  <View style={{backgroundColor:"#fff",padding:10,borderRadius:20,marginBottom:16}}>
+ </View>
+   {apiqu ?  <View style={{backgroundColor:"#fff",padding:10,borderRadius:20,marginBottom:16,marginLeft:15,marginRight:20}}>
     <Text style={feedS.apikey}>News for <Text style={feedS.apikey2}>{apiqu}</Text></Text>
     </View> : null}
       <ScrollView  showsHorizontalScrollIndicator={false}>
@@ -115,10 +127,9 @@ export const Feed = () => {
       )} 
       </>: <>
       <Text style={{fontSize:27, marginLeft:15,marginBottom:15}}>Trending Topics:</Text>
-      {feedData2.map((element, key) => (
+          {feedData2 === undefined ? feedData2.map((element, key) => (
         <View  key={key} style={{
           backgroundColor: "#fff",
-            borderRadius: 20,
             margin:5,
             marginBottom: 30,
             flex:1,
@@ -141,7 +152,7 @@ export const Feed = () => {
               uri: `${element.image_url}`,
             }}
             // provide width to element or it wont render
-            style={{width:"100%",height:200, marginRight: 20,borderTopLeftRadius:20,borderTopRightRadius:20}}
+            style={{width:"100%",height:200, marginRight: 20}}
 
           /> : null }
          <View style={{
@@ -188,18 +199,15 @@ export const Feed = () => {
          </View>
         </View>
       )
-      )} 
+      ) : null}
       </>}
       </ScrollView>
     </View>
   )
 }
 const feedS = StyleSheet.create({
-maincont:{
-  borderRadius: 20, 
-      padding: 20
-},
-mainhead:{fontSize: 40, fontWeight: "700"},
+mainhead:{fontSize: 40, fontWeight: "700",color:"#000"},
+mainheadDark:{fontSize: 40, fontWeight: "700",color:"#fff"},
 lowermainc:{
   marginBottom: 20
 },

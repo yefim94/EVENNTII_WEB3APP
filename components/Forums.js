@@ -12,6 +12,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Button } from 'react-native-paper';
 import Luna from "./Luna"
 import Crypto from "./Crypto"
+import { Appearance, useColorScheme } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; 
 import { getStorage, ref, uploadBytesResumable, getDownloadURL ,uploadBytes,uploadString} from "firebase/storage";
 import * as Device from 'expo-device';
@@ -65,6 +66,7 @@ catch(E) {
 }
 ddd()
   }, [])
+  const colorScheme = useColorScheme();
   useEffect(() => {
     if(forumData) {
       console.log(forumData)
@@ -150,7 +152,7 @@ ddd()
     }
    }
   return (
-    <View >
+    <View style={colorScheme === "light" ? "#fff": {backgroundColor:"#000"}}>
       <Modal
         animationType="slide"
         transparent={true}
@@ -189,7 +191,7 @@ ddd()
       </Modal>
     <View style={{marginBottom: 4,padding:20,zIndex:100}}>
     <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",marginBottom:15}}>
-    <Text style={{fontSize: 40, fontWeight: "700"}}>Forums 💬</Text>
+    <Text style={colorScheme === "light" ? {fontSize: 40, fontWeight: "700"}: {color:"#fff",fontSize: 40, fontWeight: "700"}}>Forums 💬</Text>
     <Pressable
        
        onPress={() => setModalVisible(true)}
@@ -199,12 +201,12 @@ ddd()
   </View>
         </Pressable>
     </View>
-      <Text style={{fontSize: 25, fontWeight: "650", marginBottom: 10}}>Forums and posts related to web 3</Text>
+      <Text style={{fontSize: 25, fontWeight: "650", marginBottom: 10,color:`${colorScheme==="light"?"#000":"#fff"}`}}>Forums and posts related to web 3</Text>
      <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
      <TextInput
      placeholder='type news keyword'
       style={{
-        backgroundColor: "#D1D1D1",
+        backgroundColor: `${colorScheme==="light"?"#D1D1D1":"#052451"}`,
         borderRadius: 20,
         padding: 10,
         fontSize: 16,

@@ -6,6 +6,7 @@ import { Main } from './Main.js';
 import { auth } from "./firebase";
 import {  onAuthStateChanged} from "firebase/auth";
 import { useEffect} from 'react';
+import { Appearance, useColorScheme } from 'react-native';
 
 {/**
 "expo-notifications",
@@ -19,23 +20,35 @@ import { useEffect} from 'react';
         }
 */}
 export default function App() {
+   const colorScheme = useColorScheme();
   useEffect(() => {
-    const handAuth = (e) => {
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          setLoggedIn(true)
-          auth.currentUser.uid = user.uid;
-        } else {
-          setLoggedIn(null)
-        }
-      });
-    }
-    handAuth()
+    console.log(colorScheme);
   }, [])
+  
+  useEffect(() => {
+   async function mainAUTH (){
+    try {
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            setLoggedIn(true)
+            auth.currentUser.uid = user.uid;
+          } else {
+            setLoggedIn(null)
+          }
+        });
+      
+    }
+    catch(e) {
+      setError(true)
+    }
+   }
+   mainAUTH()
+  }, [])
+  const [error,setError] = useState(false)
    const [loggedIn, setLoggedIn] = useState(null)
   return (
     <View style={styles.container}>
-      {loggedIn ?  <Login setLoggedIn={setLoggedIn}loggedIn={loggedIn} /> : <Main setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>}
+     {error ? <View><Text>error</Text></View> : loggedIn ?  <Login colorScheme={colorScheme}setLoggedIn={setLoggedIn} loggedIn={loggedIn} /> : <Main setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>}
       {/**
        * <View style={{flexDirection: "row",justifyContent: "space-between", alignItems: "center", marginLeft: 100, marginRight: 100}}>
         <Image style={styles.logosoc} source={{uri: "https://i.pinimg.com/originals/5e/ff/6c/5eff6c25d920f6a78fda288e6589bf8b.jpg"}} />

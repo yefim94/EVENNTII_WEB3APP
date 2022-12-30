@@ -7,7 +7,11 @@ import { StyleSheet } from 'react-native'
 import { Feather } from '@expo/vector-icons'; 
 import LessonCard from './LessonCard';
 import { useState ,useEffect} from 'react';
+import { Appearance, useColorScheme } from 'react-native';
+
 export default function Learn() {
+  const colorScheme = useColorScheme();
+
   const [lessons,setLessons] = useState([])
   useEffect(() => {
     async function data() {
@@ -44,8 +48,12 @@ console.log(lessons)
   );
   setFilteredLessons(searchinput.length < 1 ? lessons : newLessons);
   }
+  const maincont = colorScheme === 'light' ? learnStyle.maincont : learnStyle.maincontDark;
+const even = colorScheme === "light" ? learnStyle.even : learnStyle.evenDark
+const underline = colorScheme === 'light' ? learnStyle.learn : learnStyle.learnDark;
+
   return (
-    <View style={learnStyle.maincont}>
+    <View style={maincont}>
        <Modal
         animationType="slide"
         transparent={true}
@@ -74,12 +82,12 @@ console.log(lessons)
         </View>
       </Modal>
       <View style={learnStyle.learncont}>
-      <Text style={learnStyle.even}>EVVENNTI</Text>
-      <Text style={learnStyle.learn}>Learn 📚</Text>
+      <Text style={even}>EVVENNTI</Text>
+      <Text style={underline}>Learn 📚</Text>
       </View>
-      <View style={{marginTop:20,flexDirection:"row", width:"100%",alignItems:"center",backgroundColor:"#F3F5F9",borderRadius:20,paddingLeft:15}}>
+      <View style={{marginTop:20,flexDirection:"row", width:"100%",alignItems:"center",backgroundColor:`${colorScheme==="light"?"#F3F5F9":"#052451"}`,borderRadius:20,paddingLeft:15}}>
       <Feather name="search" size={24} color="#FF802C"style={{flex:0.1}} onPress={LSLS}/>
-        <TextInput style={{padding:20,borderRadius:20,flex:0.9}} placeholder="type lesson keyword" placeholderTextColor="grey" color="#000"  value={searchinput} onChangeText={(val) => setSearchInput(val)}/>
+        <TextInput style={{padding:20,borderRadius:20,flex:0.9}} placeholder="type lesson keyword" placeholderTextColor="grey" color={colorScheme==="light"?"#000":"#Fff"}  value={searchinput} onChangeText={(val) => setSearchInput(val)}/>
       </View>
 {li ?       <View style={{width:"100%",flexDirection:"row",marginTop:30,borderRadius:20,backgroundColor:"#CFECFE"}}>
       <View style={{flex:0.5,padding:20}}>
@@ -131,6 +139,19 @@ const learnStyle = StyleSheet.create({
     backgroundColor:"#fff",
     flex:1
   },
+  maincontDark: {
+    padding:15,
+    paddingLeft:20,
+    paddingRight:20,
+    backgroundColor:"#000",
+    flex:1
+  },
+  learnDark:{
+    color:"#3A84EC",
+    fontSize:34,
+    fontWeight:"700",
+    fontStyle:"italic"
+  },
   learncont: {
     flexDirection:"row",
     width:"100%",
@@ -138,6 +159,12 @@ const learnStyle = StyleSheet.create({
   },
   even: {
     color:"#000",
+    fontSize:34,
+    marginRight:8,
+    fontWeight:"700"
+  },
+  evenDark: {
+    color:"#fff",
     fontSize:34,
     marginRight:8,
     fontWeight:"700"

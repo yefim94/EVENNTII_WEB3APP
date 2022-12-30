@@ -12,8 +12,9 @@ import { AntDesign } from '@expo/vector-icons';
 export default function ProfileCard({name,description,id,image,link}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [pressed,setPressed] = useState(false)
+  const colorScheme = useColorScheme()
   return (
-    <View>
+    <View style={{}}>
              <Modal 
        animationType="slide"
        transparent={true}
@@ -38,7 +39,7 @@ export default function ProfileCard({name,description,id,image,link}) {
      </Modal>
         <Pressable   onPress={() => setModalVisible(true)} >
           <View style={{
-          backgroundColor: "#fff",
+          backgroundColor: `${colorScheme === "light" ? "#fff":"#052451"}`,
           display: `${image.includes("https") ? "block": "none"}`,
           borderRadius: 20,
           marginBottom: 20
@@ -54,10 +55,10 @@ export default function ProfileCard({name,description,id,image,link}) {
             <View style={profileStyles.lower1}>
               <Text style={profileStyles.lower2}>ID</Text>
               <View style={profileStyles.line}></View>
-              <Text style={profileStyles.id}>{id}</Text>
+              <Text style={{color:`${colorScheme ==="light"?"#000":"#fff"}`,fontWeight:"700",marginLeft:20,fontSize:20}}>{id}</Text>
             </View>
-            <Text style={profileStyles.name} >{name}</Text>
-          <Text>{description}</Text>
+            <Text style={{color:`${colorScheme ==="light"?"#000":"#fff"}`,fontWeight:"700",fontSize:22,marginBottom:20,marginTop:20}} >{name}</Text>
+          <Text style={{color:`${colorScheme === "light" ? "#000": "#fff"}`}}>{description}</Text>
           <View style={profileStyles.lowerlowerco}>
             {link.includes("https") ? <>
             <A style={profileStyles.link} href={link}><Text>learn More</Text></A> 

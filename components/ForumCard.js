@@ -6,6 +6,8 @@ import { collection, query, where, getDocs,addDoc } from "firebase/firestore";
 import { useState,useEffect } from 'react';
 import {auth} from "../firebase.js"
 import { db } from '../firebase';
+import { Appearance, useColorScheme } from 'react-native';
+
 export default function ForumCard({title,id,by,desc,photo,postImage,doc}) {
   const onShare = async (name) => {
     try {
@@ -62,6 +64,8 @@ export default function ForumCard({title,id,by,desc,photo,postImage,doc}) {
   async function postImage() {
     alert("image pcked")
   }
+  const colorScheme = useColorScheme();
+
   return (
     <>
      <Modal
@@ -117,7 +121,7 @@ export default function ForumCard({title,id,by,desc,photo,postImage,doc}) {
     <Pressable
         onPress={() => setModalVisible(true)}
       >
-         <View style={{marginBottom:20,backgroundColor:"#fff",justifyContent:"flex-start"}}>
+         <View style={{marginBottom:20,backgroundColor:`${colorScheme === "light" ? "#fff" : "#052451"}`,justifyContent:"flex-start"}}>
     <View style={{paddingLeft:20,paddingRight:20,paddingTop:20}}>
      <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
      <View style={{flexDirection:"row"}}>
@@ -132,7 +136,7 @@ export default function ForumCard({title,id,by,desc,photo,postImage,doc}) {
      </View>
     </View>
     <View style={{padding:20}}>
-      <Text style={{fontWeight:"700",fontSize:24}}>{title}</Text>
+      <Text style={{fontWeight:"700",fontSize:24,color:`${colorScheme === "light" ? "#000":"#fff"}`}}>{title}</Text>
     </View>
     {doc.postImage && <Image source={{uri:doc.postImage}} style={{width:"100%",height:300}}/>}
    </View>

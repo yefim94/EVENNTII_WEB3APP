@@ -1,12 +1,14 @@
 import { View, Text,Image,StyleSheet,Modal, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { AntDesign } from '@expo/vector-icons'; 
+import {Appearance,useColorScheme} from "react-native"
 import { Pressable } from 'react-native';
 import { useEffect } from 'react';
 export default function LessonCard({img1,title,desc,key,fulldesc}) {
   const [modalVisible, setModalVisible] = useState(false);
+  const colorScheme = useColorScheme()
   return (
-    <View key={key}>
+    <View >
     <Modal 
     animationType="slide"
     transparent={true}
@@ -37,15 +39,15 @@ export default function LessonCard({img1,title,desc,key,fulldesc}) {
     </View>
   </Modal>
   
-         <View  style={{width:"100%",flexDirection:"row",backgroundColor:"#F5FAF4",padding:5,borderRadius:20,marginTop:20}}>
+         <View  style={{width:"100%",flexDirection:"row",backgroundColor:`${colorScheme ==="light"?"#F5FAF4":"#052451"}`,padding:5,borderRadius:20,marginTop:20}}>
      <View style={{flex:0.2,alignItems:"center",justifyContent:"center"}}>
       <Image source={{
         uri:img1
       }} style={{borderRadius:20,height:50,width:50}}/>
      </View>
      <View style={{flex:0.6,flexDirection:"column",padding:15}}>
-      <Text style={{fontSize:17,fontWeight:"700"}}>{title}</Text>
-      <Text style={{fontSize:14,fontWeight:"600",color:"grey"}}>{desc}</Text>
+      <Text style={{fontSize:17,fontWeight:"700",color:`${colorScheme==="light"?"#000":"#fff"}`,marginBottom:15}}>{title}</Text>
+      <Text style={{fontSize:14,fontWeight:"600",color:`${colorScheme ==="light"?"grey":"#fff"}`}}>{desc}</Text>
      </View>
      <View style={{flex:0.2}}>
      <Pressable

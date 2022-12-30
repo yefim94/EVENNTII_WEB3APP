@@ -44,15 +44,21 @@ setProfileData(ddata.result)
   function liked (id) {
     setPressed(true)
   }
+  const colorScheme = useColorScheme();
+  const overallcont = colorScheme === 'light' ? profileStyles.overallcont : profileStyles.overallcontDark;
+  const mainheading = colorScheme === 'light' ? profileStyles.mainheading : profileStyles.mainheadingDark
+  const lowerheading = colorScheme === 'light' ? profileStyles.lowerheading : profileStyles.lowerheadingDark
+  const textInput = colorScheme === 'light' ? profileStyles.textin : profileStyles.textinDark
+
   return (
-    <View style={profileStyles.overallcont}>
-    <Text style={profileStyles.mainheading}>NFT'S 🖼️</Text>
+    <View style={overallcont}>
+    <Text style={mainheading}>NFT'S 🖼️</Text>
     <View style={profileStyles.lowerarea}>
-    <Text style={profileStyles.lowerheading}>What kind of NFT?</Text>
+    <Text style={lowerheading}>What kind of NFT?</Text>
    <View style={profileStyles.bottom}>
-   <TextInput
+   <TextInput 
    placeholder='type nft keyword'
-      style={profileStyles.textin}
+      style={textInput}
       onChangeText={(val) => setNftTei(val)}
       value={nfttei}
     />
@@ -88,12 +94,14 @@ setProfileData(ddata.result)
 }
 
 const profileStyles = StyleSheet.create({
-  overallcont:{padding: 20},
-  mainheading:{fontSize: 40, fontWeight: "700"},
+  
+  overallcont:{padding: 20},overallcontDark:{padding: 20,backgroundColor:"#000"},
+  mainheading:{fontSize: 40, fontWeight: "700"},mainheadingDark:{fontSize: 40, fontWeight: "700",color:"#fff"},
   lowerarea:{
     marginBottom: 20
   },
-  lowerheading:{fontSize: 25, fontWeight: "650", marginBottom: 10},
+  lowerheading:{fontSize: 25, fontWeight: "650", marginBottom: 10},  lowerheadingDark:{fontSize: 25, fontWeight: "650", marginBottom: 10,color:"#fff"},
+
   signout: {
     backgroundColor: '#3A84EC',
     borderBottomLeftRadius: 30,
@@ -104,11 +112,15 @@ const profileStyles = StyleSheet.create({
   bottom:{
     flexDirection: "row", justifyContent: "space-between", alignItems: "center"
   },
-  textin:{backgroundColor: "#D1D1D1",
-  borderRadius: 20,
+  textin:{backgroundColor: "#D1D1D1",borderRadius: 20,
   padding: 10,
   fontSize: 16,
   width: "60%"},
+  textinDark:{backgroundColor: "#052451",
+  borderRadius: 20,
+  padding: 10,
+  fontSize: 16,
+  width: "60%",color:"#ffff"},
   liikebtn:{position: "absolute", zIndex: 10, right: 0, backgroundColor: "#fff", padding: 8,borderRadius: 30, marginRight: 20, marginTop: 10},
   lowercont:{marginTop: 20, padding:20},
   lower1:{flexDirection: "row", alignItems:"center"},

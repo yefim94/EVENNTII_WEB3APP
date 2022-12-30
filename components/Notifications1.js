@@ -60,16 +60,17 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
     backgroundGradientFrom: "#fff",
     color: (opacity = 1) => `rgba(0,0,0,0.4)`,
   };
+  const colorScheme = useColorScheme();
   return (
-    <View style={{position: "relative",  flex: 1}}>
+    <View style={colorScheme === "light" ? {backgroundColor:"#F5F5F5"}: {backgroundColor:"#000"}}>
       
-      <Text style={{fontSize: 40, fontWeight: "700", marginTop: 20,paddingLeft:16}}>Market Data 📈</Text>
-      <Text style={{fontSize: 20,paddingLeft:16}}>Market data for crypto</Text>
+      <Text style={{fontSize: 40, fontWeight: "700", marginTop: 20,paddingLeft:16,color:`${colorScheme === "light" ? "#000":"#fff"}`}}>Market Data 📈</Text>
+      <Text style={{fontSize: 20,paddingLeft:16,color:`${colorScheme === "light" ? "#000":"#fff"}`}}>Market data for crypto</Text>
       <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center",margin:20}}>
      <TextInput
      placeholder='type cryptocurrency'
         style={{
-          backgroundColor: "#D1D1D1",
+          backgroundColor: `${colorScheme==="light"?"#D1D1D1":"#052451"}`,
           borderRadius: 20,
           padding: 10,
           fontSize: 16,
@@ -80,17 +81,19 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
      </View>
 <ScrollView>
 <Text style={{marginLeft:20,fontWeight:"700",fontSize:30}}>Top Trending Coins</Text>
-{trending && trending.map((doc) => <View style={{flexDirection:"row",backgroundColor:"#fff",borderRadius:20,padding:10,margin:10,}}>
+{trending && trending.map((doc) => <View style={{flexDirection:"row",backgroundColor:`${colorScheme==="light"?"#fff":"#052451"}`,borderRadius:20,padding:10,margin:10,}}>
+<View style={{flex:1}}>
 <Image source={{
     uri: doc.item.large
-  }} style={{width:50,height:50,flex:1}}/>
+  }} style={{width:50,height:50,borderRadius:400}}/>
+</View>
   <View style={{flex:4,marginLeft:10}}>
-    <Text style={{fontWeight:"700",fontSize:20}}>{doc.item.name}</Text>
-    <Text style={{color:"#3A84EC"}}>{doc.item.market_cap_rank}</Text>
-    <Text>${doc.item.price_btc}</Text>
+    <Text style={{fontWeight:"700",fontSize:20,color:`${colorScheme ==="light"?"#000":"#fff"}`}}>{doc.item.name}</Text>
+    <Text style={{color:"#3A84EC",marginTop:15}}>{doc.item.market_cap_rank}</Text>
+    <Text style={{color:`${colorScheme ==="light"?"#000":"#fff"}`,marginTop:15}}>${doc.item.price_btc}</Text>
   </View>
-  <View style={{flex:1}}>
-    <Text>{doc.item.score}</Text>
+  <View style={{flex:1,alignItems:"center",justifyContent:"center"}}>
+    <Text style={{fontWeight:"700",color:`${colorScheme==="light"?"#000":"#fff"}`}}>{doc.item.score}</Text>
   </View>
 </View>)}
   <Text style={{marginLeft:20,fontWeight:"700",fontSize:30}}>Global defi</Text>
@@ -104,8 +107,8 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
 
           </View>}
        </View>
-  <Text style={{marginLeft:20,fontWeight:"700",fontSize:30}}>Wallet</Text>
-<View style={{padding:20,backgroundColor:"black",margin:20,borderRadius:20}}>
+  <Text style={{marginLeft:20,fontWeight:"700",fontSize:30,color:`${colorScheme==="light"?"#000":"#fff"}`}}>Wallet</Text>
+<View style={{padding:20,backgroundColor:`${colorScheme==="light"?"#000":"#052451"}`,margin:20,borderRadius:20}}>
       <Text style={{color:"grey",fontSize:20}}>Profile Balance: </Text>
       <Text style={{color:"white",fontSize:30,fontWeight:"700"}}>$45,000</Text>
      </View>
