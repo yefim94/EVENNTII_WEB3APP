@@ -77,21 +77,25 @@ export default function ForumCard({title,id,by,desc,photo,postImage,doc}) {
           setModalVisible(!modalVisible);
         }}
       >
-        <Image source={{
+  <View style={{}}>
+          <Image source={{
           uri:doc.postImage
         }} style={{width:"100%",height:300}}/>
-          <View style={styles.modalView}>
+          <View style={{backgroundColor:`${colorScheme==="light"?"#fff":"#000"}`, height:"100%",
+    width:"100%",
+    padding:40,
+    flexDirection:"column",}}>
           <View style={{flexDirection:"row",alignItems:"center",marginBottom:20}}>
             <Image source={{
               uri:photo
             }} style={{width:25,height:25,borderRadius:500}} />
-            <Text style={{fontWeight:"700",fontSize:19,marginLeft:10}}>{by}</Text>
+            <Text style={{fontWeight:"700",fontSize:19,marginLeft:10,color:`${colorScheme==="light"?"#000":"#fff"}`}}>{by}</Text>
           </View>
-            <Text style={{fontWeight:"700",fontSize:30}}>{title}</Text>
-            <Text style={{marginTop:20}}>{desc}</Text>
+            <Text style={{fontWeight:"700",fontSize:30,color:`${colorScheme==="light"?"#000":"#fff"}`}}>{title}</Text>
+            <Text style={{marginTop:20,color:`${colorScheme==="light"?"#000":"#fff"}`}}>{desc}</Text>
           <ScrollView style={{paddingBottom:600}}>
-          <View style={{backgroundColor:"grey",width:"100%",height:2,marginBottom:10,marginTop:15}}></View>
-          <View style={{width:"100%",backgroundColor:"#fff",borderRadius:20}}>
+          <View style={{backgroundColor:"",width:"100%",height:2,marginBottom:10,marginTop:15}}></View>
+          <View style={{width:"100%",backgroundColor:`${colorScheme==="light"?"#fff":"#052451"}`,borderRadius:20,padding:10}}>
               <Text style={{color:"#3A84EC",fontSize
             :20,fontWeight:"700"}}>Comments: </Text>
             <View style={{backgroundColor:"#3A84EC",padding:20,borderRadius:20,margin:20}}>
@@ -117,6 +121,7 @@ export default function ForumCard({title,id,by,desc,photo,postImage,doc}) {
             </Pressable>
           </ScrollView>
           </View>
+  </View>
       </Modal>
     <Pressable
         onPress={() => setModalVisible(true)}

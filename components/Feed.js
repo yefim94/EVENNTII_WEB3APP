@@ -12,7 +12,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons'; 
 import FeedCard from "./FeedCard"
-export const Feed = () => {
+export const Feed = ({colorScheme}) => {
   //state
   const [feedData, setFeedData] = useState([]);
   const [feedData2, setFeedData2] = useState([]);
@@ -90,7 +90,6 @@ export const Feed = () => {
     setTitle2(title)
     setModalVisible(true) 
   }
-  const colorScheme = useColorScheme();
   const mainhead = colorScheme === 'light' ? feedS.mainhead : feedS.mainheadDark;
 
   return (
@@ -104,6 +103,7 @@ export const Feed = () => {
      placeholder='type news keyword'
         style={{backgroundColor: `${colorScheme==="light"?"#D1D1D1":"#052451"}`,
         borderRadius: 20,
+        color:`${colorScheme==="light"?"#000":"#fff"}`,
         padding: 10,
         fontSize: 16,
         width: "60%"}}
@@ -114,8 +114,8 @@ export const Feed = () => {
      </View>
      </View>
  </View>
-   {apiqu ?  <View style={{backgroundColor:"#fff",padding:10,borderRadius:20,marginBottom:16,marginLeft:15,marginRight:20}}>
-    <Text style={feedS.apikey}>News for <Text style={feedS.apikey2}>{apiqu}</Text></Text>
+   {apiqu ?  <View style={{backgroundColor:`${colorScheme==="light"?"#fff":"transparent"}`,padding:10,borderRadius:20,marginBottom:16,marginLeft:15,marginRight:20}}>
+    <Text style={{color:`${colorScheme==="light"?"#000":"#fff"}`,fontSize:27}}>News for <Text style={{color:`${colorScheme==="light"?"#3A84EC":"#3A84EC"}`}}>{apiqu}</Text></Text>
     </View> : null}
       <ScrollView  showsHorizontalScrollIndicator={false}>
       {apiqu ? <>

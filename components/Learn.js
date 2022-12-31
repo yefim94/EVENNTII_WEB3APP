@@ -63,14 +63,13 @@ const underline = colorScheme === 'light' ? learnStyle.learn : learnStyle.learnD
           setModalVisible(!modalVisible);
         }}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+          <View style={{width:"100%",height:"100%",backgroundColor:`${colorScheme==="light"?"#fff":"#000"}`}}>
             <Image source={{
               uri:"https://published-assets.coinbase.com/processed/84/b8/84b81925-b03e-4b4a-95e7-20301ec75f48"
             }} style={{width:"100%",height:350}} />
            <View style={{padding:20}}>
-           <Text style={{fontWeight:"700",fontSize:30,marginBottom:13}}>Learn Web 3 the Right Away</Text>
-            <Text style={{marginBottom:15}}>Lorem LOrem Lorem Lorem LOrem Lorem LOrem Lorem Lorem LOrem Lorem LOrem Lorem Lorem LOrem Lorem LOrem Lorem Lorem LOrem</Text>
+           <Text style={{fontWeight:"700",fontSize:30,marginBottom:13,color:`${colorScheme==="light"?"#000":"#fff"}`}}>Learn Web 3 the Right Away</Text>
+            <Text style={{marginBottom:15,color:`${colorScheme==="light"?"#000":"#fff"}`}}>Lorem LOrem Lorem Lorem LOrem Lorem LOrem Lorem Lorem LOrem Lorem LOrem Lorem Lorem LOrem Lorem LOrem Lorem Lorem LOrem</Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
@@ -78,7 +77,6 @@ const underline = colorScheme === 'light' ? learnStyle.learn : learnStyle.learnD
               <Text style={styles.textStyle}>Go back</Text>
             </Pressable>
            </View>
-          </View>
         </View>
       </Modal>
       <View style={learnStyle.learncont}>

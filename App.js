@@ -20,7 +20,7 @@ import { Appearance, useColorScheme } from 'react-native';
         }
 */}
 export default function App() {
-   const colorScheme = useColorScheme();
+  const [colorScheme,setColorScheme] = useState(useColorScheme())
   useEffect(() => {
     console.log(colorScheme);
   }, [])
@@ -48,7 +48,7 @@ export default function App() {
    const [loggedIn, setLoggedIn] = useState(null)
   return (
     <View style={styles.container}>
-     {error ? <View><Text>error</Text></View> : loggedIn ?  <Login colorScheme={colorScheme}setLoggedIn={setLoggedIn} loggedIn={loggedIn} /> : <Main setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>}
+     {error ? <View><Text>error</Text></View> : loggedIn ?  <Login colorScheme={colorScheme} setColorScheme={setColorScheme} setLoggedIn={setLoggedIn} loggedIn={loggedIn} /> : <Main setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>}
       {/**
        * <View style={{flexDirection: "row",justifyContent: "space-between", alignItems: "center", marginLeft: 100, marginRight: 100}}>
         <Image style={styles.logosoc} source={{uri: "https://i.pinimg.com/originals/5e/ff/6c/5eff6c25d920f6a78fda288e6589bf8b.jpg"}} />

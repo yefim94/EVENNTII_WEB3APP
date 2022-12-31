@@ -61,14 +61,24 @@ export default function FeedCard({apiqu,image_url,title,description,link,languag
     setModalVisible(!modalVisible);
   }}
 >
-  <View style={feedS.imcont}>
+  <View style={{
+    width:"100%",
+    height:"100%",
+    backgroundColor:`${colorScheme==="light"?"#fff":"#000"}`
+  }}>
    
 {image_url ? <View style={{width:"100%"}}>
     <Image source={{uri:image_url}} style={{height:400,width:"100%"}}/>
 </View> : null}
     <ScrollView style={{padding:30,marginTop:30}}>
-      <Text style={feedS.title} >{title}</Text>
-      <Text  style={{marginTop:10}}>{description}</Text>
+      <Text style={{
+        color:`${colorScheme==="light"?"#000":"#fff"}`,
+        fontSize:30,
+        fontWeight:"700"
+      }} >{title}</Text>
+      <Text   style={{
+        color:`${colorScheme==="light"?"#000":"#fff"}`,marginTop:18,fontSize:18
+      }}>{description}</Text>
       <A style={feedS.linkss} href={link}>Link</A>
       <Pressable
         onPress={() => setModalVisible(!modalVisible)} style={{backgroundColor:"#3A84EC",borderRadius:20,padding:15,marginTop:20,marginBottom:50}}

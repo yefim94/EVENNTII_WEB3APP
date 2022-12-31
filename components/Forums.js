@@ -162,13 +162,13 @@ ddd()
           setModalVisible(!modalVisible);
         }}
       >
-          <View style={{backgroundColor:"#fff",height:"100%",paddingTop:70,paddingRight:20,paddingLeft:20}}>
-            <Text style={{fontSize:40,fontWeight:"700"}}>Make a Post</Text>
+          <View style={{backgroundColor:`${colorScheme==="light"?"#fff":"#000"}`,height:"100%",paddingTop:70,paddingRight:20,paddingLeft:20}}>
+            <Text style={{fontSize:40,fontWeight:"700",color:`${colorScheme==="light"?"#000":"#fff"}`}}>Make a Post</Text>
           <View style={{borderRadius:20,margin:20}}>
-            <Text style={{fontWeight:"700",fontSize:25}}>Post title</Text>
+            <Text style={{fontWeight:"700",fontSize:25,color:`${colorScheme==="light"?"#000":"#fff"}`}}>Post title</Text>
   <TextInput style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:10,fontSize:26,marginBottom:20}} placeholder="type post title..." placeholderTextColor="#000" value={forumText}    onChangeText={(val) => setForumText(val)}
  />
-     <Text style={{fontWeight:"700",fontSize:25}}>Post Description</Text>
+     <Text style={{fontWeight:"700",fontSize:25,color:`${colorScheme==="light"?"#000":"#fff"}`}}>Post Description</Text>
   <TextInput style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:10}} placeholder="type post description..." placeholderTextColor="#000" value={desc}    onChangeText={(val) => setDesc(val)}
  />
  <Pressable color="#000" style={{marginTop:20,backgroundColor:"#FF35F0",padding:10,borderRadius:11,color:"#000"}} onPress={postImage}>
@@ -208,6 +208,7 @@ ddd()
       style={{
         backgroundColor: `${colorScheme==="light"?"#D1D1D1":"#052451"}`,
         borderRadius: 20,
+        color:`${colorScheme==="light"?"#000":"#fff"}`,
         padding: 10,
         fontSize: 16,
         width: "60%"

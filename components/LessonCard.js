@@ -8,7 +8,7 @@ export default function LessonCard({img1,title,desc,key,fulldesc}) {
   const [modalVisible, setModalVisible] = useState(false);
   const colorScheme = useColorScheme()
   return (
-    <View >
+    <View  style={{}}>
     <Modal 
     animationType="slide"
     transparent={true}
@@ -18,8 +18,7 @@ export default function LessonCard({img1,title,desc,key,fulldesc}) {
       setModalVisible(!modalVisible);
     }}
   >
-    <View style={styles.centeredView}>
-      <View style={styles.modalView}>
+      <View style={{width:"100%",height:"100%",backgroundColor:`${colorScheme==="light"?"#fff":"#000"}`}}>
       <Image source={{
         uri:img1
       }} style={{height:400,width:"100%"}}/>
@@ -27,7 +26,7 @@ export default function LessonCard({img1,title,desc,key,fulldesc}) {
     <Text style={{fontSize:34,fontWeight:"700",color:"#3A84EC"}}>{title}</Text>
     <Text style={{fontSize:19,fontWeight:"650",marginTop:7,color:"grey",marginBottom:10}}>{desc}</Text>
 <ScrollView>
-<Text style={{fontSize:20,fontWeight:"700",marginBottom:10}}>{fulldesc}</Text>
+<Text style={{fontSize:20,fontWeight:"700",marginBottom:10,color:`${colorScheme==="light"?"#000":"#ffff"}`}}>{fulldesc}</Text>
 <Pressable
       style={[styles.button, styles.buttonClose]}
       onPress={() => setModalVisible(!modalVisible)}>
@@ -36,7 +35,6 @@ export default function LessonCard({img1,title,desc,key,fulldesc}) {
 </ScrollView>
 </View>
       </View>
-    </View>
   </Modal>
   
          <View  style={{width:"100%",flexDirection:"row",backgroundColor:`${colorScheme ==="light"?"#F5FAF4":"#052451"}`,padding:5,borderRadius:20,marginTop:20}}>

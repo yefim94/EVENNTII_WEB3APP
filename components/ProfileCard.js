@@ -24,11 +24,11 @@ export default function ProfileCard({name,description,id,image,link}) {
          setModalVisible(!modalVisible);
        }}
      >
-       <View style={{backgroundColor:"#fff",height:"100%"}}>
-        <Image source={{uri:image}} style={{width:"100%", height:300,borderRadius:50,marginTop:50}}/>
+       <View style={{backgroundColor:`${colorScheme==="light"?"#fff":"#000"}`,height:"100%"}}>
+        <Image source={{uri:image}} style={{width:"100%", height:300,marginTop:50}}/>
         <ScrollView style={{padding:18}}>
-        <Text style={{fontWeight:"700",fontSize:26}}>{name}</Text>
-        <Text style={{color:"grey",fontSize:16}}>{description} </Text>
+        <Text style={{fontWeight:"700",fontSize:26,color:`${colorScheme==="light"?"#000":"#fff"}`}}>{name}</Text>
+        <Text style={{color:`${colorScheme==="light"?"grey":"#fff"}`,fontSize:16}}>{description} </Text>
            <Pressable
              onPress={() => setModalVisible(!modalVisible)} style={{backgroundColor:"#3A84EC",padding:20,borderRadius:20,marginTop:20}}
            >

@@ -30,7 +30,7 @@ import Learn from "./components/Learn";
 import SliderIntro from 'react-native-slider-intro';
 //tabs
 const Tab = createMaterialBottomTabNavigator();
-export const Login = ({setLoggedIn,colorScheme}) => {
+export const Login = ({setLoggedIn,colorScheme,setColorScheme}) => {
 
 const themeTextStyle = colorScheme === 'light' ? styles3.centeredView : styles3.centeredViewDark;
 
@@ -144,7 +144,7 @@ setImage("")
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState)
-    colorScheme = "dark"
+    setColorScheme("dark")
   };
   const user = auth.currentUser;
 function deleteACC () {
@@ -385,6 +385,7 @@ if(colorScheme === "light") {
     >
      <Tab.Screen
         name="Feed"
+        setParams={colorScheme}
         component={Feed }
         options={{
           tabBarLabel: 'News',
