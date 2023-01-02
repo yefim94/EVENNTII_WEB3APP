@@ -6,24 +6,9 @@ import { FontAwesome } from '@expo/vector-icons';
            {historical && <Text>{historical.description.en}</Text>}
  */}
 export default function NotifcationCard({name,image,symbol,price_change_24h,current_price}) {
-  useEffect(() => {
-    getData()
-    console.log(historical)
-  }, [])
+ 
   const [historical,setHistorical] = useState()
-  async function getData() {
-   try {
-{/**
-    const hissda = fetch(`https://api.coingecko.com/api/v3/coins/${name}?market_data=true`).then(response => response.json())
-  .then(response => setHistorical(response))
-  .catch(err => console.error(err));
-*/}
 
-   }
-   catch(err) {
-    alert(err)
-   }
-  }
   const [modalVisible, setModalVisible] = useState(false);
   const onShare = async (name,current_price) => {
     try {
@@ -95,7 +80,7 @@ export default function NotifcationCard({name,image,symbol,price_change_24h,curr
           <View>
           </View>
           <View style={{alignItems:"center",justifyContent:"center"}}>
-            <Text style={{color:`${price_change_24h >= 0 ? "green":"red"}`,fontWeight:"700",fontSize:20}}>${current_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+            <Text style={{color:`${price_change_24h >= 0 ? "green":"red"}`,fontWeight:"700",fontSize:20}}>${current_price > 999 ? current_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","):current_price}</Text>
           </View>
         </View>
       </Pressable>

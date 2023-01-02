@@ -69,18 +69,17 @@ export default function ForumCard({title,id,by,desc,photo,postImage,doc}) {
   return (
     <>
      <Modal
+     transparent={true}
         animationType="slide"
-        transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
       >
   <View style={{}}>
-          <Image source={{
+    {doc.postImage ? <Image source={{
           uri:doc.postImage
-        }} style={{width:"100%",height:300}}/>
+        }} style={{width:"100%",height:300}}/>:null}
           <View style={{backgroundColor:`${colorScheme==="light"?"#fff":"#000"}`, height:"100%",
     width:"100%",
     padding:40,

@@ -1,5 +1,5 @@
-import { View, Text, Image,TextInput,ScrollView,Pressable,Modal } from 'react-native'
-import React,{useState, useEffect} from 'react'
+import { View, Text, Image,TextInput,ScrollView,Pressable,Modal,Alert,Animated } from 'react-native'
+import React,{useState, useEffect,useRef} from 'react'
 import {db} from "../firebase"
 import { collection, query, where, getDocs,addDoc,onSnapshot,updateDoc } from "firebase/firestore";
 import { AntDesign } from '@expo/vector-icons';
@@ -20,6 +20,17 @@ import * as Notifications from 'expo-notifications';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function Forums() {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  React.useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 500,
+        useNativeDriver: true, // <-- Add this
+    }).start();
+  }, []);
+
+
+
   const [comments,setComments] = useState([])
   const[commentText,setCommentText] = useState("")
   const [feedInput, setFeedInput] = useState("");
@@ -75,7 +86,28 @@ ddd()
     }
     
   }, [])
+  useEffect(() => {
+    async function url() {
+      try {
+        const url = collection(db, "users");
+        const q = query(url, where("uid", "==", uid));
+        const querySnapshot = await getDocs(q);
+        let todos = []
+        querySnapshot.forEach((doc) => {setUrl1(doc.data())})
+      }
+      catch(e) {
+        alert(e)
+      }
+
+    }
+    url()
+    
+  }, [])
+  useEffect(() => {    
+  }, [])
   
+  const [url1,setUrl1]=useState()
+  const uid = auth.currentUser.uid
   const [forumText,setForumText] = useState("")
   const [desc,setDesc] = useState("")
   const [forumData,setForumData] = useState()
@@ -86,7 +118,7 @@ ddd()
           desc: desc,
           postImage: url,
           uid:Date.now(),
-          photo: auth.currentUser.photoURL,
+          photo: auth.currentUser.photoURL? auth.currentUser.photoURL : url1.photoUrl,
           by: auth.currentUser.email.substring(0, auth.currentUser.email.indexOf('@'))
         });
         setForumText("")
@@ -99,8 +131,9 @@ ddd()
       }
     
   }
-  const [image, setImage] = useState("");  
   const [modalVisible, setModalVisible] = useState(false);
+  const [image, setImage] = useState(null);  
+  const [url, setUrl] = useState(null)
   async function postImage () {
     try {
       // No permissions request is necessary for launching the image library
@@ -114,9 +147,7 @@ ddd()
      
          if (!result.canceled) {
           imgFirebase()
-          setImage(result.uri);
-
-         }
+          setImage(result.assets[0].uri);         }
        {/**
        await updateDoc(doc(db, "users", uid, {
            photoURL: result.uri.toString()
@@ -124,13 +155,24 @@ ddd()
      */}
          }
          catch(E) {
-           alert(E)
+          Alert.alert(
+            "Alert Title",
+            "My Alert Msg 1",
+            [
+              {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel"
+              },
+              { text: "OK", onPress: () => console.log("OK Pressed") }
+            ]
+          );
          }
   }
-  const [url, setUrl] = useState(null)
 
   async function imgFirebase () {
     try {
+      console.log(image);
      const d = await fetch(image)
     const dd = await d.blob()
     const fileName = image.substring(image.lastIndexOf("/")+1)
@@ -143,7 +185,18 @@ ddd()
        setUrl(url)
        console.log(url)
  }).catch(e=>{
-   alert(e)
+  Alert.alert(
+    "Alert Title",
+    "My Alert Msg 2",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { text: "OK", onPress: () => console.log("OK Pressed") }
+    ]
+  );
  }) 
    }); 
     }
@@ -152,6 +205,10 @@ ddd()
     }
    }
   return (
+    <Animated.View
+    style={{
+      opacity: fadeAnim,
+    }}>
     <View style={colorScheme === "light" ? "#fff": {backgroundColor:"#000"}}>
       <Modal
         animationType="slide"
@@ -169,7 +226,8 @@ ddd()
   <TextInput style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:10,fontSize:26,marginBottom:20}} placeholder="type post title..." placeholderTextColor="#000" value={forumText}    onChangeText={(val) => setForumText(val)}
  />
      <Text style={{fontWeight:"700",fontSize:25,color:`${colorScheme==="light"?"#000":"#fff"}`}}>Post Description</Text>
-  <TextInput style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:10}} placeholder="type post description..." placeholderTextColor="#000" value={desc}    onChangeText={(val) => setDesc(val)}
+  <TextInput style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:10,}} placeholder="type post description..." placeholderTextColor="#000" value={desc}         multiline={true}
+   onChangeText={(val) => setDesc(val)}
  />
  <Pressable color="#000" style={{marginTop:20,backgroundColor:"#FF35F0",padding:10,borderRadius:11,color:"#000"}} onPress={postImage}>
       <Text style={{color:"#fff",textAlign:"center",fontSize:20}}>Pick Image</Text>
@@ -184,9 +242,9 @@ ddd()
             >
               <Text style={{color:"grey",textAlign:"center",textDecorationColor:"grey",textDecorationLine:"underline"}}>Cancel</Text>
             </Pressable>
-          <Image source={{
+         {colorScheme==="light"? <Image source={{
             uri: "https://images.ctfassets.net/0idwgenf7ije/2orXzfWd0mvritHtAijvzr/ee56b7589d666d1cdc76632afdc04b76/How_a_Block_in_the_Bitcoin_Blockchain_Works_-100.jpg?fm=webp"
-          }} style={{height:200}}/>
+          }} style={{height:200}}/>:null}
           </View>
       </Modal>
     <View style={{marginBottom: 4,padding:20,zIndex:100}}>
@@ -221,11 +279,12 @@ ddd()
    </View>
 <ScrollView horizontal={true} style={{marginBottom:20,marginLeft:20}}>
 </ScrollView>
-   <ScrollView style={{marginBottom:100}}>
+   <ScrollView style={{marginBottom:500}}>
     {forumData && forumData.map((doc,key) => 
  <ForumCard photo={doc.photo} title={doc.title} key={key} uid={doc.uid} id={doc.id} by={doc.by} desc={doc.desc} doc={doc} /> )}
    </ScrollView>
     </View>
+    </Animated.View>
 
   )
 }

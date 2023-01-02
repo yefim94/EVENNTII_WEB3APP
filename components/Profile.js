@@ -1,7 +1,7 @@
 // importing
 import React from 'react'
-import {useState, useEffect} from "react"
-import { Text, View,ImageBackground, ScrollView, Button, Image, StyleSheet , TextInput,Pressable,Modal} from 'react-native'
+import {useState, useEffect,useRef} from "react"
+import { Text, View,ImageBackground, ScrollView, Button, Image, StyleSheet , TextInput,Pressable,Modal,Animated} from 'react-native'
 import { func } from 'prop-types';
 import { AntDesign } from '@expo/vector-icons'; 
 {/**import Carousel from 'react-native-snap-carousel';
@@ -13,6 +13,18 @@ import { AntDesign } from '@expo/vector-icons';
 import ProfileCard from './ProfileCard';
 
 export const Profile = () => {
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  React.useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 500,
+        useNativeDriver: true, // <-- Add this
+    }).start();
+  }, []);
+
+
+
   //state
   const [profileData, setProfileData] = useState([]);
   const [apiQ,setApiQ] = useState("")
@@ -51,7 +63,11 @@ setProfileData(ddata.result)
   const textInput = colorScheme === 'light' ? profileStyles.textin : profileStyles.textinDark
 
   return (
-    <View style={overallcont}>
+    <Animated.View
+    style={{
+      opacity: fadeAnim,
+    }}>
+          <View style={overallcont}>
     <Text style={mainheading}>NFT'S 🖼️</Text>
     <View style={profileStyles.lowerarea}>
     <Text style={lowerheading}>What kind of NFT?</Text>
@@ -65,8 +81,8 @@ setProfileData(ddata.result)
 <AntDesign name="rightcircle" size={30} color="#3A84EC"  onPress={handleNftIn}/>
    </View>
    </View>
-   <Text style={{color:"grey",textDecorationLine:"underline",marginBottom:10}}>Data gathered from Morallis</Text>
-    <ScrollView>
+   <Text style={{color:"grey",textDecorationLine:"underline",marginBottom:10,padding:20}}>Data gathered from Morallis</Text>
+    <ScrollView style={{paddingBottom:10}}>
     {profileData ? <>
       {profileData.map((el, key,id) => 
       <ProfileCard key={key} name={JSON.parse(el.metadata).name} description={JSON.parse(el.metadata).description} id={el.token_id} image={JSON.parse(el.metadata).image} link={el.token_uri}/>
@@ -75,30 +91,30 @@ setProfileData(ddata.result)
     </>: <>
     <Text style={{
       fontWeight:"700",
-      color:"#000",
+      color:`${colorScheme==="light"?"#000":"#fff"}`,
       fontSize:20,
-      marginBottom:20
+      paddingLeft:20,
     }}>Try searching something! Anything!</Text>
     <Image source={{
     uri:"https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/50e513115094373.6047d1f4cf3f1.jpg"
     }} style={{
-      width:"100%",
-      borderRadius:20,
+margin:20,      borderRadius:20,
       height:500
     }}/>
     <Text style={{color:"grey",textDecorationLine:"underline",marginTop:10}}>- Darth Vadar by Beeple</Text>
     </>}
       </ScrollView>
       </View>
+    </Animated.View>
   )
 }
 
 const profileStyles = StyleSheet.create({
   
-  overallcont:{padding: 20},overallcontDark:{padding: 20,backgroundColor:"#000"},
-  mainheading:{fontSize: 40, fontWeight: "700"},mainheadingDark:{fontSize: 40, fontWeight: "700",color:"#fff"},
+  overallcont:{padding: 0},overallcontDark:{padding: 0,backgroundColor:"#000"},
+  mainheading:{fontSize: 40, fontWeight: "700"},mainheadingDark:{fontSize: 40, fontWeight: "700",color:"#fff",paddingLeft:20,marginTop:20},
   lowerarea:{
-    marginBottom: 20
+    padding:20
   },
   lowerheading:{fontSize: 25, fontWeight: "650", marginBottom: 10},  lowerheadingDark:{fontSize: 25, fontWeight: "650", marginBottom: 10,color:"#fff"},
 

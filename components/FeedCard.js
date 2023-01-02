@@ -119,14 +119,14 @@ export default function FeedCard({apiqu,image_url,title,description,link,languag
     }}>{title}</Text>
    </View>
      <View style={{}}>
-     <View style={{
+    {apiqu ===""?"": <View style={{
       backgroundColor: "#3A84EC",
       padding: 5,
       borderRadius: 10,
       marginTop:20
     }}>
     <Text style={{color: "#fff"}}>{apiqu} {element.keywords ? `, ${element.keywords[0]}` : null}</Text>
-    </View>
+    </View>}
     <A style={{color:"grey",textDecorationLine: "underline",marginTop:10}} href={link}>Link</A>
     
      </View>

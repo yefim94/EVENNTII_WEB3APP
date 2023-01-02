@@ -48,14 +48,14 @@ export default function ProfileCard({name,description,id,image,link}) {
           {image.includes("https") ? <>
               <Image source={{
             uri: `${image}`
-          }} style={{width: "100%", height: 200, width: "100%",borderTopLeftRadius:20,borderTopRightRadius:20}}/> 
+          }} style={{width: "100%", height: 200, width: "100%"}}/> 
           </>: null}
           </View>
           <View style={profileStyles.lowercont}>
             <View style={profileStyles.lower1}>
               <Text style={profileStyles.lower2}>ID</Text>
               <View style={profileStyles.line}></View>
-              <Text style={{color:`${colorScheme ==="light"?"#000":"#fff"}`,fontWeight:"700",marginLeft:20,fontSize:20}}>{id}</Text>
+              <Text style={{color:`${colorScheme ==="light"?"#000":"#fff"}`,fontWeight:"700",marginLeft:20,fontSize:20,marginRight:20}}>{id}</Text>
             </View>
             <Text style={{color:`${colorScheme ==="light"?"#000":"#fff"}`,fontWeight:"700",fontSize:22,marginBottom:20,marginTop:20}} >{name}</Text>
           <Text style={{color:`${colorScheme === "light" ? "#000": "#fff"}`}}>{description}</Text>

@@ -189,10 +189,10 @@ useEffect(() => {
                         width: "100%"
                       }}>
                         <Text style={styles2.teinhe}>Email</Text>
-                      <TextInput value={email} onChangeText={value => {setEmail(value)}} color="#fff" style={styles2.textinpu} placeholder="Enter your email..."         autoCapitalize='none'/>
+                      <TextInput value={email} onChangeText={value => {setEmail(value)}} color="#fff" style={styles2.textinpu} placeholder="Enter your email..."         autoCapitalize='none' placeholderTextColor="#343434"/>
                       <Text style={styles2.teinhe}>Password</Text>
                       <TextInput value={password} onChangeText={value => {setPassword(value)}} color="#fff" style={styles2.textinpu} secureTextEntry autoCapitalize="none"
-                        placeholder="Enter your password..."/>
+                        placeholder="Enter your password..." placeholderTextColor="#343434"/>
                    <View style={{
                         backgroundColor: "#4D76D8",
                         borderRadius: 10,

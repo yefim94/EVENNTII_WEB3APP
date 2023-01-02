@@ -30,8 +30,8 @@ import Learn from "./components/Learn";
 import SliderIntro from 'react-native-slider-intro';
 //tabs
 const Tab = createMaterialBottomTabNavigator();
-export const Login = ({setLoggedIn,colorScheme,setColorScheme}) => {
-
+export const Login = ({setLoggedIn,setColorScheme}) => {
+const colorScheme = useColorScheme()
 const themeTextStyle = colorScheme === 'light' ? styles3.centeredView : styles3.centeredViewDark;
 
 const setting = colorScheme === 'light' ? styles3.modalText : styles3.modalTextDark;
@@ -144,15 +144,28 @@ setImage("")
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState)
-    setColorScheme("dark")
+    
   };
   const user = auth.currentUser;
 function deleteACC () {
-  deleteUser(user).then(() => {
-    setLoggedIn(false)
-  }).catch((error) => {
-   alert(error)
-  });
+  try {
+    deleteUser(user)
+  }
+  catch(error){
+    Alert.alert(
+      "Alert Title",
+      "My Alert Msg",
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        { text: "OK" }
+      ]
+    );
+  }
+  
+ 
 }
 useEffect(()=>{
     console.log(colorScheme)
@@ -273,7 +286,9 @@ if(colorScheme === "light") {
          <View style={themeTextStyle}>
           <View style={styles3.modalview2}> 
             <Text style={setting}>Settings:</Text>
-            <Text style={hi}>Hello,  <Text style={styles3.helloUsername}>{username}</Text></Text>
+           <View style={{marginBottom:20}}>
+           <Text style={hi}>Hello,  <Text style={styles3.helloUsername}>{username}</Text></Text>
+           </View>
             <View style={styles3.imagemocont}>
             {url1 == undefined ? null
            : url1.map((doc) => (
@@ -292,18 +307,11 @@ if(colorScheme === "light") {
               borderWidth:5,
               borderRadius:"100"
             }} />}
-           {currentUser.photoURL.includes("http") ? <Text style={{color:"grey",marginTop:10,marginBottom:10,marginLeft:20,marginLeft:10,marginRight:10}}>**Updating your profile photo will not work with google accounts</Text> :     <Button title="Pick an image from camera roll" onPress={pickImage} />}
+           {currentUser.photoURL ? <Text style={{color:"grey",marginTop:10,marginBottom:10,marginLeft:20,marginLeft:10,marginRight:10}}>**Updating your profile photo will not work with google accounts</Text> :     <Button title="Pick an image from camera roll" onPress={pickImage} />}
             </View>
             </View>
            <View style={{flexDirection:"row", alignItems:"center",marginBottom:15}}>
-           <Text style={darkMode}>Dark Mode:</Text>
-            <Switch
-        trackColor={{ false: "#767577", true: "#81b0ff" }}
-        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-        ios_backgroundColor="#3e3e3e"
-        onValueChange={toggleSwitch}
-        value={isEnabled}
-      />
+    
            </View>
            <View style={{width:"100%"}}>
             <View style={{backgroundColor:"#D9D9D9",padding:15,borderRadius:20,marginBottom:15}}>
@@ -317,6 +325,9 @@ if(colorScheme === "light") {
             </View>
             <View style={{backgroundColor:"#D9D9D9",padding:15,borderRadius:20,marginBottom:15}}>
             <Text style={{color:"#3A84EC",fontWeight:"700",textDecorationLine:"underline"}}>About us</Text>
+            </View> 
+            <View style={{backgroundColor:"#D9D9D9",padding:15,borderRadius:20,marginBottom:15}}>
+            <Text style={{color:"#3A84EC",fontWeight:"700",textDecorationLine:"underline"}}>Dark Mode</Text>
             </View> 
            </View>
           <ScrollView style={{width:"100%"}}>
@@ -349,14 +360,7 @@ if(colorScheme === "light") {
               borderRadius:"100"
             }} />
           ))
-           : <Image source={{uri: "https://imebehavioralhealth.com/wp-content/uploads/2021/10/user-icon-placeholder-1.png"}} style={{
-            width:50,
-            height:50,
-            borderColor:"#3A84EC",
-            borderWidth:5,
-            marginRight:14,
-            borderRadius:"100"
-          }} />}
+           : null}
           {auth.currentUser.photoURL && <Image source={{uri: currentUser.photoURL}} style={{
             width:50,
             height:50,

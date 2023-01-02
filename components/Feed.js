@@ -1,6 +1,6 @@
 //imports
-import { Text, View, Image, ScrollView, TextInput,StyleSheet } from 'react-native'
-import React, { useState, useEffect } from 'react';
+import { Text, View, Image, ScrollView, TextInput,StyleSheet,Animated } from 'react-native'
+import React, { useState, useEffect,useRef } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import { LinearGradient } from 'react-native-svg';
 import { auth } from '../firebase';
@@ -12,7 +12,19 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons'; 
 import FeedCard from "./FeedCard"
-export const Feed = ({colorScheme}) => {
+export const Feed = ({}) => {
+  const colorScheme = useColorScheme()
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  React.useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 500,
+        useNativeDriver: true, // <-- Add this
+    }).start();
+  }, []);
+
+
   //state
   const [feedData, setFeedData] = useState([]);
   const [feedData2, setFeedData2] = useState([]);
@@ -93,6 +105,12 @@ export const Feed = ({colorScheme}) => {
   const mainhead = colorScheme === 'light' ? feedS.mainhead : feedS.mainheadDark;
 
   return (
+    <Animated.View
+    style={{
+      opacity: fadeAnim,
+    }}
+    
+      >
     <View style={colorScheme === "light" ? {}:{backgroundColor:"#000"}}>
  <View style={{padding:20}}>
  <Text style={mainhead}>News Feed 📰</Text>
@@ -126,83 +144,15 @@ export const Feed = ({colorScheme}) => {
         )
       )} 
       </>: <>
-      <Text style={{fontSize:27, marginLeft:15,marginBottom:15}}>Trending Topics:</Text>
-          {feedData2 === undefined ? feedData2.map((element, key) => (
-        <View  key={key} style={{
-          backgroundColor: "#fff",
-            margin:5,
-            marginBottom: 30,
-            flex:1,
-            shadowColor: '#3A84EC',
-            shadowOffset: {
-              width: 0,
-              height: 3
-            },
-            shadowRadius: 2,
-            shadowOpacity: 1.0
-        }}>
-         <View style={{
-          flexDirection: "row",
-          alignItems: "center",
-          marginBottom: 2, 
-          flexWrap: "wrap",
-         }}>
-         {element.image_url ? <Image
-            source={{
-              uri: `${element.image_url}`,
-            }}
-            // provide width to element or it wont render
-            style={{width:"100%",height:200, marginRight: 20}}
-
-          /> : null }
-         <View style={{
-           alignItems: 'baseline',
-           padding:20
-         }}>
-         <View style={{
-           alignItems: 'baseline'
-         }}>
-         <Text style={{
-            fontSize: 20,
-            fontWeight: "700",
-          }}>{element.title}</Text>
-         </View>
-           <View style={{}}>
-           <View style={{
-            backgroundColor: "#3A84EC",
-            padding: 5,
-            borderRadius: 10,
-            marginTop:20
-          }}>
-          <Text style={{color: "#fff"}}>TRENDING</Text>
-          </View>
-          <A style={{color:"grey",textDecorationLine: "underline",marginTop:10}} href={element.link}>Link</A>
-          
-           </View>
-         </View>
-         </View>
-         <View style={{paddingBottom:20,paddingLeft:20,paddingRight:20}}>
-          <Text>{element.description}</Text>
-          <View style={{width:"100%",height:1,backgroundColor:"#000", borderRadius:20}}></View>
-
-          <Text style={{marginTop: 20, color: "grey"}}>{element.creator}</Text>
-         <View style={{flexDirection: "row",alignItems: "center"}}>
-          <View style={{
-            backgroundColor:"#000",
-            width:10,
-            height:10,
-            borderRadius:100,
-            marginRight: 10
-          }}></View>
-         <Text style={{color: "#000"}}>{element.language}</Text>
-         </View>
-         </View>
-        </View>
+      <Text style={{fontSize:27, marginLeft:15,marginBottom:15,color:`${colorScheme==="light"?"#000":"#3A84EC"}`,fontWeight:"700"}}>Trending Topics:</Text>
+          {feedData2.map((element, key) => (
+         <FeedCard element={element} key={key} apiqu={apiqu} image_url={element.image_url} title={element.title} description={element.description} link={element.link} creator={element.creator} language={element.language}/>
       )
-      ) : null}
+      )}
       </>}
       </ScrollView>
     </View>
+      </Animated.View>
   )
 }
 const feedS = StyleSheet.create({
@@ -231,3 +181,4 @@ linkss:{
   color:"grey",textDecorationLine: "underline",marginTop:10
 }
 })
+

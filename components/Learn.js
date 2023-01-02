@@ -1,4 +1,4 @@
-import { View, Text, ScrollView,Image, Button, TextInput,Modal,Pressable } from 'react-native'
+import { View, Text, ScrollView,Image, Button, TextInput,Modal,Pressable ,Animated} from 'react-native'
 import { collection, doc, getDocs } from "firebase/firestore";
 import {db} from "../firebase"
 
@@ -6,10 +6,20 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Feather } from '@expo/vector-icons'; 
 import LessonCard from './LessonCard';
-import { useState ,useEffect} from 'react';
+import { useState ,useEffect,useRef} from 'react';
 import { Appearance, useColorScheme } from 'react-native';
 
 export default function Learn() {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  React.useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 500,
+        useNativeDriver: true, // <-- Add this
+    }).start();
+  }, []);
+
+
   const colorScheme = useColorScheme();
 
   const [lessons,setLessons] = useState([])
@@ -53,7 +63,12 @@ const even = colorScheme === "light" ? learnStyle.even : learnStyle.evenDark
 const underline = colorScheme === 'light' ? learnStyle.learn : learnStyle.learnDark;
 
   return (
-    <View style={maincont}>
+    <Animated.View
+    style={{
+      opacity: fadeAnim,
+      flex:1
+    }}>
+        <View style={maincont}>
        <Modal
         animationType="slide"
         transparent={true}
@@ -126,6 +141,7 @@ const underline = colorScheme === 'light' ? learnStyle.learn : learnStyle.learnD
          </ScrollView>
           </View>
     </View>
+    </Animated.View>
   )
 }
 
