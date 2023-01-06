@@ -24,6 +24,8 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import { Feather } from '@expo/vector-icons'; 
+import { async } from '@firebase/util';
 
 /**
  * const [search,setSearch] = useState = ()
@@ -69,6 +71,7 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
   setCompany(e.companies)
 
   const ew = await fetch("https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=7&interval=daily  ").then((e)=>e.json()).then((e)=>setHistorical(e))
+
 }
    catch(err) {
     alert(err)
@@ -84,8 +87,12 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
     color: (opacity = 1) => `rgba(0,0,0,0.4)`,
   };
   const colorScheme = useColorScheme();
-  const data22 = [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}]
-
+  const [searchinput,setSearchInput] = useState("")
+  const [searchData, setSearchData] = useState()
+  async function getSearch (){
+    const i = await fetch(`https://api.coingecko.com/api/v3/search?query=${searchinput}`).then((E)=>E.json()).then((E)=>setSearchData(E.coins))
+    setSearchInput("")
+  }
   return (
     <Animated.View
     style={{
@@ -96,12 +103,28 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
       <Text style={{fontSize: 40, fontWeight: "700", marginTop: 20,paddingLeft:16,color:`${colorScheme === "light" ? "#000":"#fff"}`}}>Market Data 📈</Text>
       <Text style={{fontSize: 20,paddingLeft:16,color:`${colorScheme === "light" ? "#000":"#fff"}`,marginBottom:30}}>Market data for crypto</Text>
 <ScrollView>
-<LineChart width={600} height={300} data={data22}>
-    <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-    <CartesianGrid stroke="#ccc" />
-    <XAxis dataKey="name" />
-    <YAxis />
-  </LineChart>
+<Text style={{marginLeft:20,fontWeight:"700",fontSize:30,color:`${colorScheme==="light"?"#000":"#fff"}`}}>Search</Text>
+<View style={{marginTop:20,flexDirection:"row",alignItems:"center",backgroundColor:`${colorScheme==="light"?"#fff":"#052451"}`,borderRadius:20,paddingLeft:15,marginLeft:20,marginRight:20,marginBottom:20}}>
+        <Feather name="search" size={24} color="#3A84EC"style={{flex:0.1}} onPress={getSearch}/>
+        <TextInput style={{padding:20,borderRadius:20,flex:0.9,marginBottom:10}} placeholder="type crypto keyword" placeholderTextColor="grey" color={colorScheme==="light"?"#000":"#Fff"}  value={searchinput} onChangeText={(val) => setSearchInput(val)}/>
+      </View>
+      <View style={{flexDirection:"row",flexWrap:"wrap",alignItems:"center",justifyContent:"space-between",marginLeft:20,marginRight:20}}>
+      {searchData && searchData.map((doc,key) => <>
+        <View  key={key}style={{flexDirection:"row",backgroundColor:`${colorScheme==="light"?"#fff":"#052451"}`,borderRadius:20,padding:10,marginTop:20}}>
+          <View>
+            <Image source={{uri: doc.large}} style={{width:50,height:50}}/>
+          </View>
+          <View style={{marginLeft:10}}>
+          <View>
+            <Text style={{color:`${colorScheme==="light"?"#grey":"#efef"}`,fontWeight:"700",fontSize:15}}>Cap: {doc.market_cap_rank}</Text>
+          </View>
+          <View>
+            <Text style={{color:`${colorScheme==="light"?"#000":"#fff"}`,fontWeight:"700",fontSize:20}}>{doc.api_symbol}</Text>
+          </View>
+          </View>
+    </View>
+      </>)}
+      </View>
 <Text style={{marginLeft:20,fontWeight:"700",fontSize:30,color:`${colorScheme==="light"?"#000":"#fff"}`}}>Top Ranked Coins</Text>
 {trending ? trending.map((doc,key) => <View  key={key}style={{flexDirection:"row",backgroundColor:`${colorScheme==="light"?"#fff":"#052451"}`,borderRadius:20,padding:10,marginTop:20}}>
 <View style={{flex:1,alignItems:"center",justifyContent:"center"}}>
