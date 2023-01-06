@@ -61,7 +61,10 @@ console.log(lessons)
   const maincont = colorScheme === 'light' ? learnStyle.maincont : learnStyle.maincontDark;
 const even = colorScheme === "light" ? learnStyle.even : learnStyle.evenDark
 const underline = colorScheme === 'light' ? learnStyle.learn : learnStyle.learnDark;
-
+function onChangeT (val){
+  LSLS()
+  setSearchInput(val)
+}
   return (
     <Animated.View
     style={{
@@ -98,9 +101,9 @@ const underline = colorScheme === 'light' ? learnStyle.learn : learnStyle.learnD
       <Text style={even}>EVVENNTI</Text>
       <Text style={underline}>Learn 📚</Text>
       </View>
-      <View style={{marginTop:20,flexDirection:"row", width:"100%",alignItems:"center",backgroundColor:`${colorScheme==="light"?"#F3F5F9":"#052451"}`,borderRadius:20,paddingLeft:15}}>
-      <Feather name="search" size={24} color="#FF802C"style={{flex:0.1}} onPress={LSLS}/>
-        <TextInput style={{padding:20,borderRadius:20,flex:0.9}} placeholder="type lesson keyword" placeholderTextColor="grey" color={colorScheme==="light"?"#000":"#Fff"}  value={searchinput} onChangeText={(val) => setSearchInput(val)}/>
+      <View style={{marginTop:20,flexDirection:"row", width:"100%",alignItems:"center",backgroundColor:`${colorScheme==="light"?"#F3F5F9":"#052451"}`,borderRadius:20,paddingLeft:15,paddingRight:15}}>
+        <TextInput style={{padding:20,borderRadius:20,flex:0.9}} placeholder="type lesson keyword" placeholderTextColor="grey" color={colorScheme==="light"?"#000":"#Fff"}  value={searchinput} onChangeText={onChangeT}/>
+        <Feather name="search" size={24} color="#FF802C"style={{flex:0.1}} onPress={LSLS}/>
       </View>
 {li ?       <View style={{width:"100%",flexDirection:"row",marginTop:30,borderRadius:20,backgroundColor:"#CFECFE"}}>
       <View style={{flex:0.5,padding:20}}>

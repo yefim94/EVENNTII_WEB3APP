@@ -36,8 +36,12 @@ export default function Forums() {
   const [feedInput, setFeedInput] = useState("");
 
   async function handleFeedIn () {
-    setApiqu( feedInput )
-    setFeedInput("")
+   try {
+    LSLS()
+   }
+   catch(e){
+    alert(e)
+   }
   }
   const onShare = async (name,current_price) => {
     try {
@@ -77,6 +81,7 @@ catch(E) {
 }
 ddd()
   }, [])
+ 
   const colorScheme = useColorScheme();
   useEffect(() => {
     if(forumData) {
@@ -169,7 +174,14 @@ ddd()
           );
          }
   }
-
+  const [filteredData, setFilteredData] = useState([]);
+  async function LSLS() {
+    const newLessons = forumData.filter((lesson) =>
+    lesson.title.toLowerCase().includes(feedInput.toLowerCase())
+  );
+  console.log(newLessons)
+  setFilteredData(feedInput.length < 1 ? forumData : newLessons);
+  }
   async function imgFirebase () {
     try {
       console.log(image);
@@ -254,7 +266,7 @@ ddd()
        
        onPress={() => setModalVisible(true)}
      >
-  <View style={{borderRadius:16,backgroundColor:"#Fff"}}>
+  <View style={{borderRadius:10,backgroundColor:"#Fff"}}>
   <Ionicons name="ios-add-circle" size={47} color="#CF4361"  style={{padding:9}}/>
   </View>
         </Pressable>
@@ -263,6 +275,7 @@ ddd()
      <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
      <TextInput
      placeholder='type news keyword'
+     onChange={LSLS}
       style={{
         backgroundColor: `${colorScheme==="light"?"#D1D1D1":"#052451"}`,
         borderRadius: 20,
@@ -280,8 +293,18 @@ ddd()
 <ScrollView horizontal={true} style={{marginBottom:20,marginLeft:20}}>
 </ScrollView>
    <ScrollView style={{marginBottom:500}}>
-    {forumData && forumData.map((doc,key) => 
- <ForumCard photo={doc.photo} title={doc.title} key={key} uid={doc.uid} id={doc.id} by={doc.by} desc={doc.desc} doc={doc} /> )}
+   {
+  feedInput === "" ?  
+  forumData && forumData.map((doc,key) => 
+  <ForumCard photo={doc.photo} title={doc.title} key={key} uid={doc.uid} id={doc.id} by={doc.by} desc={doc.desc} doc={doc} /> )
+  : 
+  filteredData.map((doc,key)=>{
+    return (
+      <ForumCard photo={doc.photo} title={doc.title} key={key} uid={doc.uid} id={doc.id} by={doc.by} desc={doc.desc} doc={doc} />
+    );
+  })
+
+}
    </ScrollView>
     </View>
     </Animated.View>

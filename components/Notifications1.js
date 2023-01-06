@@ -104,13 +104,15 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
       <Text style={{fontSize: 20,paddingLeft:16,color:`${colorScheme === "light" ? "#000":"#fff"}`,marginBottom:30}}>Market data for crypto</Text>
 <ScrollView>
 <Text style={{marginLeft:20,fontWeight:"700",fontSize:30,color:`${colorScheme==="light"?"#000":"#fff"}`}}>Search</Text>
-<View style={{marginTop:20,flexDirection:"row",alignItems:"center",backgroundColor:`${colorScheme==="light"?"#fff":"#052451"}`,borderRadius:20,paddingLeft:15,marginLeft:20,marginRight:20,marginBottom:20}}>
+<View style={{marginTop:20,flexDirection:"row",alignItems:"center",backgroundColor:`${colorScheme==="light"?"#fff":"#052451"}`,borderRadius:20,paddingLeft:15,marginLeft:20,marginRight:20,marginBottom:20,paddingRight:15}}>
+        
+        <TextInput style={{padding:20,borderRadius:20,flex:0.9}} placeholder="type crypto keyword" placeholderTextColor="grey" color={colorScheme==="light"?"#000":"#Fff"}  value={searchinput} onChangeText={(val) => setSearchInput(val)}/>
         <Feather name="search" size={24} color="#3A84EC"style={{flex:0.1}} onPress={getSearch}/>
-        <TextInput style={{padding:20,borderRadius:20,flex:0.9,marginBottom:10}} placeholder="type crypto keyword" placeholderTextColor="grey" color={colorScheme==="light"?"#000":"#Fff"}  value={searchinput} onChangeText={(val) => setSearchInput(val)}/>
       </View>
-      <View style={{flexDirection:"row",flexWrap:"wrap",alignItems:"center",justifyContent:"space-between",marginLeft:20,marginRight:20}}>
-      {searchData && searchData.map((doc,key) => <>
-        <View  key={key}style={{flexDirection:"row",backgroundColor:`${colorScheme==="light"?"#fff":"#052451"}`,borderRadius:20,padding:10,marginTop:20}}>
+      <ScrollView horizontal={true} style={{marginBottom:40}} >
+        <View style={{flexDirection:"row",flexWrap:"wrap",alignItems:"center",justifyContent:"space-between",marginLeft:20,marginRight:20,width:"100%"}}>
+        {searchData && searchData.map((doc,key) => <>
+        <View  key={key}style={{flexDirection:"row",backgroundColor:`${colorScheme==="light"?"#fff":"#052451"}`,borderRadius:20,padding:10,marginTop:20,marginRight:14}}>
           <View>
             <Image source={{uri: doc.large}} style={{width:50,height:50}}/>
           </View>
@@ -124,7 +126,10 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
           </View>
     </View>
       </>)}
-      </View>
+        </View>
+    
+      </ScrollView>
+      <View style={{width:"100%",height:1,backgroundColor:`${colorScheme==="light"?"#000":"#fff"}`,marginBottom:35}}></View>
 <Text style={{marginLeft:20,fontWeight:"700",fontSize:30,color:`${colorScheme==="light"?"#000":"#fff"}`}}>Top Ranked Coins</Text>
 {trending ? trending.map((doc,key) => <View  key={key}style={{flexDirection:"row",backgroundColor:`${colorScheme==="light"?"#fff":"#052451"}`,borderRadius:20,padding:10,marginTop:20}}>
 <View style={{flex:1,alignItems:"center",justifyContent:"center"}}>
@@ -135,11 +140,11 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
   <View style={{flex:4,marginLeft:10}}>
     <Text style={{fontWeight:"700",fontSize:20,color:`${colorScheme ==="light"?"#000":"#3A84EC"}`}}>{doc.item.name}</Text>
    <View style={{flexDirection:"row",alignItems:"center",marginTop:15}}>
-   <Text style={{color:`${colorScheme==="light"?"#000":"#fff"}`}}>Market Cap Rank</Text>
+   <Text style={{color:`${colorScheme==="light"?"#000":"#fff"}`,fontWeight:"700"}}>Market Cap Rank</Text>
     <Text style={{color:"#3A84EC",marginLeft:15}}>{doc.item.market_cap_rank}</Text>
    </View>
  <View style={{flexDirection:"row",alignItems:"center",marginTop:15}}>
- <Text style={{color:`${colorScheme==="light"?"#000":"#fff"}`}}>BTC price</Text>
+ <Text style={{color:`${colorScheme==="light"?"#000":"#fff"}`,fontWeight:"700"}}>BTC price</Text>
     <Text style={{color:`${colorScheme ==="light"?"#000":"#3A84EC"}`,marginLeft:15}}>${doc.item.price_btc.toFixed(10)}</Text>
  </View>
   </View>
@@ -148,16 +153,18 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
     <Text style={{fontWeight:"700",color:`${colorScheme==="light"?"#000":"#3A84EC"}`,fontWeight:"700"}}>{doc.item.score}</Text>
   </View>
 </View>):null}
+<View style={{width:"100%",height:1,backgroundColor:`${colorScheme==="light"?"#000":"#fff"}`,marginBottom:35,marginTop:35}}></View>
      <Text style={{fontSize:30,fontWeight:"700",color:`${colorScheme==="light"?"#000":"#fff"}`,marginBottom:10,marginLeft:20,marginTop:20}}>Top Companies</Text>
      <Text style={{textDecorationLine:"underline",color:"grey",fontSize:10,marginBottom:20,marginLeft:20}}>**public companies bitcoin</Text>
      <ScrollView style={{backgroundColor:`${colorScheme==="light"?"#3772FF":"#052451"}`,padding:10,borderRadius:20,marginBottom:16}}>
 <View style={{height:300}}>
-{company && company.map((doc) => <View style={{padding:10,borderRadius:10,backgroundColor:"#fff",color:"#3772FF",marginBottom:15,flexDirection:"row",justifyContent:"space-between"}}>
+{company && company.map((doc,key) => <View key={key} style={{padding:10,borderRadius:10,backgroundColor:"#fff",color:"#3772FF",marginBottom:15,flexDirection:"row",justifyContent:"space-between"}}>
   <Text style={{fontWeight:"700"}}>{doc.name}</Text>
   <Text>{doc.country}</Text>
 </View>)}
 </View>
      </ScrollView>
+     <View style={{width:"100%",height:1,backgroundColor:`${colorScheme==="light"?"#000":"#fff"}`,marginBottom:35}}></View>
      <Text style={{color:`${colorScheme==="light"?"#000":"#fff"}`,fontWeight:"700",fontSize:30,marginLeft:20}}>Currency Price</Text>
       <ScrollView style={{
         padding: 0, margin: 0

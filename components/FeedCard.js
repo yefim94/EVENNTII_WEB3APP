@@ -154,7 +154,7 @@ export default function FeedCard({apiqu,image_url,title,description,link,languag
     </View>
     <View style={{backgroundColor:"#3A84EC",padding:5,borderRadius:16,flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
    
-   <View style={{flexDirection:"row",alignItems:"center",marginLeft:10,marginRight:10}}>
+   <View style={{flexDirection:"row",alignItems:"center",marginLeft:10,marginRight:10}} >
    <FontAwesome name="share" size={24} color="white" onPress={() => onShare(title,link)} />
              <Text style={{color:"#fff",marginLeft:10}}>Share</Text>
    </View>

@@ -69,7 +69,7 @@ export default function NotifcationCard({name,image,symbol,price_change_24h,curr
 <Pressable
       onPress={() => setModalVisible(true)}>
 
-<View style={{width:"100%",height:80,marginBottom:20,flexDirection:"row",backgroundColor: `${colorScheme==="light"?"#D1D1D1":"#052451"}`,borderRadius:20,padding:15}}>
+<View style={{width:"100%",height:80,marginBottom:20,flexDirection:"row",backgroundColor: `${colorScheme==="light"?"#fff":"#052451"}`,borderRadius:20,padding:15}}>
           <View style={{flexDirection:"row",flex:2}}>
             <Image source={{uri:`${image}`}} style={{width:50,height:"100%",marginRight:20,borderRadius:50}}/>
             <View>
