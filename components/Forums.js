@@ -1,7 +1,7 @@
 import { View, Text, Image,TextInput,ScrollView,Pressable,Modal,Alert,Animated } from 'react-native'
 import React,{useState, useEffect,useRef} from 'react'
 import {db} from "../firebase"
-import { collection, query, where, getDocs,addDoc,onSnapshot,updateDoc } from "firebase/firestore";
+import { collection, query, where, getDocs,addDoc,onSnapshot,updateDoc, orderBy } from "firebase/firestore";
 import { AntDesign } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
 import { Entypo } from '@expo/vector-icons'; 
@@ -65,8 +65,10 @@ export default function Forums() {
   useEffect(() => {
 async function ddd() {
 try {
-  const querySnapshot = await getDocs(collection(db, "forums"));
   let todos = []
+  const q = query(collection(db, "forums"),orderBy("upvotes","desc"));
+
+const querySnapshot = await getDocs(q);
 querySnapshot.forEach((doc) => {
   todos.push({...doc.data(), id: doc.id })
   
@@ -118,13 +120,25 @@ ddd()
   const [forumData,setForumData] = useState()
   async function submitPost () {
       try {
+        Alert.alert(
+          "success",
+          "wait a couple of minutes for your post to be created",
+          [
+            {
+              text: "Cancel",
+              style: "cancel"
+            },
+            { text: "OK" }
+          ]
+        );
         const docRef = await addDoc(collection(db, "forums"), {
           title: forumText,
           desc: desc,
           postImage: url,
-          uid:Date.now(),
-          photo: auth.currentUser.photoURL? auth.currentUser.photoURL : url1.photoUrl,
-          by: auth.currentUser.email.substring(0, auth.currentUser.email.indexOf('@'))
+          uid:uid,
+          photo: auth.currentUser.photoURL? auth.currentUser.photoURL : url1,
+          by: auth.currentUser.email.substring(0, auth.currentUser.email.indexOf('@')),
+          upvotes: 0
         });
         setForumText("")
         setDesc("")
@@ -198,22 +212,31 @@ ddd()
        console.log(url)
  }).catch(e=>{
   Alert.alert(
-    "Alert Title",
-    "My Alert Msg 2",
+    "Please try again",
+    "a error occured",
     [
       {
         text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
         style: "cancel"
       },
-      { text: "OK", onPress: () => console.log("OK Pressed") }
+      { text: "OK" }
     ]
   );
  }) 
    }); 
     }
     catch(e) {
-     alert(e)
+      Alert.alert(
+        "Please try again",
+        "a error occured",
+        [
+          {
+            text: "Cancel",
+            style: "cancel"
+          },
+          { text: "OK" }
+        ]
+      );
     }
    }
   return (
@@ -260,7 +283,7 @@ ddd()
           </View>
       </Modal>
     <View style={{marginBottom: 4,padding:20,zIndex:100}}>
-    <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",marginBottom:15}}>
+    <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",marginBottom:0}}>
     <Text style={colorScheme === "light" ? {fontSize: 40, fontWeight: "700"}: {color:"#fff",fontSize: 40, fontWeight: "700"}}>Forums 💬</Text>
     <Pressable
        
@@ -271,10 +294,10 @@ ddd()
   </View>
         </Pressable>
     </View>
-      <Text style={{fontSize: 25, fontWeight: "650", marginBottom: 10,color:`${colorScheme==="light"?"#000":"#fff"}`}}>Forums and posts related to web 3</Text>
-     <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+      <Text style={{fontSize: 25, fontWeight: "650", marginBottom: 10,color:`${colorScheme==="light"?"#000":"#fff"}`}}>posts related to web 3</Text>
+     <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center",marginTop:10}}>
      <TextInput
-     placeholder='type news keyword'
+     placeholder='type post keyword'
      onChange={LSLS}
       style={{
         backgroundColor: `${colorScheme==="light"?"#D1D1D1":"#052451"}`,
@@ -287,7 +310,7 @@ ddd()
         onChangeText={(val) => setFeedInput(val)}
         value={feedInput}
       />
-    <AntDesign name="rightcircle" size={30} color="#3A84EC"  onPress={handleFeedIn}/>
+    <AntDesign name="rightcircle" size={35} color="#3A84EC"  onPress={handleFeedIn}/>
      </View>
    </View>
 <ScrollView horizontal={true} style={{marginBottom:20,marginLeft:20}}>

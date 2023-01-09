@@ -112,7 +112,7 @@ export const Feed = ({}) => {
     
       >
     <View style={colorScheme === "light" ? {}:{backgroundColor:"#000"}}>
- <View style={{padding:20}}>
+ <View style={{paddingTop:20,paddingLeft:20,paddingRight:20}}>
  <Text style={mainhead}>News Feed 📰</Text>
      <View style={feedS.lowermainc}>
       <Text style={{color:`${colorScheme==="light"?"#000":"#fff"}`,fontSize:20,marginBottom:10,marginTop:10}}>What do you want to read?</Text>
@@ -128,14 +128,14 @@ export const Feed = ({}) => {
         onChangeText={(val) => setFeedInput(val)}
         value={feedInput}
       />
-<AntDesign name="rightcircle" size={30} color="#3A84EC"  onPress={handleFeedIn}/>
+<AntDesign name="rightcircle" size={35} color="#3A84EC"  onPress={handleFeedIn}/>
      </View>
      </View>
  </View>
-   {apiqu ?  <View style={{backgroundColor:`${colorScheme==="light"?"#fff":"transparent"}`,padding:10,borderRadius:20,marginBottom:16,marginLeft:15,marginRight:20}}>
+   {apiqu ?  <View style={{backgroundColor:`${colorScheme==="light"?"#fff":"transparent"}`,padding:10,borderRadius:20,marginBottom:10,marginLeft:15,marginRight:20,marginTop:10}}>
     <Text style={{color:`${colorScheme==="light"?"#000":"#fff"}`,fontSize:27}}>News for <Text style={{color:`${colorScheme==="light"?"#3A84EC":"#3A84EC"}`}}>{apiqu}</Text></Text>
     </View> : null}
-      <ScrollView  showsHorizontalScrollIndicator={false}>
+      <ScrollView  showsHorizontalScrollIndicator={false} style={{paddingBottom:600,marginTop:10}}>
       {apiqu ? <>
 
 
@@ -159,7 +159,7 @@ const feedS = StyleSheet.create({
 mainhead:{fontSize: 40, fontWeight: "700",color:"#000"},
 mainheadDark:{fontSize: 40, fontWeight: "700",color:"#fff"},
 lowermainc:{
-  marginBottom: 20
+  marginBottom: 0
 },
 smallhead:{fontSize: 25, fontWeight: "650", marginBottom: 10},
 teco:{flexDirection: "row", justifyContent: "space-between", alignItems: "center"},

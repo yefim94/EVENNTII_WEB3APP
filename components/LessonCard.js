@@ -37,7 +37,7 @@ export default function LessonCard({img1,title,desc,key,fulldesc}) {
       </View>
   </Modal>
   
-         <View  style={{width:"100%",flexDirection:"row",backgroundColor:`${colorScheme ==="light"?"#F5FAF4":"#052451"}`,padding:5,borderRadius:20,marginTop:20,alignItems:"center"}}>
+         <View  style={{width:"100%",flexDirection:"row",backgroundColor:`${colorScheme ==="light"?"#F5FAF4":"#052451"}`,padding:5,borderRadius:0,marginTop:20,alignItems:"center"}}>
      <View style={{flex:0.2,alignItems:"center",justifyContent:"center"}}>
       <Image source={{
         uri:img1

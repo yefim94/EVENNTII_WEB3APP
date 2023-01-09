@@ -35,7 +35,7 @@ const colorScheme = useColorScheme()
 const themeTextStyle = colorScheme === 'light' ? styles3.centeredView : styles3.centeredViewDark;
 
 const setting = colorScheme === 'light' ? styles3.modalText : styles3.modalTextDark;
-
+const uid = auth.currentUser.uid
 
 const hi = colorScheme === 'light' ? styles3.hi : styles3.hiDark;
 
@@ -49,7 +49,6 @@ const dots = colorScheme === 'light' ? "black" : "white";
 
   //state
   const currentUser = auth.currentUser;
-  const uid = currentUser.uid
   const [image, setImage] = useState("");  
   const [url, setUrl] = useState(null)
   //functions
@@ -204,10 +203,10 @@ useEffect(() => {
   }
   getintro()
 }, [])
+const [show,setShow] = useState(true)
 async function setIntroFunc() {
   try {
-    alert("pressed")
-    
+    setShow(false)
     const url = collection(db, "users");
     const q = query(url, where("uid", "==", uid));
     const querySnapshot = await getDocs(q);
@@ -269,10 +268,11 @@ if(colorScheme === "light") {
 }
 
 
+
   return (
     <View style={styles3.maincont}>
             <StatusBar hidden />
-            {introData.map((d) => d.intro === true ? <View style={{height:"100%",width:"100%"}}><SliderIntro data={slides}  style={{width:"100%",height:"100%"}} onDone={setIntroFunc}/></View>: <View style={{display:"none",backgroundColor:"transparent"}}></View>)}
+            {show ?introData.map((d) => d.intro === true ? <View style={{height:"100%",width:"100%"}}><SliderIntro data={slides}  style={{width:"100%",height:"100%"}} onDone={setIntroFunc}/></View>: <View style={{display:"none",backgroundColor:"transparent"}}></View>): null }
             <Modal
         animationType="slide"
         transparent={true}

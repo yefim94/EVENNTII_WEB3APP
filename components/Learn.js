@@ -101,11 +101,11 @@ function onChangeT (val){
       <Text style={even}>EVVENNTI</Text>
       <Text style={underline}>Learn 📚</Text>
       </View>
-      <View style={{marginTop:20,flexDirection:"row", width:"100%",alignItems:"center",backgroundColor:`${colorScheme==="light"?"#F3F5F9":"#052451"}`,borderRadius:20,paddingLeft:15,paddingRight:15}}>
+      <View style={{marginTop:20,flexDirection:"row", alignItems:"center",backgroundColor:`${colorScheme==="light"?"#F3F5F9":"#052451"}`,borderRadius:20,paddingLeft:15,paddingRight:15,margin:20}}>
         <TextInput style={{padding:20,borderRadius:20,flex:0.9}} placeholder="type lesson keyword" placeholderTextColor="grey" color={colorScheme==="light"?"#000":"#Fff"}  value={searchinput} onChangeText={onChangeT}/>
         <Feather name="search" size={24} color="#FF802C"style={{flex:0.1}} onPress={LSLS}/>
       </View>
-{li ?       <View style={{width:"100%",flexDirection:"row",marginTop:30,borderRadius:20,backgroundColor:"#CFECFE"}}>
+{li ?       <View style={{flexDirection:"row",marginTop:30,borderRadius:20,backgroundColor:"#CFECFE",marginLeft:20,marginRight:20}}>
       <View style={{flex:0.5,padding:20}}>
         <Text style={{fontSize:20,fontWeight:"700",marginBottom:20}}>Having Trouble? Not Sure Where to Start?</Text>
         <Pressable
@@ -150,16 +150,16 @@ function onChangeT (val){
 
 const learnStyle = StyleSheet.create({
   maincont: {
-    padding:15,
-    paddingLeft:20,
-    paddingRight:20,
+    padding:0,
+    paddingLeft:0,
+    paddingRight:0,
     backgroundColor:"#fff",
     flex:1
   },
   maincontDark: {
-    padding:15,
-    paddingLeft:20,
-    paddingRight:20,
+    padding:0,
+    paddingLeft:0,
+    paddingRight:0,
     backgroundColor:"#000",
     flex:1
   },
@@ -172,6 +172,7 @@ const learnStyle = StyleSheet.create({
   learncont: {
     flexDirection:"row",
     width:"100%",
+    margin:20,
     overflow:"scroll"
   },
   even: {

@@ -78,7 +78,7 @@ setProfileData(ddata.result)
       onChangeText={(val) => setNftTei(val)}
       value={nfttei}
     />
-<AntDesign name="rightcircle" size={30} color="#3A84EC"  onPress={handleNftIn}/>
+<AntDesign name="rightcircle" size={35} color="#3A84EC"  onPress={handleNftIn}/>
    </View>
    </View>
    <Text style={{color:"grey",textDecorationLine:"underline",marginBottom:10,padding:20}}>Data gathered from Morallis</Text>

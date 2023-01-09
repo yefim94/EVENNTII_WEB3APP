@@ -1,14 +1,15 @@
-import { Image,ScrollView,Share } from 'react-native'
+import { Image,LogBox,ScrollView,Share } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'; 
 import { Alert, Modal, StyleSheet, Text, Pressable, View,TextInput,Button } from "react-native";
 import { doc } from 'firebase/firestore';
-import { collection, query, where, getDocs,addDoc } from "firebase/firestore";
+import { collection, query, where, getDocs,addDoc,updateDoc } from "firebase/firestore";
 import { useState,useEffect } from 'react';
 import {auth} from "../firebase.js"
 import { db } from '../firebase';
 import { Appearance, useColorScheme } from 'react-native';
+import { Entypo } from '@expo/vector-icons'; 
 
-export default function ForumCard({title,id,by,desc,photo,postImage,doc}) {
+export default function ForumCard({title,id,by,desc,photo,postImage,doc,uid}) {
   const onShare = async (name) => {
     try {
       const result = await Share.share({
@@ -53,7 +54,8 @@ export default function ForumCard({title,id,by,desc,photo,postImage,doc}) {
     try {
       const docRef = await addDoc(collection(db, "forums",id,"comments"), {
         desc: desc1,
-        by: auth.currentUser.email.substring(0, auth.currentUser.email.indexOf('@'))
+        by: auth.currentUser.email.substring(0, auth.currentUser.email.indexOf('@')),
+        img: `${auth.currentUser.photoURL? auth.currentUser.photoURL: url1.photoUrl}`
       });
       setDesc1("")
     }
@@ -65,7 +67,73 @@ export default function ForumCard({title,id,by,desc,photo,postImage,doc}) {
     alert("image pcked")
   }
   const colorScheme = useColorScheme();
+  useEffect(() => {
+    console.log(doc.upvotes);
 
+  }, [doc.upvotes])
+  
+  async function upVote (){
+    try {
+      Alert.alert(
+        "upvoted",
+        "upvote succesfull will momentarily update",
+        [
+          {
+            text: "Cancel",
+            style: "cancel"
+          },
+          { text: "OK",}
+        ]
+      );
+      const url = collection(db, "forums");
+      const q = query(url, where("uid", "==", uid));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((flow) => {
+        try {
+          updateDoc(flow.ref, { // 👈
+            upvotes: doc.upvotes++
+           })
+        }
+        catch(e) {
+          alert(e)
+        }
+      })
+    }
+    catch(e) {
+      alert(e)
+    }
+  } 
+  async function downVote (){
+    try {
+      Alert.alert(
+        "downvoted",
+        "your downvote was successfull will momentarily update",
+        [
+          {
+            text: "Cancel",
+            style: "cancel"
+          },
+          { text: "OK" }
+        ]
+      );
+      const url = collection(db, "forums");
+      const q = query(url, where("uid", "==", uid));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((flow) => {
+        try {
+          updateDoc(flow.ref, { // 👈
+            upvotes: doc.upvotes--
+           })
+        }
+        catch(e) {
+          alert(e)
+        }
+      })
+    }
+    catch(e) {
+      alert(e)
+    }
+  }
   return (
     <>
      <Modal
@@ -93,24 +161,30 @@ export default function ForumCard({title,id,by,desc,photo,postImage,doc}) {
             <Text style={{fontWeight:"700",fontSize:30,color:`${colorScheme==="light"?"#000":"#fff"}`}}>{title}</Text>
             <Text style={{marginTop:20,color:`${colorScheme==="light"?"#000":"#fff"}`}}>{desc}</Text>
           <ScrollView style={{paddingBottom:600}}>
-          <View style={{backgroundColor:"",width:"100%",height:2,marginBottom:10,marginTop:15}}></View>
-          <View style={{width:"100%",backgroundColor:`${colorScheme==="light"?"#fff":"#052451"}`,borderRadius:20,padding:10}}>
+          <View style={{backgroundColor:"#fff",width:"100%",height:2,marginBottom:10,marginTop:15}}></View>
+          <View style={{backgroundColor:`${colorScheme==="light"?"#fff":"rgba(0,0,0,0)"}`,borderRadius:20,padding:10}}>
               <Text style={{color:"#3A84EC",fontSize
             :20,fontWeight:"700"}}>Comments: </Text>
-            <View style={{backgroundColor:"#3A84EC",padding:20,borderRadius:20,margin:20}}>
-          <TextInput style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:10}} placeholder="type post description..." placeholderTextColor="#000" value={desc1}    onChangeText={(val) => setDesc1(val)}
+            {data1 && data1.map((doc,key) => <View key={key} style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:14,marginTop:14,alignItems:"stretch",flexDirection:"column"}}>
+               <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
+                <Image source={{
+                  uri:doc.img
+                }} style={{width:30,height:30,borderRadius:400}}/>
+              <View style={{flexDirection:"row"}}>
+              <Text>by: </Text><Text style={{color:"#3A84EC",fontWeight:"700"}}>{doc.by}</Text>
+              </View>
+               </View>
+                <Text style={{color:`${colorScheme==="light"?"#000":"#000"}`,fontSize:19,marginTop:10}}>{doc.desc}</Text>
+              </View>)}
+            <View style={{backgroundColor:"#052451",padding:20,borderRadius:20,marginTop:70}}>
+          <TextInput style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:10}} placeholder="type comment description..." placeholderTextColor="#000" value={desc1}    onChangeText={(val) => setDesc1(val)}
         />
-          <Pressable style={{marginTop:20}} onPress={submitComment}>
-              <Text style={{color:"#fff"}}>Submit Comment</Text>
+          <Pressable style={{marginTop:20,flexDirection:"row",justifyContent:"center"}} onPress={submitComment}>
+              <Text style={{color:"#fff",textAlign:"center",width:"100%"}}>Submit Comment</Text>
             </Pressable>
         </View>
               <ScrollView style={{flexDirection:"column",flexWrap:"wrap"}}>
-              {data1 && data1.map((doc,key) => <View key={key} style={{backgroundColor:"#E3E3E3",padding:10,borderRadius:14,flex:"auto",marginTop:14,alignItems:"flex-start",flexDirection:"column"}}>
-               <View style={{flexDirection:"row"}}>
-               <Text>by: </Text><Text style={{color:"#3A84EC"}}>{doc.by}</Text>
-               </View>
-                <Text style={{color:"#fff",fontSize:20}}>{doc.desc}</Text>
-              </View>)}
+        
               </ScrollView>
             </View>
             <Pressable
@@ -129,13 +203,17 @@ export default function ForumCard({title,id,by,desc,photo,postImage,doc}) {
     <View style={{paddingLeft:20,paddingRight:20,paddingTop:20}}>
      <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
      <View style={{flexDirection:"row"}}>
+     <FontAwesome name="share" size={24} color="#3A84EC" onPress={() => onShare(title)} style={{marginRight:15}}/>
      <Image source={{
               uri:photo
             }} style={{width:30,height:30,marginRight:10,borderRadius:500}} />
         <Text style={{color:"#3A84EC",fontWeight:"700",fontSize:20}}>{by}</Text>
       </View>
-      <View>
-      <FontAwesome name="share" size={24} color="#3A84EC" onPress={() => onShare(title)} />
+      <View style={{flexDirection:"row",alignItems:"center"}}>
+     
+      <Entypo name="arrow-up" size={24} color="#3A84EC" onPress={upVote} />
+      <Text style={{color:`${colorScheme==="light"?"#000":"#fff"}`}}>{doc.upvotes}</Text>
+      <Entypo name="arrow-down" size={24} color="#3A84EC"  onPress={downVote}/>
       </View>
      </View>
     </View>

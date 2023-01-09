@@ -118,7 +118,7 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
           </View>
           <View style={{marginLeft:10}}>
           <View>
-            <Text style={{color:`${colorScheme==="light"?"#grey":"#efef"}`,fontWeight:"700",fontSize:15}}>Cap: {doc.market_cap_rank}</Text>
+            <Text style={{color:`${colorScheme==="light"?"#grey":"#efef"}`,fontWeight:"700",fontSize:15}}>{doc.market_cap_rank > 0 ? "Cap:": null} {doc.market_cap_rank > 0 ? doc.market_cap_rank: null}</Text>
           </View>
           <View>
             <Text style={{color:`${colorScheme==="light"?"#000":"#fff"}`,fontWeight:"700",fontSize:20}}>{doc.api_symbol}</Text>
