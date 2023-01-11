@@ -1,12 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { ScrollView, Text,  View, StyleSheet ,Image,TextInput,Animated,Button} from 'react-native'
-import {
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
-} from "react-native-chart-kit";
+
 import { useRef } from 'react';
 import { Dimensions } from 'react-native';
 import {auth} from "../firebase"
@@ -15,18 +9,17 @@ import { A } from '@expo/html-elements';
 import { Appearance, useColorScheme } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import NotifcationCard from "./NotifcationCard"
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-} from "recharts";
+
 import { Feather } from '@expo/vector-icons'; 
 import { async } from '@firebase/util';
-
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart
+} from 'react-native-chart-kit'
 /**
  * const [search,setSearch] = useState = ()
  *const [query,setQuery] = usesState("")
@@ -34,6 +27,16 @@ import { async } from '@firebase/util';
  */
 
 export const Notifications1 = () => {
+  const line = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+    datasets: [
+      {
+        data: [20, 45, 28, 80, 99, 43],
+        strokeWidth: 2, // optional
+      },
+    ],
+  };
+
   const fadeAnim = useRef(new Animated.Value(0)).current;
   React.useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -72,11 +75,13 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
 
   const ew = await fetch("https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=7&interval=daily  ").then((e)=>e.json()).then((e)=>setHistorical(e))
 
+  const iuo = await fetch("https://api.coingecko.com/api/v3/coins/ethereum/market_chart?vs_currency=usd&days=7&interval=daily").then((e) => e.json()).then((e) => setHistorical1(e.prices))
 }
    catch(err) {
     alert(err)
    }
   }
+  const [historical1,setHistorical1] = useState()
   const [historical,setHistorical] = useState()
   const username = auth.currentUser.email.replace(/@gmail.com/, '').replace(/@yahoo.com/, '')
   
@@ -86,6 +91,8 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
     backgroundGradientFrom: "#fff",
     color: (opacity = 1) => `rgba(0,0,0,0.4)`,
   };
+
+  
   const colorScheme = useColorScheme();
   const [searchinput,setSearchInput] = useState("")
   const [searchData, setSearchData] = useState()
@@ -103,6 +110,33 @@ https://api.coingecko.com/api/v3/coins/bitcoin?market_data=true
       <Text style={{fontSize: 40, fontWeight: "700", marginTop: 20,paddingLeft:16,color:`${colorScheme === "light" ? "#000":"#fff"}`}}>Market Data 📈</Text>
       <Text style={{fontSize: 20,paddingLeft:16,color:`${colorScheme === "light" ? "#000":"#fff"}`,marginBottom:30}}>Market data for crypto</Text>
 <ScrollView>
+ 
+{historical1 && <LineChart
+   data={{
+    labels: ["January", "February", "March", "April", "May", "June"],
+    datasets: [
+      {
+        data: historical1.map((doc) => doc[1])
+      }
+    ]
+  }}
+    width={Dimensions.get('window').width} // from react-native
+    height={220}
+    yAxisLabel={'$'}
+    chartConfig={{
+      backgroundGradientFrom: '#4766F9',
+      backgroundGradientTo: '#5270FA',
+      decimalPlaces: 2, // optional, defaults to 2dp
+      color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+      style: {
+        borderRadius: 16
+      }
+    }}
+    bezier
+    style={{
+      marginVertical: 8,
+    }}
+  />}
 <Text style={{marginLeft:20,fontWeight:"700",fontSize:30,color:`${colorScheme==="light"?"#000":"#fff"}`}}>Search</Text>
 <View style={{marginTop:20,flexDirection:"row",alignItems:"center",backgroundColor:`${colorScheme==="light"?"#fff":"#052451"}`,borderRadius:20,paddingLeft:15,marginLeft:20,marginRight:20,marginBottom:20,paddingRight:15}}>
         
